@@ -1,9 +1,33 @@
 {
-  "compilerOptions": {
-    "target": "es5",		// 컴파일 후 생성될 파일의 ECMAScript 버전
-    "module": "commonjs",	// 컴파일 후 생성될 파일이 사용하는 모듈 버전
-    "outDir": "dist/",		// 파일이 생성될 폴더
-    "esModuleInterop": true	// 'require'와 'import' 호환
-  },
-  "include": ["src/*.ts"]	// 사용할 폴더 및 파일
+  // 기본 타입정의 라이브러리를 어떤 것을 사용할 것인지
+   "compilerOptions": {
+      "lib": [
+         "es5",
+         "es6"
+      ],
+     // 결과물을 어떤 버전으로 할 것인지
+      "target": "es2015",
+     // 컴파일 된 모듈의 결과물을 어떤 모듈 시스템으로 할 것인지
+      "module": "commonjs",
+     // ts소스에서 모듈을 사용하는 방식
+      "moduleResolution": "node",
+     // 컴파일된 js파일을 어디에 둘 것인지
+      "outDir": "dist",
+     // TS타입 체크를 엄격할게 할 것인지. 다양한 세부옵션이 있음
+      "strict": true,
+     // TypeORM 사용 시에 decoration 관련 옵션
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "esModuleInterop": true	// 'require'와 'import' 호환
+   },
+  // 어디에 있는 파일을 컴파일 할 것인지
+   "include": [
+    "src/**/*"
+  ],
+  // 컴파일에서 제외되는 파일들
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
