@@ -11,6 +11,9 @@ export class AdminUser {
   @Column({ nullable: true })
   password!: string;
 
+  @Column({ nullable: false })
+  name!: string;
+
   @Column()
   type!: number;
 

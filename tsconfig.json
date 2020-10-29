@@ -6,7 +6,7 @@
          "es6"
       ],
      // 결과물을 어떤 버전으로 할 것인지
-      "target": "es2015",
+      "target": "es6",
      // 컴파일 된 모듈의 결과물을 어떤 모듈 시스템으로 할 것인지
       "module": "commonjs",
      // ts소스에서 모듈을 사용하는 방식
@@ -15,15 +15,18 @@
       "outDir": "dist",
      // TS타입 체크를 엄격할게 할 것인지. 다양한 세부옵션이 있음
       "strict": true,
+      "resolveJsonModule": true,
      // TypeORM 사용 시에 decoration 관련 옵션
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "sourceMap": true,
       "esModuleInterop": true	// 'require'와 'import' 호환
+      // "typeRoots": ["./node_modules/@types","./src"],
    },
   // 어디에 있는 파일을 컴파일 할 것인지
    "include": [
-    "src/**/*"
+    "src/**/*",
+    "@types/**/*",
   ],
   // 컴파일에서 제외되는 파일들
   "exclude": [
