@@ -14,4 +14,7 @@ export class AdminRespository extends Repository<AdminUser> {
   findByEmail(email: string) {
     return this.findOne({ email });
   }
+  findById(id: number) {
+    return this.findOne({ id });
+  }
 }

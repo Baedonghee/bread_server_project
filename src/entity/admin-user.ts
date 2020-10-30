@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Notice } from './notice';
 
 @Entity()
 export class AdminUser {
@@ -31,4 +32,7 @@ export class AdminUser {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt!: Date;
+
+  @OneToMany(() => Notice, (notice) => notice.admin)
+  notices!: Notice[];
 }

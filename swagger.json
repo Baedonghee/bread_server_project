@@ -12,17 +12,21 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "admin",
+      "name": "admin user",
       "description": "관리자 회원 정보입니다."
+    },
+    {
+      "name": "admin notice",
+      "description": "관리자 공지사항 정보입니다."
     }
   ],
   "schemes": ["http"],
   "paths": {
     "/admin/signin": {
       "post": {
-        "tags": ["admin"],
+        "tags": ["admin user"],
         "summary": "관리자 로그인",
-        "operationId": "addAdminSignin",
+        "operationId": "adminSignin",
         "requestBody": {
           "description": "관리자 로그인 파라미터",
           "content": {
@@ -44,9 +48,9 @@
     },
     "/admin/signup": {
       "post": {
-        "tags": ["admin"],
+        "tags": ["admin user"],
         "summary": "관리자 회원가입",
-        "operationId": "addAdminSignup",
+        "operationId": "adminSignup",
         "requestBody": {
           "description": "관리자 회원가입 파라미터",
           "content": {
@@ -68,12 +72,182 @@
     },
     "/admin/current": {
       "get": {
-        "tags": ["admin"],
+        "tags": ["admin user"],
         "summary": "관리자 회원 정보",
-        "operationId": "addAdminCurrent",
+        "operationId": "adminCurrent",
         "responses": {
           "403": {
             "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/notice": {
+      "get": {
+        "tags": ["admin notice"],
+        "summary": "공지사항 전체조회",
+        "operationId": "oneNotice",
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": ["admin notice"],
+        "summary": "공지사항 등록",
+        "operationId": "addNotice",
+        "requestBody": {
+          "description": "공지사항 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content", "startAt"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "공지사항테스트"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "공지사항제목!!"
+                  },
+                  "startAt": {
+                    "type": "string",
+                    "example": "1995-04-10"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/notice/{noticeId}": {
+      "get": {
+        "tags": ["admin notice"],
+        "summary": "공지사항 상세조회",
+        "operationId": "oneNotice",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "공지사항 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "put": {
+        "tags": ["admin notice"],
+        "summary": "공지사항 상세조회",
+        "operationId": "oneNotice",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "공지사항 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["admin notice"],
+        "summary": "공지사항 상세조회",
+        "operationId": "oneNotice",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "공지사항 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
           }
         },
         "security": [

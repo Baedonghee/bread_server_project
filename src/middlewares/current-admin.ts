@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
 
 interface UserPayload {
-  id: string;
+  id: number;
   email: string;
   name: string;
 }
@@ -11,7 +11,7 @@ interface UserPayload {
 declare global {
   namespace Express {
     interface Request {
-      currentUser?: UserPayload;
+      currentUser: UserPayload;
     }
   }
 }

@@ -10,7 +10,8 @@ import 'dotenv/config';
 import swaggerUi from 'swagger-ui-express';
 
 import swaggerDocument from '../swagger.json';
-import adminRouter from './routes/admin';
+import adminRouter from './routes/admin-user';
+import noticeRouter from './routes/admin-notice';
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
 
@@ -63,6 +64,7 @@ app.use(
 );
 app.use(morgan('dev'));
 app.use('/admin', adminRouter);
+app.use('/admin/notice', noticeRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.all('*', (_req, _res) => {
