@@ -9,9 +9,11 @@ import { createConnection } from 'typeorm';
 import 'dotenv/config';
 import swaggerUi from 'swagger-ui-express';
 
-import swaggerDocument from '../swagger.json';
+import swaggerDocument from './docs/swagger.json';
 import adminRouter from './routes/admin-user';
 import noticeRouter from './routes/admin-notice';
+import eventRouter from './routes/admin-event';
+
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
 
@@ -65,6 +67,7 @@ app.use(
 app.use(morgan('dev'));
 app.use('/admin', adminRouter);
 app.use('/admin/notice', noticeRouter);
+app.use('/admin/event', eventRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.all('*', (_req, _res) => {

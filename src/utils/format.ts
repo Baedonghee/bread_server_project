@@ -17,6 +17,6 @@ export const authType = (type: string) => {
 };
 
 export const dateReg = (date: string) => {
-  const regEx = /^\d{4}-\d{2}-\d{2}$/;
+  const regEx = /^([0-9]{4})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$/;
   return regEx.test(date);
 };

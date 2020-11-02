@@ -30,10 +30,7 @@ export class NoticeRespository extends Repository<Notice> {
       .leftJoin('notice.admin', 'admin')
       .where('notice.id = :id', { id })
       .select(['notice', 'admin.email', 'admin.name'])
-      .getOne()
-      .catch((err) => {
-        console.log(err);
-      });
+      .getOne();
   }
   updateAndSave(
     id: number,

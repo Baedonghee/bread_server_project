@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Event } from './event';
 import { Notice } from './notice';
 
 @Entity()
@@ -35,4 +36,7 @@ export class AdminUser {
 
   @OneToMany(() => Notice, (notice) => notice.admin)
   notices!: Notice[];
+
+  @OneToMany(() => Event, (event) => event.admin)
+  events!: Event[];
 }
