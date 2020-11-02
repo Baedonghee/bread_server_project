@@ -5,9 +5,12 @@ import {
   adminSignUp,
   adminSignIn,
   adminCurrent,
+  adminDetail,
+  adminUpdate,
 } from '../controllers/admin-user';
 import { currentUser } from '../middlewares/current-admin';
 import { validateRequest } from '../middlewares/validate-request';
+import { upload } from '../services/aws-s3';
 
 const router = express.Router();
 
@@ -25,11 +28,11 @@ router.post(
       .isLength({ min: 1 })
       .withMessage('비밀번호를 입력해주세요.')
       .isLength({ min: 8, max: 20 })
-      .withMessage('비밀번호는 8~20자로 입력해주세요')
+      .withMessage('비밀번호는 8~20자로 입력해주세요.')
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$.!%*#?&])[A-Za-z\d@$.!%*#?&]{8,}$/
       )
-      .withMessage('비밀번호 조합을 맞춰주세요'),
+      .withMessage('비밀번호 조합을 맞춰주세요.'),
     body('name')
       .trim()
       .isLength({ min: 1 })
@@ -62,5 +65,14 @@ router.post(
 );
 
 router.get('/current', currentUser, adminCurrent);
+
+router.get('/profile', currentUser, adminDetail);
+
+router.put(
+  '/profile',
+  upload('user').single('imgFile'),
+  currentUser,
+  adminUpdate
+);
 
 export default router;

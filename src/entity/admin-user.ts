@@ -10,7 +10,7 @@ export class AdminUser {
   @Column({ nullable: true, unique: true })
   email!: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   password!: string;
 
   @Column({ nullable: false })
@@ -18,6 +18,9 @@ export class AdminUser {
 
   @Column()
   type!: number;
+
+  @Column()
+  imageUrl!: string;
 
   @Column({
     type: 'timestamp',

@@ -9,12 +9,17 @@ export class AdminRespository extends Repository<AdminUser> {
     adminUser.password = password;
     adminUser.type = type;
     adminUser.name = name;
+    adminUser.imageUrl =
+      'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/user/default_image.jpeg';
     return this.manager.save(adminUser);
   }
   findByEmail(email: string) {
-    return this.findOne({ email });
+    return this.findOne({ where: { email }, select: ['id', 'password'] });
   }
   findById(id: number) {
     return this.findOne({ id });
+  }
+  updateAndProfile(id: number, updateProfile: any) {
+    return this.update(id, updateProfile);
   }
 }

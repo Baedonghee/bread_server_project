@@ -92,6 +92,68 @@
         "x-codegen-request-body-name": "body"
       }
     },
+    "/admin/profile": {
+      "get": {
+        "tags": ["admin user"],
+        "summary": "관리자 회원 프로필 조회",
+        "operationId": "adminProfileGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "put": {
+        "tags": ["admin user"],
+        "summary": "관리자 회원 프로필 수정",
+        "operationId": "adminProfilePut",
+        "requestBody": {
+          "description": "관리자 회원 수정 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "qwe1234!"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "동동이"
+                  },
+                  "imgFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
     "/admin/notice": {
       "get": {
         "tags": ["admin notice"],
