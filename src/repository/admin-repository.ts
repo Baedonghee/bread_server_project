@@ -14,12 +14,18 @@ export class AdminRespository extends Repository<AdminUser> {
     return this.manager.save(adminUser);
   }
   findByEmail(email: string) {
-    return this.findOne({ where: { email }, select: ['id', 'password'] });
+    return this.findOne({
+      where: { email },
+      select: ['id', 'password', 'enabled'],
+    });
   }
   findById(id: number) {
     return this.findOne({ id });
   }
   updateAndProfile(id: number, updateProfile: any) {
     return this.update(id, updateProfile);
+  }
+  updateAndEnabled(id: number) {
+    return this.update(id, { enabled: false });
   }
 }

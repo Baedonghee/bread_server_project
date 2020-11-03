@@ -22,6 +22,9 @@ export class AdminUser {
   @Column()
   imageUrl!: string;
 
+  @Column({ default: true })
+  enabled!: boolean;
+
   @Column({
     type: 'timestamp',
     name: 'created_at',

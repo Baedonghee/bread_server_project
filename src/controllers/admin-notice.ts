@@ -5,6 +5,7 @@ import { NoticeRespository } from '../repository/notice-repository';
 import { AdminRespository } from '../repository/admin-repository';
 import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
 import { GoneRequestError } from '../errors/gone-request.error';
+import { currentUser } from '../middlewares/current-admin';
 
 interface INoticeCreate {
   title: string;

@@ -7,6 +7,8 @@ import {
   adminCurrent,
   adminDetail,
   adminUpdate,
+  adminSecession,
+  adminLogout,
 } from '../controllers/admin-user';
 import { currentUser } from '../middlewares/current-admin';
 import { validateRequest } from '../middlewares/validate-request';
@@ -74,5 +76,9 @@ router.put(
   currentUser,
   adminUpdate
 );
+
+router.get('/bye', currentUser, adminSecession);
+
+router.get('/logout', currentUser, adminLogout);
 
 export default router;

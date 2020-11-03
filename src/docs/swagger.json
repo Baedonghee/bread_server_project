@@ -154,6 +154,42 @@
         "x-codegen-request-body-name": "body"
       }
     },
+    "/admin/bye": {
+      "get": {
+        "tags": ["admin user"],
+        "summary": "관리자 회원 탈퇴",
+        "operationId": "adminByeGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/logout": {
+      "get": {
+        "tags": ["admin user"],
+        "summary": "관리자 회원 로그아웃",
+        "operationId": "adminLogoutGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
     "/admin/notice": {
       "get": {
         "tags": ["admin notice"],
@@ -569,4 +605,3 @@
     }
   }
 }
-

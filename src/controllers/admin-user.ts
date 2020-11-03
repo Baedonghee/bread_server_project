@@ -72,6 +72,9 @@ export const adminSignIn = async (
     if (!comparePassword) {
       throw new BadRequestError(errorMessage);
     }
+    if (!existingAdmin.enabled) {
+      throw new BadRequestError('탈퇴된 회원입니다.');
+    }
     const token = await userJwt(
       existingAdmin.id,
       existingAdmin.email,
@@ -171,6 +174,48 @@ export const adminUpdate = async (
     await adminRespository.updateAndProfile(Number(id), updateProfile);
     res.status(201).json({
       status: 201,
+      message: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const adminSecession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.currentUser;
+    const adminRespository = getCustomRepository(AdminRespository);
+    const adminUser = await adminRespository.updateAndEnabled(id);
+    if (!adminUser.raw.changedRows) {
+      throw new CurrentAdminForbidden('이미 탈퇴된 회원입니다.');
+    }
+    res.status(200).json({
+      status: 200,
+      message: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const adminLogout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.currentUser;
+    const adminRespository = getCustomRepository(AdminRespository);
+    const adminUser = await adminRespository.findById(id);
+    if (!adminUser) {
+      throw new CurrentAdminForbidden('로그아웃에 실패했습니다.');
+    }
+    res.status(200).json({
+      status: 200,
       message: 'success',
     });
   } catch (err) {
