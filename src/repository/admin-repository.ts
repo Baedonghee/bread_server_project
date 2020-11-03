@@ -16,7 +16,7 @@ export class AdminRespository extends Repository<AdminUser> {
   findByEmail(email: string) {
     return this.findOne({
       where: { email },
-      select: ['id', 'password', 'enabled'],
+      select: ['id', 'password', 'email', 'name', 'imageUrl', 'enabled'],
     });
   }
   findById(id: number) {

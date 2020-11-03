@@ -39,7 +39,8 @@ export const adminSignUp = async (
     const token = await userJwt(
       adminRegister.id,
       adminRegister.email,
-      adminRegister.name
+      adminRegister.name,
+      adminRegister.imageUrl
     );
     res.status(201).json({
       status: 201,
@@ -78,7 +79,8 @@ export const adminSignIn = async (
     const token = await userJwt(
       existingAdmin.id,
       existingAdmin.email,
-      existingAdmin.name
+      existingAdmin.name,
+      existingAdmin.imageUrl
     );
     res.status(200).json({
       status: 200,
@@ -102,6 +104,7 @@ export const adminCurrent = (
       data: {
         email: req.currentUser?.email,
         name: req.currentUser?.name,
+        imageUrl: req.currentUser?.imageUrl,
       },
     });
   } catch (err) {
