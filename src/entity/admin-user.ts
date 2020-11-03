@@ -1,3 +1,4 @@
+import { Youtube } from './youtube';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Event } from './event';
 import { Notice } from './notice';
@@ -49,4 +50,7 @@ export class AdminUser {
 
   @OneToMany(() => ShopUser, (shopUser) => shopUser.admin)
   shopUsers!: ShopUser[];
+
+  @OneToMany(() => Youtube, (youtube) => youtube.admin)
+  youtubes!: Youtube[];
 }

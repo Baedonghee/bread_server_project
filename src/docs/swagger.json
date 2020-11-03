@@ -26,6 +26,10 @@
     {
       "name": "admin shop",
       "description": "관리자 빵집 회원 정보입니다."
+    },
+    {
+      "name": "admin youtube",
+      "description": "유튜브 정보입니다."
     }
   ],
   "schemes": ["http"],
@@ -312,6 +316,32 @@
             }
           }
         ],
+        "requestBody": {
+          "description": "공지사항 수정 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content", "startAt"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "공지사항테스트"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "공지사항제목!!"
+                  },
+                  "startAt": {
+                    "type": "string",
+                    "example": "1995-04-10"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "400": {
             "description": "Invalid input"
@@ -719,6 +749,263 @@
           },
           "400": {
             "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/shop/{shopId}/valid": {
+      "post": {
+        "tags": ["admin shop"],
+        "summary": "빵집회원 유효값 변경",
+        "operationId": "postShopValid",
+        "parameters": [
+          {
+            "name": "shopId",
+            "in": "path",
+            "description": "빵집회원 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "공지사항 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["enabled"],
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "example": "true"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/youtube": {
+      "get": {
+        "tags": ["admin youtube"],
+        "summary": "유튜브 전체조회",
+        "operationId": "allYoutube",
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": ["admin youtube"],
+        "summary": "유튜브 등록",
+        "operationId": "addYoutube",
+        "requestBody": {
+          "description": "유튜브 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content", "link", "breadId"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "유튜브테스트"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "유튜브내용!!"
+                  },
+                  "link": {
+                    "type": "string",
+                    "example": "https://www.youtube.com"
+                  },
+                  "breadId": {
+                    "type": "number",
+                    "example": "1"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/youtube/{youtubeId}": {
+      "get": {
+        "tags": ["admin youtube"],
+        "summary": "유튜브 상세조회",
+        "operationId": "oneYoutube",
+        "parameters": [
+          {
+            "name": "youtubeId",
+            "in": "path",
+            "description": "유튜브 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "put": {
+        "tags": ["admin youtube"],
+        "summary": "유튜브 수정",
+        "operationId": "oneYoutubePut",
+        "parameters": [
+          {
+            "name": "youtubeId",
+            "in": "path",
+            "description": "유튜브 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "유튜브 수정 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content", "link", "breadId"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "유튜브테스트"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "유튜브내용!!"
+                  },
+                  "link": {
+                    "type": "string",
+                    "example": "https://www.youtube.com"
+                  },
+                  "breadId": {
+                    "type": "number",
+                    "example": "1"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["admin youtube"],
+        "summary": "유튜브 삭제",
+        "operationId": "oneYoutubeDelete",
+        "parameters": [
+          {
+            "name": "youtubeId",
+            "in": "path",
+            "description": "유튜브 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
           }
         },
         "security": [

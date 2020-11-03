@@ -14,6 +14,7 @@ import adminRouter from './routes/admin-user';
 import noticeRouter from './routes/admin-notice';
 import eventRouter from './routes/admin-event';
 import shopRouter from './routes/admin-shop';
+import youtubeRouter from './routes/admin-youtube';
 
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
@@ -57,6 +58,7 @@ app.use('/admin', adminRouter);
 app.use('/admin/notice', noticeRouter);
 app.use('/admin/event', eventRouter);
 app.use('/admin/shop', shopRouter);
+app.use('/admin/youtube', youtubeRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.all('*', (_req, _res) => {
