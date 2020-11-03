@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Event } from './event';
 import { Notice } from './notice';
+import { ShopUser } from './shop-user';
 
 @Entity()
 export class AdminUser {
@@ -45,4 +46,7 @@ export class AdminUser {
 
   @OneToMany(() => Event, (event) => event.admin)
   events!: Event[];
+
+  @OneToMany(() => ShopUser, (shopUser) => shopUser.admin)
+  shopUsers!: ShopUser[];
 }

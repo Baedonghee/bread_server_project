@@ -13,6 +13,7 @@ import swaggerDocument from './docs/swagger.json';
 import adminRouter from './routes/admin-user';
 import noticeRouter from './routes/admin-notice';
 import eventRouter from './routes/admin-event';
+import shopRouter from './routes/admin-shop';
 
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
@@ -36,21 +37,8 @@ createConnection({
     subscribersDir: 'src/subscriber',
   },
 })
-  .then((connection) => {
+  .then(() => {
     console.log('Database Connected :)');
-    // console.log('Inserting a new user into the database...');
-    // const admin_user = new AdminUser();
-    // admin_user.email = 'qoehdgml3@naver.com';
-    // admin_user.password = 'qwe';
-    // admin_user.type = 1;
-    // await connection.manager.save(admin_user);
-    // console.log('Saved a new user with id: ' + admin_user.id);
-    // console.log('Loading users from the database...');
-    // console.log(new Date());
-    // const users = await connection.manager.find(AdminUser);
-    // console.log('Loaded users: ', users);
-    // console.log(format(users[0].createdAt, 'yyyyMMddhhmmss'));
-    // console.log('Here you can setup and run express/koa/any other framework.');
   })
   .catch((error) => console.log(error));
 
@@ -68,6 +56,7 @@ app.use(morgan('dev'));
 app.use('/admin', adminRouter);
 app.use('/admin/notice', noticeRouter);
 app.use('/admin/event', eventRouter);
+app.use('/admin/shop', shopRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.all('*', (_req, _res) => {

@@ -1,7 +1,7 @@
-import { eventDelete, eventUpdate } from './../controllers/admin-event';
 import express from 'express';
 import { param } from 'express-validator';
 
+import { eventDelete, eventUpdate } from './../controllers/admin-event';
 import { currentUser } from './../middlewares/current-admin';
 import {
   eventCreate,

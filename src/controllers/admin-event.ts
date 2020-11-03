@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
 
 import { EventRespository } from './../repository/event-repository';
-import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
 import { ValidateFileError } from '../errors/validate-file-error';
-import { AdminRespository } from '../repository/admin-repository';
 import { GoneRequestError } from '../errors/gone-request.error';
 
 interface IEventCreate {
@@ -20,12 +18,6 @@ export const eventList = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
     const eventRespository = getCustomRepository(EventRespository);
     const eventArray = await eventRespository.list();
     res.status(200).json({
@@ -50,12 +42,7 @@ export const eventCreate = async (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { title, link, startAt, endAt } = req.body as IEventCreate;
     const { location }: any = req.file;
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
+    const { adminUser } = req;
     const eventRespository = getCustomRepository(EventRespository);
     await eventRespository.createAndSave(
       title,
@@ -111,12 +98,7 @@ export const eventUpdate = async (
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       imageUrl = location;
     }
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
+    const { adminUser } = req;
     const eventRespository = getCustomRepository(EventRespository);
     await eventRespository.updateAndSave(
       Number(eventId),
@@ -143,12 +125,6 @@ export const eventDelete = async (
 ) => {
   try {
     const { eventId } = req.params;
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
     const eventRespository = getCustomRepository(EventRespository);
     const deleteEvent = await eventRespository.deleteById(Number(eventId));
     if (!deleteEvent.affected) {

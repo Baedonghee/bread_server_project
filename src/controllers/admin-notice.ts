@@ -2,10 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
 
 import { NoticeRespository } from '../repository/notice-repository';
-import { AdminRespository } from '../repository/admin-repository';
-import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
 import { GoneRequestError } from '../errors/gone-request.error';
-import { currentUser } from '../middlewares/current-admin';
 
 interface INoticeCreate {
   title: string;
@@ -19,12 +16,6 @@ export const noticeList = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
     const noticeRespository = getCustomRepository(NoticeRespository);
     const noticeArray = await noticeRespository.list();
     res.status(200).json({
@@ -44,12 +35,7 @@ export const noticeCreate = async (
 ) => {
   try {
     const { title, content, startAt } = req.body as INoticeCreate;
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
+    const { adminUser } = req;
     const noticeRespository = getCustomRepository(NoticeRespository);
     await noticeRespository.createAndSave(
       title,
@@ -96,12 +82,7 @@ export const noticeUpdate = async (
   try {
     const { noticeId } = req.params;
     const { title, content, startAt } = req.body as INoticeCreate;
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
+    const { adminUser } = req;
     const noticeRespository = getCustomRepository(NoticeRespository);
     await noticeRespository.updateAndSave(
       Number(noticeId),
@@ -127,12 +108,6 @@ export const noticeDelete = async (
 ) => {
   try {
     const { noticeId } = req.params;
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
     const noticeRespository = getCustomRepository(NoticeRespository);
     const deleteNotice = await noticeRespository.deleteById(Number(noticeId));
     if (!deleteNotice.affected) {

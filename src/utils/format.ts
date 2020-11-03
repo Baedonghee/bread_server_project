@@ -20,3 +20,8 @@ export const dateReg = (date: string) => {
   const regEx = /^([0-9]{4})[./-]([0]?[1-9]|[1][0-2])[./-]([0]?[1-9]|[1|2][0-9]|[3][0|1])$/;
   return regEx.test(date);
 };
+
+export const phoneNumberReg = (phoneNumber: string) => {
+  const regEx = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
+  return regEx.test(phoneNumber);
+};

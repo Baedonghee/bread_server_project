@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { getCustomRepository } from 'typeorm';
+import { AdminUser } from './../entity/admin-user';
 import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
+import { AdminRespository } from '../repository/admin-repository';
 
 interface UserPayload {
   id: number;
@@ -13,11 +16,12 @@ declare global {
   namespace Express {
     interface Request {
       currentUser: UserPayload;
+      adminUser: AdminUser;
     }
   }
 }
 
-export const currentUser = (
+export const currentUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -31,6 +35,13 @@ export const currentUser = (
       req.headers.authorization,
       process.env.JWT_KEY || ''
     ) as UserPayload;
+    const { id } = payload;
+    const adminRespository = getCustomRepository(AdminRespository);
+    const adminUser = await adminRespository.findById(id);
+    if (!adminUser) {
+      throw new CurrentAdminForbidden('권한이 없습니다.');
+    }
+    req.adminUser = adminUser;
     req.currentUser = payload;
   } catch (err) {
     throw new CurrentAdminForbidden('권한이 없습니다.');

@@ -22,6 +22,10 @@
     {
       "name": "admin event",
       "description": "관리자 이벤트 정보입니다."
+    },
+    {
+      "name": "admin shop",
+      "description": "관리자 빵집 회원 정보입니다."
     }
   ],
   "schemes": ["http"],
@@ -474,6 +478,17 @@
         "tags": ["admin event"],
         "summary": "이벤트 수정",
         "operationId": "updateEvent",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "이벤트 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "requestBody": {
           "description": "이벤트 수정 파라미터",
           "content": {
@@ -546,6 +561,164 @@
           },
           "410": {
             "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/shop": {
+      "get": {
+        "tags": ["admin shop"],
+        "summary": "빵집회원 전체조회",
+        "operationId": "allShop",
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": ["admin shop"],
+        "summary": "빵집 회원 등록",
+        "operationId": "addShop",
+        "requestBody": {
+          "description": "빵집 회원 등록 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "빵집회원이름"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "빵집회원핸드폰번호"
+                  },
+                  "imgFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/shop/{shopId}": {
+      "get": {
+        "tags": ["admin shop"],
+        "summary": "빵집회원 상세조회",
+        "operationId": "oneShop",
+        "parameters": [
+          {
+            "name": "shopId",
+            "in": "path",
+            "description": "빵집회원 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "put": {
+        "tags": ["admin shop"],
+        "summary": "빵집 회원 수정",
+        "operationId": "updateShop",
+        "parameters": [
+          {
+            "name": "shopId",
+            "in": "path",
+            "description": "빵집회원 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "빵집 회원 수정 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "빵집회원이름"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "빵집회원핸드폰번호"
+                  },
+                  "imgFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
           }
         },
         "security": [

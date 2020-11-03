@@ -112,18 +112,13 @@ export const adminCurrent = (
   }
 };
 
-export const adminDetail = async (
+export const adminDetail = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('권한이 없습니다.');
-    }
+    const { adminUser } = req;
     res.status(200).json({
       status: 200,
       message: 'success',
@@ -205,18 +200,12 @@ export const adminSecession = async (
   }
 };
 
-export const adminLogout = async (
+export const adminLogout = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
-    if (!adminUser) {
-      throw new CurrentAdminForbidden('로그아웃에 실패했습니다.');
-    }
     res.status(200).json({
       status: 200,
       message: 'success',
