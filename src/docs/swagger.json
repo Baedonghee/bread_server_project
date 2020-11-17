@@ -30,6 +30,10 @@
     {
       "name": "admin youtube",
       "description": "유튜브 정보입니다."
+    },
+    {
+      "name": "image upload",
+      "description": "업로드 정보입니다."
     }
   ],
   "schemes": ["http"],
@@ -124,9 +128,10 @@
         "requestBody": {
           "description": "관리자 회원 수정 파라미터",
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["password", "name"],
                 "properties": {
                   "password": {
                     "type": "string",
@@ -136,9 +141,9 @@
                     "type": "string",
                     "example": "동동이"
                   },
-                  "imgFile": {
+                  "imageUrl": {
                     "type": "string",
-                    "format": "binary"
+                    "example": "이벤트 이미지 url 주소"
                   }
                 }
               }
@@ -424,9 +429,10 @@
         "requestBody": {
           "description": "이벤트 등록 파라미터",
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["title", "link", "imageUrl", "startAt", "endAt"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -436,6 +442,10 @@
                     "type": "string",
                     "example": "이벤트링크!!"
                   },
+                  "imageUrl": {
+                    "type": "string",
+                    "example": "이벤트 이미지 url 주소"
+                  },
                   "startAt": {
                     "type": "string",
                     "example": "1995-04-10"
@@ -443,10 +453,6 @@
                   "endAt": {
                     "type": "string",
                     "example": "1995-04-10"
-                  },
-                  "imgFile": {
-                    "type": "string",
-                    "format": "binary"
                   }
                 }
               }
@@ -522,9 +528,10 @@
         "requestBody": {
           "description": "이벤트 수정 파라미터",
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["title", "link", "imageUrl", "startAt", "endAt"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -534,6 +541,10 @@
                     "type": "string",
                     "example": "이벤트링크!!"
                   },
+                  "imageUrl": {
+                    "type": "string",
+                    "example": "이벤트 이미지 url 주소"
+                  },
                   "startAt": {
                     "type": "string",
                     "example": "1995-04-10"
@@ -541,10 +552,6 @@
                   "endAt": {
                     "type": "string",
                     "example": "1995-04-10"
-                  },
-                  "imgFile": {
-                    "type": "string",
-                    "format": "binary"
                   }
                 }
               }
@@ -631,9 +638,10 @@
         "requestBody": {
           "description": "빵집 회원 등록 파라미터",
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["name", "phoneNumber"],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -643,9 +651,9 @@
                     "type": "string",
                     "example": "빵집회원핸드폰번호"
                   },
-                  "imgFile": {
+                  "imageUrl": {
                     "type": "string",
-                    "format": "binary"
+                    "example": "이벤트 이미지 url 주소"
                   }
                 }
               }
@@ -721,9 +729,10 @@
         "requestBody": {
           "description": "빵집 회원 수정 파라미터",
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
+                "required": ["name", "phoneNumber"],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -733,9 +742,9 @@
                     "type": "string",
                     "example": "빵집회원핸드폰번호"
                   },
-                  "imgFile": {
+                  "imageUrl": {
                     "type": "string",
-                    "format": "binary"
+                    "example": "이벤트 이미지 url 주소"
                   }
                 }
               }
@@ -1006,6 +1015,120 @@
           },
           "410": {
             "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/upload/event": {
+      "post": {
+        "tags": ["image upload"],
+        "summary": "이벤트 이미지 업로드",
+        "operationId": "uploadEventImage",
+        "requestBody": {
+          "description": "이벤트 이미지 등록 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imgFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/upload/shop": {
+      "post": {
+        "tags": ["image upload"],
+        "summary": "상점 이미지 업로드",
+        "operationId": "uploadShopImage",
+        "requestBody": {
+          "description": "상점 이미지 등록 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imgFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/upload/user": {
+      "post": {
+        "tags": ["image upload"],
+        "summary": "회원 이미지 업로드",
+        "operationId": "uploadUserImage",
+        "requestBody": {
+          "description": "회원 이미지 등록 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imgFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
           }
         },
         "security": [

@@ -2,12 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
 
 import { EventRespository } from './../repository/event-repository';
-import { ValidateFileError } from '../errors/validate-file-error';
 import { GoneRequestError } from '../errors/gone-request.error';
 
 interface IEventCreate {
   title: string;
   link: string;
+  imageUrl: string;
   startAt: string;
   endAt: string;
 }
@@ -36,17 +36,12 @@ export const eventCreate = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.file) {
-      throw new ValidateFileError('이미지 파일을 첨부해주세요.');
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { title, link, startAt, endAt } = req.body as IEventCreate;
-    const { location }: any = req.file;
+    const { title, link, imageUrl, startAt, endAt } = req.body as IEventCreate;
     const { adminUser } = req;
     const eventRespository = getCustomRepository(EventRespository);
     await eventRespository.createAndSave(
       title,
-      location,
+      imageUrl,
       link,
       new Date(startAt),
       new Date(endAt),
@@ -89,15 +84,8 @@ export const eventUpdate = async (
   next: NextFunction
 ) => {
   try {
-    let imageUrl = '';
     const { eventId } = req.params;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { title, link, startAt, endAt } = req.body as IEventCreate;
-    if (req.file) {
-      const { location }: any = req.file;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      imageUrl = location;
-    }
+    const { title, link, imageUrl, startAt, endAt } = req.body as IEventCreate;
     const { adminUser } = req;
     const eventRespository = getCustomRepository(EventRespository);
     await eventRespository.updateAndSave(

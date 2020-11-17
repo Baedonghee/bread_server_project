@@ -7,6 +7,7 @@ import { ShopUserRespository } from '../repository/shop-repository';
 interface IShopCreate {
   name: string;
   phoneNumber: string;
+  imageUrl?: string;
 }
 
 export const shopList = async (
@@ -33,16 +34,15 @@ export const shopCreate = async (
   next: NextFunction
 ) => {
   try {
-    let imageUrl = '';
     const { adminUser } = req;
-    const { name, phoneNumber } = req.body as IShopCreate;
-    if (req.file) {
-      const { location }: any = req.file;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      imageUrl = location;
-    }
+    const { name, phoneNumber, imageUrl } = req.body as IShopCreate;
     const shopRespository = getCustomRepository(ShopUserRespository);
-    await shopRespository.createAndSave(name, phoneNumber, imageUrl, adminUser);
+    await shopRespository.createAndSave(
+      name,
+      phoneNumber,
+      imageUrl || '',
+      adminUser
+    );
     res.status(201).json({
       status: 201,
       message: 'success',
@@ -80,21 +80,15 @@ export const shopUpdate = async (
   next: NextFunction
 ) => {
   try {
-    let imageUrl = '';
     const { adminUser } = req;
     const { shopId } = req.params;
-    const { name, phoneNumber } = req.body as IShopCreate;
-    if (req.file) {
-      const { location }: any = req.file;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      imageUrl = location;
-    }
+    const { name, phoneNumber, imageUrl } = req.body as IShopCreate;
     const shopRespository = getCustomRepository(ShopUserRespository);
     await shopRespository.updateAndSave(
       Number(shopId),
       name,
       phoneNumber,
-      imageUrl,
+      imageUrl || '',
       adminUser
     );
     res.status(201).json({

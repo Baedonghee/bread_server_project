@@ -14,6 +14,7 @@ interface ISignup {
   password: string;
   name: string;
   type: string;
+  imageUrl: string;
 }
 
 export const adminSignUp = async (
@@ -135,39 +136,19 @@ export const adminUpdate = async (
   next: NextFunction
 ) => {
   try {
-    let imageUrl = '';
     const { id } = req.currentUser;
-    const { password, name } = req.body as ISignup;
-    if (req.file) {
-      const { location }: any = req.file;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      imageUrl = location;
-    }
-    if (!(password || name || imageUrl)) {
-      throw new ValidateFileError('변경 항목을 보내주세요.');
-    }
+    const { password, name, imageUrl } = req.body as ISignup;
     const updateProfile = {} as {
       password: string;
       name: string;
       imageUrl: string;
     };
-    if (password) {
-      const passwordReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$.!%*#?&])[A-Za-z\d@$.!%*#?&]{8,}$/;
-      if (!(password.length > 7 && password.length < 21)) {
-        throw new ValidateFileError('비밀번호는 8~20자로 입력해주세요.');
-      } else if (!passwordReg.test(password)) {
-        throw new ValidateFileError('비밀번호 조합을 맞춰주세요.');
-      } else {
-        const hashed = await Password.toHash(password);
-        updateProfile.password = hashed;
-      }
-    }
-    if (name) {
-      updateProfile.name = name;
-    }
-    if (imageUrl) {
-      updateProfile.imageUrl = imageUrl;
-    }
+    const hashed = await Password.toHash(password);
+    updateProfile.password = hashed;
+    updateProfile.name = name;
+    updateProfile.imageUrl =
+      imageUrl ||
+      'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/user/default_image.jpeg';
     const adminRespository = getCustomRepository(AdminRespository);
     await adminRespository.updateAndProfile(Number(id), updateProfile);
     res.status(201).json({
