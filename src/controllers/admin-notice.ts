@@ -10,18 +10,37 @@ interface INoticeCreate {
   startAt: string;
 }
 
+interface INoticeListQuery {
+  page?: number;
+  limit?: number;
+  startDate?: string;
+  endDate?: string;
+  title?: string;
+}
+
 export const noticeList = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const { page, limit, startDate, title } = req.query as INoticeListQuery;
     const noticeRespository = getCustomRepository(NoticeRespository);
-    const noticeArray = await noticeRespository.list();
+    const [noticeArray, sum] = await noticeRespository.list(
+      Number(page) || 1,
+      Number(limit) || 20,
+      startDate ? new Date(startDate) : undefined,
+      title || undefined
+    );
     res.status(200).json({
       status: 200,
       message: 'success',
       list: noticeArray,
+      pagination: {
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
+        size: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
     });
   } catch (err) {
     next(err);

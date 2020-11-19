@@ -18,11 +18,20 @@ export class NoticeRespository extends Repository<Notice> {
     return this.manager.save(notice);
   }
 
-  list() {
-    return this.createQueryBuilder('notice')
+  list(page: number, limit: number, startAt?: Date, title?: string) {
+    const query = this.createQueryBuilder('notice')
       .leftJoin('notice.admin', 'admin')
       .select(['notice', 'admin.email', 'admin.name'])
-      .getMany();
+      .offset((page - 1) * limit)
+      .limit(limit);
+    if (startAt) {
+      query.where('notice.startAt >= :startAt', { startAt });
+    }
+    if (title) {
+      query.where('notice.title like :title', { title: `%${title}%` });
+    }
+
+    return query.getManyAndCount();
   }
 
   findById(id: number) {
@@ -32,6 +41,7 @@ export class NoticeRespository extends Repository<Notice> {
       .select(['notice', 'admin.email', 'admin.name'])
       .getOne();
   }
+
   updateAndSave(
     id: number,
     title: string,

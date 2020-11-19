@@ -12,18 +12,44 @@ interface IEventCreate {
   endAt: string;
 }
 
+interface IEventListQuery {
+  page?: number;
+  limit?: number;
+  startDate?: string;
+  endDate?: string;
+  title?: string;
+}
+
 export const eventList = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const eventRespository = getCustomRepository(EventRespository);
-    const eventArray = await eventRespository.list();
+    const {
+      page,
+      limit,
+      startDate,
+      endDate,
+      title,
+    } = req.query as IEventListQuery;
+    const eventRepository = getCustomRepository(EventRespository);
+    const [eventArray, sum] = await eventRepository.list(
+      Number(page) || 1,
+      Number(limit) || 20,
+      startDate ? new Date(startDate) : undefined,
+      endDate ? new Date(endDate) : undefined,
+      title || undefined
+    );
     res.status(200).json({
       status: 200,
       message: 'success',
       list: eventArray,
+      pagination: {
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
+        limit: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
     });
   } catch (err) {
     next(err);

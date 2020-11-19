@@ -22,11 +22,28 @@ export class EventRespository extends Repository<Event> {
     return this.manager.save(event);
   }
 
-  list() {
-    return this.createQueryBuilder('event')
+  list(
+    page: number,
+    limit: number,
+    startAt?: Date,
+    endAt?: Date,
+    title?: string
+  ) {
+    const query = this.createQueryBuilder('event')
       .leftJoin('event.admin', 'admin')
       .select(['event', 'admin.email', 'admin.name'])
-      .getMany();
+      .offset((page - 1) * limit)
+      .limit(limit);
+    if (startAt) {
+      query.where('event.startAt >= :startAt', { startAt });
+    }
+    if (endAt) {
+      query.where('event.endAt <= :endAt', { endAt });
+    }
+    if (title) {
+      query.where('event.title like :title', { title: `%${title}%` });
+    }
+    return query.getManyAndCount();
   }
 
   findById(id: number) {

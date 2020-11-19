@@ -47,7 +47,6 @@ createConnection({
 const app = express();
 app.use(compression());
 app.use(cors());
-
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
