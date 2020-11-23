@@ -3,7 +3,7 @@ import { AdminUser } from '../entity/admin-user';
 import { ShopUser } from '../entity/shop-user';
 
 @EntityRepository(ShopUser)
-export class ShopUserRespository extends Repository<ShopUser> {
+export class ShopUserRepository extends Repository<ShopUser> {
   createAndSave(
     name: string,
     phoneNumber: string,

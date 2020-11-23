@@ -25,3 +25,8 @@ export const phoneNumberReg = (phoneNumber: string) => {
   const regEx = /(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/g;
   return regEx.test(phoneNumber);
 };
+
+export const linkReg = (link: string) => {
+  const regEx = /(https?:\/\/[^\s]+)/g;
+  return regEx.test(link);
+};

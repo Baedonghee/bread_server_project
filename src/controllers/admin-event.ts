@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
 
-import { EventRespository } from './../repository/event-repository';
+import { EventRepository } from './../repository/event-repository';
 import { GoneRequestError } from '../errors/gone-request.error';
 
 interface IEventCreate {
@@ -33,7 +33,7 @@ export const eventList = async (
       endDate,
       title,
     } = req.query as IEventListQuery;
-    const eventRepository = getCustomRepository(EventRespository);
+    const eventRepository = getCustomRepository(EventRepository);
     const [eventArray, sum] = await eventRepository.list(
       Number(page) || 1,
       Number(limit) || 20,
@@ -64,8 +64,8 @@ export const eventCreate = async (
   try {
     const { title, link, imageUrl, startAt, endAt } = req.body as IEventCreate;
     const { adminUser } = req;
-    const eventRespository = getCustomRepository(EventRespository);
-    await eventRespository.createAndSave(
+    const eventRepository = getCustomRepository(EventRepository);
+    await eventRepository.createAndSave(
       title,
       imageUrl,
       link,
@@ -89,8 +89,8 @@ export const eventDetail = async (
 ) => {
   try {
     const { eventId } = req.params;
-    const eventRespository = getCustomRepository(EventRespository);
-    const eventInfo = await eventRespository.findById(Number(eventId));
+    const eventRepository = getCustomRepository(EventRepository);
+    const eventInfo = await eventRepository.findById(Number(eventId));
     if (!eventInfo) {
       throw new GoneRequestError('존재하지 않는 이벤트 입니다.');
     }
@@ -113,8 +113,8 @@ export const eventUpdate = async (
     const { eventId } = req.params;
     const { title, link, imageUrl, startAt, endAt } = req.body as IEventCreate;
     const { adminUser } = req;
-    const eventRespository = getCustomRepository(EventRespository);
-    await eventRespository.updateAndSave(
+    const eventRepository = getCustomRepository(EventRepository);
+    await eventRepository.updateAndSave(
       Number(eventId),
       title,
       imageUrl,
@@ -139,8 +139,8 @@ export const eventDelete = async (
 ) => {
   try {
     const { eventId } = req.params;
-    const eventRespository = getCustomRepository(EventRespository);
-    const deleteEvent = await eventRespository.deleteById(Number(eventId));
+    const eventRepository = getCustomRepository(EventRepository);
+    const deleteEvent = await eventRepository.deleteById(Number(eventId));
     if (!deleteEvent.affected) {
       throw new GoneRequestError('존재하지 않는 게시물입니다.');
     }

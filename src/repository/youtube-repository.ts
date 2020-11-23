@@ -3,7 +3,7 @@ import { AdminUser } from '../entity/admin-user';
 import { Youtube } from '../entity/youtube';
 
 @EntityRepository(Youtube)
-export class YoutubeRespository extends Repository<Youtube> {
+export class YoutubeRepository extends Repository<Youtube> {
   createAndSave(
     title: string,
     content: string,

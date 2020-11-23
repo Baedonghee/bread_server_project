@@ -7,6 +7,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log(err);
   const status = err.statusCode || 500;
   const message = err.serializeErrors()[0].message || 'Something went wrong';
   res.status(status).send({

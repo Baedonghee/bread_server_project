@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
+
 import { GoneRequestError } from '../errors/gone-request.error';
-import { YoutubeRespository } from '../repository/youtube-repository';
+import { YoutubeRepository } from '../repository/youtube-repository';
 
 interface IYoutubeCreate {
   title: string;
@@ -16,8 +17,8 @@ export const youtubeList = async (
   next: NextFunction
 ) => {
   try {
-    const youtubeRespository = getCustomRepository(YoutubeRespository);
-    const youtubeArray = await youtubeRespository.list();
+    const youtubeRepository = getCustomRepository(YoutubeRepository);
+    const youtubeArray = await youtubeRepository.list();
     res.status(200).json({
       status: 200,
       message: 'success',
@@ -36,8 +37,8 @@ export const youtubeCreate = async (
   try {
     const { title, content, link, breadId } = req.body as IYoutubeCreate;
     const { adminUser } = req;
-    const youtubeRespository = getCustomRepository(YoutubeRespository);
-    await youtubeRespository.createAndSave(
+    const youtubeRepository = getCustomRepository(YoutubeRepository);
+    await youtubeRepository.createAndSave(
       title,
       content,
       link,
@@ -60,8 +61,8 @@ export const youtubeDetail = async (
 ) => {
   try {
     const { youtubeId } = req.params;
-    const youtubeRespository = getCustomRepository(YoutubeRespository);
-    const youtubeInfo = await youtubeRespository.findById(Number(youtubeId));
+    const youtubeRepository = getCustomRepository(YoutubeRepository);
+    const youtubeInfo = await youtubeRepository.findById(Number(youtubeId));
     if (!youtubeInfo) {
       throw new GoneRequestError('존재하지 않는 게시물입니다.');
     }
@@ -84,8 +85,8 @@ export const youtubeUpdate = async (
     const { youtubeId } = req.params;
     const { adminUser } = req;
     const { title, content, link, breadId } = req.body as IYoutubeCreate;
-    const youtubeRespository = getCustomRepository(YoutubeRespository);
-    await youtubeRespository.updateAndSave(
+    const youtubeRepository = getCustomRepository(YoutubeRepository);
+    await youtubeRepository.updateAndSave(
       Number(youtubeId),
       title,
       content,
@@ -109,10 +110,8 @@ export const youtubeDelete = async (
 ) => {
   try {
     const { youtubeId } = req.params;
-    const youtubeRespository = getCustomRepository(YoutubeRespository);
-    const deleteYoutube = await youtubeRespository.deleteById(
-      Number(youtubeId)
-    );
+    const youtubeRepository = getCustomRepository(YoutubeRepository);
+    const deleteYoutube = await youtubeRepository.deleteById(Number(youtubeId));
     if (!deleteYoutube.affected) {
       throw new GoneRequestError('존재하지 않는 게시물입니다.');
     }

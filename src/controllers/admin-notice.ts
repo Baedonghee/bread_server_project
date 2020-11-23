@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
 
-import { NoticeRespository } from '../repository/notice-repository';
+import { NoticeRepository } from '../repository/notice-repository';
 import { GoneRequestError } from '../errors/gone-request.error';
 
 interface INoticeCreate {
@@ -25,7 +25,7 @@ export const noticeList = async (
 ) => {
   try {
     const { page, limit, startDate, title } = req.query as INoticeListQuery;
-    const noticeRespository = getCustomRepository(NoticeRespository);
+    const noticeRespository = getCustomRepository(NoticeRepository);
     const [noticeArray, sum] = await noticeRespository.list(
       Number(page) || 1,
       Number(limit) || 20,
@@ -55,8 +55,8 @@ export const noticeCreate = async (
   try {
     const { title, content, startAt } = req.body as INoticeCreate;
     const { adminUser } = req;
-    const noticeRespository = getCustomRepository(NoticeRespository);
-    await noticeRespository.createAndSave(
+    const noticeRepository = getCustomRepository(NoticeRepository);
+    await noticeRepository.createAndSave(
       title,
       content,
       new Date(startAt),
@@ -78,8 +78,8 @@ export const noticeDetail = async (
 ) => {
   try {
     const { noticeId } = req.params;
-    const noticeRespository = getCustomRepository(NoticeRespository);
-    const noticeInfo = await noticeRespository.findById(Number(noticeId));
+    const noticeRepository = getCustomRepository(NoticeRepository);
+    const noticeInfo = await noticeRepository.findById(Number(noticeId));
     if (!noticeInfo) {
       throw new GoneRequestError('존재하지 않는 게시물입니다.');
     }
@@ -102,8 +102,8 @@ export const noticeUpdate = async (
     const { noticeId } = req.params;
     const { title, content, startAt } = req.body as INoticeCreate;
     const { adminUser } = req;
-    const noticeRespository = getCustomRepository(NoticeRespository);
-    await noticeRespository.updateAndSave(
+    const noticeRepository = getCustomRepository(NoticeRepository);
+    await noticeRepository.updateAndSave(
       Number(noticeId),
       title,
       content,
@@ -126,8 +126,8 @@ export const noticeDelete = async (
 ) => {
   try {
     const { noticeId } = req.params;
-    const noticeRespository = getCustomRepository(NoticeRespository);
-    const deleteNotice = await noticeRespository.deleteById(Number(noticeId));
+    const noticeRepository = getCustomRepository(NoticeRepository);
+    const deleteNotice = await noticeRepository.deleteById(Number(noticeId));
     if (!deleteNotice.affected) {
       throw new GoneRequestError('존재하지 않는 게시물입니다.');
     }

@@ -3,9 +3,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { AdminUser } from './admin-user';
+import { BreadShop } from './bread-shop';
 
 @Entity()
 export class ShopUser {
@@ -38,6 +40,9 @@ export class ShopUser {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt!: Date;
+
+  @OneToMany(() => BreadShop, (breadShop) => breadShop.shopUser)
+  breadShops!: BreadShop[];
 
   @ManyToOne(() => AdminUser, (user) => user.notices)
   @JoinColumn({ name: 'admin_id' })

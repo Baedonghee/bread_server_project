@@ -3,7 +3,7 @@ import { Notice } from '../entity/notice';
 import { AdminUser } from '../entity/admin-user';
 
 @EntityRepository(Notice)
-export class NoticeRespository extends Repository<Notice> {
+export class NoticeRepository extends Repository<Notice> {
   createAndSave(
     title: string,
     content: string,

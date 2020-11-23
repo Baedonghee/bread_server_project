@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { getCustomRepository } from 'typeorm';
 import { AdminUser } from './../entity/admin-user';
 import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
-import { AdminRespository } from '../repository/admin-repository';
+import { AdminRepository } from '../repository/admin-repository';
 
 interface UserPayload {
   id: number;
@@ -36,8 +36,8 @@ export const currentUser = async (
       process.env.JWT_KEY || ''
     ) as UserPayload;
     const { id } = payload;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.findById(id);
+    const adminRepository = getCustomRepository(AdminRepository);
+    const adminUser = await adminRepository.findById(id);
     if (!adminUser) {
       throw new CurrentAdminForbidden('권한이 없습니다.');
     }

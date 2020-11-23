@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
+import { AdminUser } from '../entity/admin-user';
 
 import { BadRequestError } from '../errors/bad-request-error';
 import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
-import { ValidateFileError } from '../errors/validate-file-error';
-import { AdminRespository } from '../repository/admin-repository';
+import { AdminRepository } from '../repository/admin-repository';
 import { Password } from '../services/password';
 import { authType } from '../utils/format';
 import { userJwt } from '../utils/jwt';
@@ -24,7 +24,7 @@ export const adminSignUp = async (
 ) => {
   try {
     const { email, password, name, type } = req.body as ISignup;
-    const adminRepository = getCustomRepository(AdminRespository);
+    const adminRepository = getCustomRepository(AdminRepository);
     const existingAdmin = await adminRepository.findByEmail(email);
     if (existingAdmin) {
       throw new BadRequestError('이메일이 존재합니다.');
@@ -61,7 +61,7 @@ export const adminSignIn = async (
 ) => {
   try {
     const { email, password } = req.body as ISignup;
-    const adminRepository = getCustomRepository(AdminRespository);
+    const adminRepository = getCustomRepository(AdminRepository);
     const existingAdmin = await adminRepository.findByEmail(email);
     const errorMessage = '가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.';
     if (!existingAdmin) {
@@ -149,8 +149,8 @@ export const adminUpdate = async (
     updateProfile.imageUrl =
       imageUrl ||
       'https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/user/default_image.jpeg';
-    const adminRespository = getCustomRepository(AdminRespository);
-    await adminRespository.updateAndProfile(Number(id), updateProfile);
+    const adminRepository = getCustomRepository(AdminRepository);
+    await adminRepository.updateAndProfile(Number(id), updateProfile);
     res.status(201).json({
       status: 201,
       message: 'success',
@@ -167,8 +167,8 @@ export const adminSecession = async (
 ) => {
   try {
     const { id } = req.currentUser;
-    const adminRespository = getCustomRepository(AdminRespository);
-    const adminUser = await adminRespository.updateAndEnabled(id);
+    const adminRepository = getCustomRepository(AdminRepository);
+    const adminUser = await adminRepository.updateAndEnabled(id);
     if (!adminUser.raw.changedRows) {
       throw new CurrentAdminForbidden('이미 탈퇴된 회원입니다.');
     }

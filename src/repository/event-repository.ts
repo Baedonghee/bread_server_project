@@ -3,7 +3,7 @@ import { AdminUser } from '../entity/admin-user';
 import { Event } from '../entity/event';
 
 @EntityRepository(Event)
-export class EventRespository extends Repository<Event> {
+export class EventRepository extends Repository<Event> {
   createAndSave(
     title: string,
     imageUrl: string,

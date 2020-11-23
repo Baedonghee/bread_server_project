@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { uploadImage } from '../controllers/upload';
+import { uploadImage, uploadListImage } from '../controllers/upload';
 import { currentUser } from '../middlewares/current-admin';
 import { upload } from '../services/aws-s3';
 
@@ -25,6 +25,20 @@ router.post(
   currentUser,
   upload('user').single('imgFile'),
   uploadImage
+);
+
+router.post(
+  '/bread/shop',
+  currentUser,
+  upload('breadShop').array('imgFile', 8),
+  uploadListImage
+);
+
+router.post(
+  '/bread/menu',
+  currentUser,
+  upload('breadMenu').array('imgFile', 8),
+  uploadListImage
 );
 
 export default router;
