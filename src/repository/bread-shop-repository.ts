@@ -33,9 +33,9 @@ export class BreadShopRepository extends Repository<BreadShop> {
       .leftJoin('breadShop.admin', 'admin')
       .leftJoin('breadShop.shopUser', 'shopUser')
       .leftJoin('breadShop.address', 'breadShopAddress')
-      .leftJoin('breadShop.images', 'BreadShopImage')
-      .leftJoin('breadShop.menuImages', 'BreadShopMenuImage')
-      .leftJoin('breadShop.holidays', 'BreadShopHoliday')
+      .leftJoin('breadShop.images', 'breadShopImage')
+      .leftJoin('breadShop.menuImages', 'breadShopMenuImage')
+      .leftJoin('breadShop.holidays', 'breadShopHoliday')
       .select([
         'breadShop',
         'breadShopAddress',
@@ -43,9 +43,9 @@ export class BreadShopRepository extends Repository<BreadShop> {
         'breadShopAddress.lon',
         'breadShopAddress.roadAddress',
         'breadShopAddress.zibunAddress',
-        'BreadShopImage.imageUrl',
-        'BreadShopMenuImage.imageUrl',
-        'BreadShopHoliday.day',
+        'breadShopImage.imageUrl',
+        'breadShopMenuImage.imageUrl',
+        'breadShopHoliday.day',
         'shopUser.name',
         'shopUser.imageUrl',
         'admin.email',

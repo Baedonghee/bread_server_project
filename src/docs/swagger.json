@@ -32,12 +32,16 @@
       "description": "유튜브 정보입니다."
     },
     {
-      "name": "image upload",
-      "description": "업로드 정보입니다."
+      "name": "admin bread",
+      "description": "관리자 빵 정보입니다."
     },
     {
       "name": "admin bread shop",
       "description": "관리자 빵집 정보입니다."
+    },
+    {
+      "name": "image upload",
+      "description": "업로드 정보입니다."
     }
   ],
   "schemes": ["http"],
@@ -1116,6 +1120,13 @@
                       "type": "string",
                       "example": "월"
                     }
+                  },
+                  "breadId": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "example": "1"
+                    }
                   }
                 }
               }
@@ -1143,7 +1154,7 @@
       "get": {
         "tags": ["admin bread shop"],
         "summary": "빵집 상세조회",
-        "operationId": "detailBread",
+        "operationId": "detailBreadShop",
         "parameters": [
           {
             "name": "breadShopId",
@@ -1248,6 +1259,13 @@
                       "type": "string",
                       "example": "월"
                     }
+                  },
+                  "breadId": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "example": "1"
+                    }
                   }
                 }
               }
@@ -1279,6 +1297,205 @@
             "name": "breadShopId",
             "in": "path",
             "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/bread": {
+      "get": {
+        "tags": ["admin bread"],
+        "summary": "빵 전체조회",
+        "operationId": "allBread",
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": ["admin bread"],
+        "summary": "빵 등록",
+        "operationId": "addBread",
+        "requestBody": {
+          "description": "빵 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content", "imageUrl"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "피자빵"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "맛있어요~"
+                  },
+                  "imageUrl": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/breadShop/1605669492223.png"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/admin/bread/{breadId}": {
+      "get": {
+        "tags": ["admin bread"],
+        "summary": "빵 상세조회",
+        "operationId": "detailBread",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "put": {
+        "tags": ["admin bread"],
+        "summary": "빵 수정",
+        "operationId": "putBread",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "빵집 수정 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content", "imageUrl"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "피자빵"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "맛있어요~"
+                  },
+                  "imageUrl": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/breadShop/1605669492223.png"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["admin bread"],
+        "summary": "빵 삭제",
+        "operationId": "deleteBread",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
             "required": true,
             "schema": {
               "type": "number"

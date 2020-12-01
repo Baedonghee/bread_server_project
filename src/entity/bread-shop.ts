@@ -11,6 +11,7 @@ import { AdminUser } from './admin-user';
 import { BreadShopAddress } from './bread-shop-address';
 import { BreadShopHoliday } from './bread-shop-holiday';
 import { BreadShopImage } from './bread-shop-image';
+import { BreadShopKind } from './bread-shop-kind';
 import { BreadShopMenuImage } from './bread-shop-menu-image';
 import { ShopUser } from './shop-user';
 
@@ -63,7 +64,7 @@ export class BreadShop {
   @JoinColumn({ name: 'bread_shop_address_id' })
   address!: BreadShopAddress;
 
-  @OneToMany(() => BreadShopImage, (BreadShopImage) => BreadShopImage.breadShop)
+  @OneToMany(() => BreadShopImage, (breadShopImage) => breadShopImage.breadShop)
   images!: BreadShopImage[];
 
   @OneToMany(
@@ -77,4 +78,7 @@ export class BreadShop {
     (breadShopHoliday) => breadShopHoliday.breadShop
   )
   holidays!: BreadShopHoliday[];
+
+  @OneToMany(() => BreadShopKind, (breadShopKind) => breadShopKind.breadShop)
+  breadShopKinds!: BreadShopKind[];
 }

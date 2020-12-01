@@ -16,6 +16,7 @@ import eventRouter from './routes/admin-event';
 import shopRouter from './routes/admin-shop';
 import youtubeRouter from './routes/admin-youtube';
 import breadShopRouter from './routes/admin-bread-shop';
+import breadRouter from './routes/admin-bread';
 import uploadRouter from './routes/image-upload';
 
 import { NotFoundError } from './errors/not-found-error';
@@ -60,6 +61,7 @@ app.use('/admin/notice', noticeRouter);
 app.use('/admin/event', eventRouter);
 app.use('/admin/shop', shopRouter);
 app.use('/admin/youtube', youtubeRouter);
+app.use('/admin/bread', breadRouter);
 app.use('/admin/bread/shop', breadShopRouter);
 app.use('/upload', uploadRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

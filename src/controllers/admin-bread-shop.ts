@@ -12,6 +12,8 @@ import { kakaoAddress } from '../services/kakao-address';
 import { BreadShopAddressRepository } from '../repository/bread-shop-address-repository';
 import { ShopUserRepository } from '../repository/shop-repository';
 import { GoneRequestError } from '../errors/gone-request.error';
+import { BreadShopKindRepository } from '../repository/bread-shop-kind-repository';
+import { Bread } from '../entity/bread';
 
 interface IBreadShopCreate {
   title: string;
@@ -25,6 +27,7 @@ interface IBreadShopCreate {
   imageUrlShop: string[];
   imageUrlMenu: string[];
   day: string[];
+  breadId: number[];
 }
 
 export const breadShopList = async (
@@ -64,6 +67,7 @@ export const breadShopCreate = async (
       day,
       imageUrlShop,
       imageUrlMenu,
+      breadId,
     } = req.body as IBreadShopCreate;
     imageUrlShop.forEach((imageShop) => {
       if (!linkReg(imageShop)) {
@@ -129,6 +133,12 @@ export const breadShopCreate = async (
       );
       await breadShopHolidayRepository.createAndSave(day[i], breadShopData);
     }
+    for (let i = 0; i < breadId.length; i++) {
+      const breadShopKindRepository = getCustomRepository(
+        BreadShopKindRepository
+      );
+      await breadShopKindRepository.createAndSave(breadShopData, breadId[i]);
+    }
     res.status(201).json({
       status: 201,
       message: 'success',
@@ -158,6 +168,7 @@ export const breadShopUpdate = async (
       day,
       imageUrlShop,
       imageUrlMenu,
+      breadId,
     } = req.body as IBreadShopCreate;
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const breadShopInfo = await breadShopRepository.findByIdCheck(
@@ -171,13 +182,41 @@ export const breadShopUpdate = async (
     if (!shopInfo) {
       throw new GoneRequestError('빵집 회원이 존재하지 않습니다.');
     }
+    const breadShopKindRepository = getCustomRepository(
+      BreadShopKindRepository
+    );
+    const breadShopKindInfo = await breadShopKindRepository.listAndShopId(
+      Number(breadShopId)
+    );
     const newBreadShopImageArray = [] as string[];
     const deleteBreadShopImageArray = [] as number[];
     const newBreadShopMenuImageArray = [] as string[];
     const deleteBreadShopMenuImageArray = [] as number[];
     const newBreadShopDayArray = [] as string[];
     const deleteBreadShopDayArray = [] as number[];
+    const newBreadShopKindArray = [] as number[];
+    const deleteBreadShopKindArray = [] as number[];
     const { images, menuImages, holidays } = breadShopInfo;
+    if (breadId.length) {
+      breadId.forEach((newBreadShopKind) => {
+        const checkKindId = breadShopKindInfo.some(
+          (breadShopKind: any) =>
+            Number(breadShopKind.bread.id) === Number(newBreadShopKind)
+        );
+        if (!checkKindId) {
+          newBreadShopKindArray.push(Number(newBreadShopKind));
+        }
+      });
+      breadShopKindInfo.forEach((deleteBreadShopKind: any) => {
+        const checkKindId = breadId.some(
+          (breadShopKind) =>
+            Number(breadShopKind) === Number(deleteBreadShopKind.bread.id)
+        );
+        if (!checkKindId) {
+          deleteBreadShopKindArray.push(deleteBreadShopKind.bread.id);
+        }
+      });
+    }
     if (imageUrlShop.length) {
       imageUrlShop.forEach((newBreadShopImage) => {
         const checkImage = images.some(
@@ -236,6 +275,26 @@ export const breadShopUpdate = async (
     } else {
       holidays.forEach((holiday) => {
         deleteBreadShopDayArray.push(holiday.id);
+      });
+    }
+    if (imageUrlMenu.length) {
+      imageUrlMenu.forEach((newBreadShopMenuImage) => {
+        const checkImage = menuImages.some(
+          (breadShopMenuImage) =>
+            breadShopMenuImage.imageUrl === newBreadShopMenuImage
+        );
+        if (!checkImage) {
+          newBreadShopMenuImageArray.push(newBreadShopMenuImage);
+        }
+      });
+      menuImages.forEach((deleteBreadShopMenuImage) => {
+        const checkImage = imageUrlMenu.some(
+          (breadShopMenuImage) =>
+            breadShopMenuImage === deleteBreadShopMenuImage.imageUrl
+        );
+        if (!checkImage) {
+          deleteBreadShopMenuImageArray.push(deleteBreadShopMenuImage.id);
+        }
       });
     }
     let breadShopAddressData = null;
@@ -314,6 +373,15 @@ export const breadShopUpdate = async (
     }
     if (deleteBreadShopDayArray.length) {
       await breadShopHolidayRepository.deleteById(deleteBreadShopDayArray);
+    }
+    for (let i = 0; i < newBreadShopKindArray.length; i++) {
+      await breadShopKindRepository.createAndSave(
+        breadShopInfo,
+        newBreadShopKindArray[i]
+      );
+    }
+    if (deleteBreadShopKindArray.length) {
+      await breadShopKindRepository.deleteById(deleteBreadShopKindArray);
     }
     res.status(201).json({
       status: 201,

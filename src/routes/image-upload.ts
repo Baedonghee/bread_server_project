@@ -41,4 +41,11 @@ router.post(
   uploadListImage
 );
 
+router.post(
+  '/bread',
+  currentUser,
+  upload('bread').array('imgFile', 8),
+  uploadListImage
+);
+
 export default router;

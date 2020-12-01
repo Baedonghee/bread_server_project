@@ -5,6 +5,7 @@ import { Event } from './event';
 import { Notice } from './notice';
 import { ShopUser } from './shop-user';
 import { BreadShop } from './bread-shop';
+import { Bread } from './bread';
 
 @Entity()
 export class AdminUser {
@@ -58,4 +59,7 @@ export class AdminUser {
 
   @OneToMany(() => BreadShop, (breadShop) => breadShop.admin)
   breadShops!: BreadShop[];
+
+  @OneToMany(() => Bread, (bread) => bread.admin)
+  breads!: Bread[];
 }
