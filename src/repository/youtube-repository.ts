@@ -24,6 +24,7 @@ export class YoutubeRepository extends Repository<Youtube> {
     return this.createQueryBuilder('youtube')
       .leftJoin('youtube.admin', 'admin')
       .select(['youtube', 'admin.email', 'admin.name'])
+      .orderBy('youtube.id', 'DESC')
       .getMany();
   }
 

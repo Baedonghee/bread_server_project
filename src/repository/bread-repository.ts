@@ -17,6 +17,7 @@ export class BreadRepository extends Repository<Bread> {
       .leftJoin('bread.admin', 'admin')
       .leftJoin('bread.images', 'breadImage')
       .select(['bread', 'breadImage'])
+      .orderBy('bread.id', 'DESC')
       .getMany();
   }
 

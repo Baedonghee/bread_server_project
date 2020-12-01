@@ -51,6 +51,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
         'admin.email',
         'admin.name',
       ])
+      .orderBy('breadShop.id', 'DESC')
       .getMany();
   }
 

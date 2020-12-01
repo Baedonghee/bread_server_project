@@ -24,6 +24,7 @@ export class ShopUserRepository extends Repository<ShopUser> {
     return this.createQueryBuilder('shopUser')
       .leftJoin('shopUser.admin', 'admin')
       .select(['shopUser', 'admin.email', 'admin.name'])
+      .orderBy('shopUser.id', 'DESC')
       .getMany();
   }
 

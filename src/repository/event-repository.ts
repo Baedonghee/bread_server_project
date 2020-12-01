@@ -33,7 +33,8 @@ export class EventRepository extends Repository<Event> {
       .leftJoin('event.admin', 'admin')
       .select(['event', 'admin.email', 'admin.name'])
       .offset((page - 1) * limit)
-      .limit(limit);
+      .limit(limit)
+      .orderBy('event.id', 'DESC');
     if (startAt) {
       query.where('event.startAt >= :startAt', { startAt });
     }
