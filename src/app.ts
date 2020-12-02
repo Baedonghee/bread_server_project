@@ -18,6 +18,7 @@ import youtubeRouter from './routes/admin-youtube';
 import breadShopRouter from './routes/admin-bread-shop';
 import breadRouter from './routes/admin-bread';
 import uploadRouter from './routes/image-upload';
+import healthRouter from './routes/health-check';
 
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
@@ -64,6 +65,7 @@ app.use('/admin/youtube', youtubeRouter);
 app.use('/admin/bread', breadRouter);
 app.use('/admin/bread/shop', breadShopRouter);
 app.use('/upload', uploadRouter);
+app.use('/health', healthRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.all('*', (_req, _res) => {
