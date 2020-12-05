@@ -68,7 +68,7 @@ app.use('/upload', uploadRouter);
 app.use('/health', healthRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.all('*', (_req, _res) => {
+app.all('*', (_req, _res, _next) => {
   throw new NotFoundError();
 });
 
