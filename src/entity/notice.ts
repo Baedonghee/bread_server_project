@@ -15,7 +15,7 @@ export class Notice {
   @Column({ nullable: false })
   title!: string;
 
-  @Column({ nullable: false })
+  @Column({ type: 'text', nullable: false })
   content!: string;
 
   @Column({
