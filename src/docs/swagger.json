@@ -216,6 +216,40 @@
         "tags": ["admin notice"],
         "summary": "공지사항 전체조회",
         "operationId": "allNotice",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "공지사항 페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "공지사항 사이즈",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "공지사항 시작날짜",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "공지사항 제목",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Invalid input"
@@ -316,7 +350,7 @@
       },
       "put": {
         "tags": ["admin notice"],
-        "summary": "공지사항 상세조회",
+        "summary": "공지사항 수정",
         "operationId": "oneNoticePut",
         "parameters": [
           {
@@ -375,7 +409,7 @@
       },
       "delete": {
         "tags": ["admin notice"],
-        "summary": "공지사항 상세조회",
+        "summary": "공지사항 삭제",
         "operationId": "oneNoticeDelete",
         "parameters": [
           {
@@ -412,6 +446,48 @@
         "tags": ["admin event"],
         "summary": "이벤트 전체조회",
         "operationId": "allEvent",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "이벤트 페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "이벤트 사이즈",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "이벤트 시작날짜",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "이벤트 시작날짜",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "이벤트 제목",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Invalid input"
@@ -487,7 +563,7 @@
     "/admin/event/{eventId}": {
       "get": {
         "tags": ["admin event"],
-        "summary": "공지사항 상세조회",
+        "summary": "이벤트 상세조회",
         "operationId": "oneEvent",
         "parameters": [
           {
