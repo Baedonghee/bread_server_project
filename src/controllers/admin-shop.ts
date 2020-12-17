@@ -10,18 +10,36 @@ interface IShopCreate {
   imageUrl?: string;
 }
 
+interface IShopListQuery {
+  page?: number;
+  limit?: number;
+  name?: string;
+  valid?: string;
+}
+
 export const shopList = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const { page, limit, name, valid } = req.query as IShopListQuery;
     const shopRepository = getCustomRepository(ShopUserRepository);
-    const shopArray = await shopRepository.list();
+    const [shopArray, sum] = await shopRepository.list(
+      Number(page) || 1,
+      Number(limit) || 20,
+      name || undefined,
+      valid ? (valid === 'true' ? true : false) : undefined
+    );
     res.status(200).json({
       status: 200,
       message: 'success',
       list: shopArray,
+      pagination: {
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
+        limit: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
     });
   } catch (err) {
     next(err);

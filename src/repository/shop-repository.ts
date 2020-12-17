@@ -20,12 +20,20 @@ export class ShopUserRepository extends Repository<ShopUser> {
     return this.manager.save(shopUser);
   }
 
-  list() {
-    return this.createQueryBuilder('shopUser')
+  list(page: number, limit: number, name?: string, valid?: boolean) {
+    const query = this.createQueryBuilder('shopUser')
       .leftJoin('shopUser.admin', 'admin')
       .select(['shopUser', 'admin.email', 'admin.name'])
-      .orderBy('shopUser.id', 'DESC')
-      .getMany();
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('shopUser.id', 'DESC');
+    if (name) {
+      query.where('shopUser.name like :name', { name: `%${name}%` });
+    }
+    if (valid !== undefined) {
+      query.where('shopUser.enabled = :valid', { valid });
+    }
+    return query.getManyAndCount();
   }
 
   findById(id: number) {

@@ -697,6 +697,40 @@
         "tags": ["admin shop"],
         "summary": "빵집회원 전체조회",
         "operationId": "allShop",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "빵집회원 페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "빵집회원 사이즈",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "빵집회원 제목",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "valid",
+            "in": "query",
+            "description": "빵집회원 탈퇴여부",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Invalid input"
