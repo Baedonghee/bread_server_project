@@ -26,10 +26,10 @@ export class NoticeRepository extends Repository<Notice> {
       .limit(limit)
       .orderBy('notice.id', 'DESC');
     if (startAt) {
-      query.where('notice.startAt >= :startAt', { startAt });
+      query.andWhere('notice.startAt >= :startAt', { startAt });
     }
     if (title) {
-      query.where('notice.title like :title', { title: `%${title}%` });
+      query.andWhere('notice.title like :title', { title: `%${title}%` });
     }
 
     return query.getManyAndCount();

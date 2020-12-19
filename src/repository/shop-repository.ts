@@ -28,10 +28,10 @@ export class ShopUserRepository extends Repository<ShopUser> {
       .limit(limit)
       .orderBy('shopUser.id', 'DESC');
     if (name) {
-      query.where('shopUser.name like :name', { name: `%${name}%` });
+      query.andWhere('shopUser.name like :name', { name: `%${name}%` });
     }
     if (valid !== undefined) {
-      query.where('shopUser.enabled = :valid', { valid });
+      query.andWhere('shopUser.enabled = :valid', { valid });
     }
     return query.getManyAndCount();
   }

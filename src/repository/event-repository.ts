@@ -36,13 +36,13 @@ export class EventRepository extends Repository<Event> {
       .limit(limit)
       .orderBy('event.id', 'DESC');
     if (startAt) {
-      query.where('event.startAt >= :startAt', { startAt });
+      query.andWhere('event.startAt >= :startAt', { startAt });
     }
     if (endAt) {
-      query.where('event.endAt <= :endAt', { endAt });
+      query.andWhere('event.endAt <= :endAt', { endAt });
     }
     if (title) {
-      query.where('event.title like :title', { title: `%${title}%` });
+      query.andWhere('event.title like :title', { title: `%${title}%` });
     }
     return query.getManyAndCount();
   }
