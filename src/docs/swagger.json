@@ -903,7 +903,7 @@
           }
         ],
         "requestBody": {
-          "description": "공지사항 등록 파라미터",
+          "description": "빵집 회원 파라미터",
           "content": {
             "application/json": {
               "schema": {
@@ -1437,6 +1437,32 @@
         "tags": ["admin bread"],
         "summary": "빵 전체조회",
         "operationId": "allBread",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "공지사항 페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "공지사항 사이즈",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "공지사항 제목",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Invalid input"
@@ -1722,6 +1748,47 @@
                   "imgFile": {
                     "type": "string",
                     "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/upload/bread": {
+      "post": {
+        "tags": ["image upload"],
+        "summary": "빵 이미지 업로드",
+        "operationId": "uploadBreadImage",
+        "requestBody": {
+          "description": "빵 이미지 등록 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imgFile": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
                   }
                 }
               }

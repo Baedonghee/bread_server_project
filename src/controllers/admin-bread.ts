@@ -12,18 +12,34 @@ interface IBreadCreate {
   imageUrl: string[];
 }
 
+interface IBreadListQuery {
+  page?: number;
+  limit?: number;
+  title?: string;
+}
+
 export const breadList = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const { page, limit, title } = req.query as IBreadListQuery;
     const breadRepository = getCustomRepository(BreadRepository);
-    const breadArray = await breadRepository.list();
+    const [breadArray, sum] = await breadRepository.list(
+      Number(page) || 1,
+      Number(limit) || 20,
+      title || undefined
+    );
     res.status(200).json({
       status: 200,
       message: 'success',
       list: breadArray,
+      pagination: {
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
+        limit: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
     });
   } catch (err) {
     next(err);

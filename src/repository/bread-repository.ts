@@ -12,13 +12,16 @@ export class BreadRepository extends Repository<Bread> {
     return this.manager.save(bread);
   }
 
-  list() {
-    return this.createQueryBuilder('bread')
+  list(page: number, limit: number, title?: string) {
+    const query = this.createQueryBuilder('bread')
       .leftJoin('bread.admin', 'admin')
       .leftJoin('bread.images', 'breadImage')
       .select(['bread', 'breadImage'])
-      .orderBy('bread.id', 'DESC')
-      .getMany();
+      .orderBy('bread.id', 'DESC');
+    if (title) {
+      query.andWhere('bread.title like :title', { title: `%${title}%` });
+    }
+    return query.getManyAndCount();
   }
 
   findById(id: number) {
