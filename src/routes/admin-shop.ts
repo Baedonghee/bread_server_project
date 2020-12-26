@@ -68,7 +68,7 @@ router.put(
   shopUpdate
 );
 
-router.post(
+router.put(
   '/:shopId/valid',
   [
     param('shopId')
