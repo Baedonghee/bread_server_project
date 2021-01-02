@@ -887,7 +887,7 @@
       }
     },
     "/admin/shop/{shopId}/valid": {
-      "put": {
+      "patch": {
         "tags": ["admin shop"],
         "summary": "빵집회원 유효값 변경",
         "operationId": "postShopValid",
