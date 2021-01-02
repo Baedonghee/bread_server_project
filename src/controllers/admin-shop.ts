@@ -128,8 +128,8 @@ export const shopValid = async (
     const { enabled } = req.body as { enabled: boolean };
     const shopRepository = getCustomRepository(ShopUserRepository);
     await shopRepository.updateAndEnable(Number(shopId), enabled);
-    res.status(200).json({
-      status: 200,
+    res.status(201).json({
+      status: 201,
       meesage: 'success',
     });
   } catch (err) {
