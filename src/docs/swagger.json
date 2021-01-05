@@ -1148,6 +1148,32 @@
         "tags": ["admin bread shop"],
         "summary": "빵집 전체조회",
         "operationId": "allBreadShop",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "빵집 페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "빵집 사이즈",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "빵집 제목",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Invalid input"
@@ -1441,7 +1467,7 @@
           {
             "name": "page",
             "in": "query",
-            "description": "공지사항 페이지",
+            "description": "빵 페이지",
             "schema": {
               "type": "number"
             }
@@ -1449,7 +1475,7 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "공지사항 사이즈",
+            "description": "빵 사이즈",
             "schema": {
               "type": "number"
             }
@@ -1457,7 +1483,7 @@
           {
             "name": "title",
             "in": "query",
-            "description": "공지사항 제목",
+            "description": "빵 제목",
             "schema": {
               "type": "string"
             }

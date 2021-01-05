@@ -17,6 +17,8 @@ export class BreadRepository extends Repository<Bread> {
       .leftJoin('bread.admin', 'admin')
       .leftJoin('bread.images', 'breadImage')
       .select(['bread', 'breadImage'])
+      .offset((page - 1) * limit)
+      .limit(limit)
       .orderBy('bread.id', 'DESC');
     if (title) {
       query.andWhere('bread.title like :title', { title: `%${title}%` });

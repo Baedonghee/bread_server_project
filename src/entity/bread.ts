@@ -25,7 +25,9 @@ export class Bread {
   @JoinColumn({ name: 'admin_id' })
   admin!: AdminUser;
 
-  @OneToMany(() => BreadImage, (breadImage) => breadImage.bread)
+  @OneToMany(() => BreadImage, (breadImage) => breadImage.bread, {
+    eager: true,
+  })
   images!: BreadImage[];
 
   @OneToMany(() => BreadShopKind, (breadShopKind) => breadShopKind.bread)

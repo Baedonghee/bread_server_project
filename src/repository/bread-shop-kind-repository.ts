@@ -4,10 +4,10 @@ import { BreadShopKind } from '../entity/bread-shop-kind';
 
 @EntityRepository(BreadShopKind)
 export class BreadShopKindRepository extends Repository<BreadShopKind> {
-  createAndSave(breadShop: BreadShop, breadId: number) {
+  createAndSave(breadShop: BreadShop, bread: number) {
     const breadShopKind = new BreadShopKind();
     breadShopKind.breadShop = breadShop;
-    breadShopKind.bread = breadId;
+    breadShopKind.bread = bread;
     return this.manager.save(breadShopKind);
   }
 
@@ -18,6 +18,7 @@ export class BreadShopKindRepository extends Repository<BreadShopKind> {
       .select(['breadShopKind', 'bread'])
       .getMany();
   }
+
   deleteById(ids: number[]) {
     return this.delete(ids);
   }

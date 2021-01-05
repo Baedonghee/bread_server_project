@@ -13,7 +13,8 @@ import { BreadShopAddressRepository } from '../repository/bread-shop-address-rep
 import { ShopUserRepository } from '../repository/shop-repository';
 import { GoneRequestError } from '../errors/gone-request.error';
 import { BreadShopKindRepository } from '../repository/bread-shop-kind-repository';
-import { Bread } from '../entity/bread';
+import { BreadShopResult } from '../result/bread-shop/bread-shop-result';
+import { BreadShopListResult } from '../result/bread-shop/bread-shop-list-result';
 
 interface IBreadShopCreate {
   title: string;
@@ -30,20 +31,42 @@ interface IBreadShopCreate {
   breadId: number[];
 }
 
+interface IBreadShopListQuery {
+  page?: number;
+  limit?: number;
+  title?: string;
+}
+
 export const breadShopList = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const { page, limit, title } = req.query as IBreadShopListQuery;
     const breadShopRepository = getCustomRepository(BreadShopRepository);
-    const breadShopArray = await breadShopRepository.list();
+    const [breadShopArray, sum] = await breadShopRepository.list(
+      Number(page) || 1,
+      Number(limit) || 20,
+      title || undefined
+    );
+    const list = [] as any;
+    breadShopArray.forEach((breadShopData) => {
+      const breadMakeResult = new BreadShopListResult(breadShopData);
+      list.push(breadMakeResult);
+    });
     res.status(200).json({
       status: 200,
       message: 'success',
-      list: breadShopArray,
+      list,
+      pagination: {
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
+        limit: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
@@ -133,11 +156,14 @@ export const breadShopCreate = async (
       );
       await breadShopHolidayRepository.createAndSave(day[i], breadShopData);
     }
+    const breadShopKindRepository = getCustomRepository(
+      BreadShopKindRepository
+    );
     for (let i = 0; i < breadId.length; i++) {
-      const breadShopKindRepository = getCustomRepository(
-        BreadShopKindRepository
+      await breadShopKindRepository.createAndSave(
+        breadShopData,
+        Number(breadId[i])
       );
-      await breadShopKindRepository.createAndSave(breadShopData, breadId[i]);
     }
     res.status(201).json({
       status: 201,
@@ -377,7 +403,7 @@ export const breadShopUpdate = async (
     for (let i = 0; i < newBreadShopKindArray.length; i++) {
       await breadShopKindRepository.createAndSave(
         breadShopInfo,
-        newBreadShopKindArray[i]
+        Number(newBreadShopKindArray[i])
       );
     }
     if (deleteBreadShopKindArray.length) {
@@ -400,16 +426,17 @@ export const breadShopDetail = async (
   try {
     const { breadShopId } = req.params;
     const breadShopRepository = getCustomRepository(BreadShopRepository);
-    const breadShopInfo = await breadShopRepository.findById(
+    const breadShopInfo = await breadShopRepository.findByIdWithBread(
       Number(breadShopId)
     );
     if (!breadShopInfo) {
       throw new GoneRequestError('존재하지 않는 빵집 입니다.');
     }
+    const breadMakeResult = new BreadShopResult(breadShopInfo);
     res.status(200).json({
       status: 200,
       message: 'success',
-      data: breadShopInfo,
+      data: breadMakeResult,
     });
   } catch (err) {
     next(err);

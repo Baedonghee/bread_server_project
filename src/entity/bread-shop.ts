@@ -24,7 +24,7 @@ export class BreadShop {
   title!: string;
 
   @Column({ nullable: false })
-  link?: string;
+  link!: string;
 
   @Column({ name: 'parking_enabled', nullable: false })
   parkingEnabled!: boolean;

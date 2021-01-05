@@ -1,21 +1,20 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Bread } from './bread';
 import { BreadShop } from './bread-shop';
 
 @Entity()
 export class BreadShopKind {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
   @ManyToOne(() => BreadShop, (breadShop) => breadShop.breadShopKinds, {
     onDelete: 'CASCADE',
+    primary: true,
   })
-  @JoinColumn({ name: 'bread_shop_id' })
+  @JoinColumn({ name: 'breadShopId' })
   breadShop!: BreadShop;
 
-  @ManyToOne(() => Bread, (breadShop) => breadShop.breadShopKinds, {
+  @ManyToOne(() => Bread, (bread) => bread.breadShopKinds, {
     onDelete: 'CASCADE',
+    primary: true,
   })
-  @JoinColumn({ name: 'bread_id' })
+  @JoinColumn({ name: 'breadId' })
   bread!: number;
 }

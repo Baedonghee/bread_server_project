@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
-import { AdminUser } from '../entity/admin-user';
 
 import { BadRequestError } from '../errors/bad-request-error';
 import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
