@@ -16,4 +16,7 @@ export class BreadShopAddress {
 
   @Column({ name: 'zibun_address' })
   zibunAddress!: string;
+
+  @Column({ name: 'detail_address' })
+  detailAddress!: string;
 }

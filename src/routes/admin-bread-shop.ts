@@ -55,6 +55,10 @@ router.post(
       .withMessage('경도를 입력해주세요.')
       .isNumeric()
       .withMessage('경도 형식을 확인해주세요.'),
+    body('address')
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage('상세주소를 입력해주세요.'),
     body('day').isArray().withMessage('휴일 형식을 확인해주세요.'),
     body('imageUrlShop').isArray().withMessage('빵집 이미지를 첨부해주세요.'),
     body('imageUrlMenu')
@@ -120,6 +124,10 @@ router.put(
       .withMessage('경도를 입력해주세요.')
       .isNumeric()
       .withMessage('경도 형식을 확인해주세요.'),
+    body('address')
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage('상세주소를 입력해주세요.'),
     body('imageUrlShop').isArray().withMessage('빵집 이미지를 첨부해주세요.'),
     body('imageUrlMenu')
       .isArray()

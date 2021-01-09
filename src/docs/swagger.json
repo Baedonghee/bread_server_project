@@ -40,6 +40,10 @@
       "description": "관리자 빵집 정보입니다."
     },
     {
+      "name": "utils",
+      "description": "유틸 관련 정보입니다."
+    },
+    {
       "name": "image upload",
       "description": "업로드 정보입니다."
     }
@@ -1236,6 +1240,10 @@
                     "type": "integer",
                     "example": 126.858571
                   },
+                  "address": {
+                    "type": "string",
+                    "example": "써밋플레이스 104동"
+                  },
                   "imageUrlShop": {
                     "type": "array",
                     "items": {
@@ -1374,6 +1382,10 @@
                   "lon": {
                     "type": "integer",
                     "example": 126.858571
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "써밋플레이스 104동"
                   },
                   "imageUrlShop": {
                     "type": "array",
@@ -1546,6 +1558,56 @@
           },
           "400": {
             "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/util/address": {
+      "get": {
+        "tags": ["utils"],
+        "summary": "주소조회",
+        "operationId": "allAddress",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "주소 페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "주소 사이즈",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "주소 제목",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
           }
         },
         "security": [

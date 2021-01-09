@@ -7,13 +7,15 @@ export class BreadShopAddressRepository extends Repository<BreadShopAddress> {
     lat: number,
     lon: number,
     roadAddress: string,
-    zibunAddress: string
+    zibunAddress: string,
+    detailAddress: string
   ) {
     const breadShopAddress = new BreadShopAddress();
     breadShopAddress.lat = lat;
     breadShopAddress.lon = lon;
     breadShopAddress.roadAddress = roadAddress || '';
     breadShopAddress.zibunAddress = zibunAddress;
+    breadShopAddress.detailAddress = detailAddress;
     return this.manager.save(breadShopAddress);
   }
   deleteById(id: number) {

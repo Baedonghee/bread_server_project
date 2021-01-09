@@ -25,6 +25,7 @@ interface IBreadShopCreate {
   shopUserId: number;
   lat: number;
   lon: number;
+  address: string;
   imageUrlShop: string[];
   imageUrlMenu: string[];
   day: string[];
@@ -87,6 +88,7 @@ export const breadShopCreate = async (
       shopUserId,
       lat,
       lon,
+      address,
       day,
       imageUrlShop,
       imageUrlMenu,
@@ -107,7 +109,7 @@ export const breadShopCreate = async (
     if (!shopInfo) {
       throw new GoneRequestError('빵집 회원이 존재하지 않습니다.');
     }
-    const address = (await kakaoAddress(lon, lat)) as {
+    const addressResult = (await kakaoAddress(lon, lat)) as {
       roadAddress: string;
       zibunAddress: string;
     };
@@ -118,8 +120,9 @@ export const breadShopCreate = async (
     const breadShopAddressData = await breadShopAddressRepository.createAndSave(
       lat,
       lon,
-      address.roadAddress,
-      address.zibunAddress
+      addressResult.roadAddress,
+      addressResult.zibunAddress,
+      address
     );
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const breadShopData = await breadShopRepository.createAndSave(
@@ -191,6 +194,7 @@ export const breadShopUpdate = async (
       shopUserId,
       lat,
       lon,
+      address,
       day,
       imageUrlShop,
       imageUrlMenu,
@@ -336,15 +340,16 @@ export const breadShopUpdate = async (
       } = breadShopInfo.address;
       if (beforeLat !== Number(lat) || beforeLon !== Number(lon)) {
         deleteAddressId = addressId;
-        const address = (await kakaoAddress(lon, lat)) as {
+        const addressResult = (await kakaoAddress(lon, lat)) as {
           roadAddress: string;
           zibunAddress: string;
         };
         breadShopAddressData = await breadShopAddressRepository.createAndSave(
           lat,
           lon,
-          address.roadAddress,
-          address.zibunAddress
+          addressResult.roadAddress,
+          addressResult.zibunAddress,
+          address
         );
       }
     }
