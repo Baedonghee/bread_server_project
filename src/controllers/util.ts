@@ -49,7 +49,7 @@ export const addressList = async (
       totalCount: meta.total_count,
     };
     res.status(200).json({
-      status: 201,
+      status: 200,
       data: {
         list: addressList,
         pagination: total,
