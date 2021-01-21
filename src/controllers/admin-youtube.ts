@@ -11,14 +11,25 @@ interface IYoutubeCreate {
   breadId: number;
 }
 
+interface IYoutubeListQuery {
+  page?: number;
+  limit?: number;
+  title?: string;
+}
+
 export const youtubeList = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const { page, limit, title } = req.query as IYoutubeListQuery;
     const youtubeRepository = getCustomRepository(YoutubeRepository);
-    const youtubeArray = await youtubeRepository.list();
+    const youtubeArray = await youtubeRepository.list(
+      Number(page) || 1,
+      Number(limit) || 20,
+      title || undefined
+    );
     res.status(200).json({
       status: 200,
       message: 'success',

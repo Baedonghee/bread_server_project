@@ -948,6 +948,32 @@
         "tags": ["admin youtube"],
         "summary": "유튜브 전체조회",
         "operationId": "allYoutube",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "유튜브 페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "유튜브 사이즈",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "유튜브 제목",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "400": {
             "description": "Invalid input"

@@ -20,12 +20,17 @@ export class YoutubeRepository extends Repository<Youtube> {
     return this.manager.save(youtube);
   }
 
-  list() {
-    return this.createQueryBuilder('youtube')
+  list(page: number, limit: number, title?: string) {
+    const query = this.createQueryBuilder('youtube')
       .leftJoin('youtube.admin', 'admin')
       .select(['youtube', 'admin.email', 'admin.name'])
-      .orderBy('youtube.id', 'DESC')
-      .getMany();
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('youtube.id', 'DESC');
+    if (title) {
+      query.andWhere('youtube.title like :title', { title: `%${title}%` });
+    }
+    return query.getManyAndCount();
   }
 
   findById(id: number) {
