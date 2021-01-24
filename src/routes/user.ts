@@ -2,15 +2,14 @@ import express from 'express';
 import { body } from 'express-validator';
 
 import {
-  adminSignUp,
-  adminSignIn,
-  adminCurrent,
-  adminDetail,
-  adminUpdate,
-  adminSecession,
-  adminLogout,
-} from '../controllers/admin-user';
-import { currentAdmin } from '../middlewares/current-admin';
+  userCurrent,
+  userDetail,
+  userUpdate,
+  userSecession,
+  userLogout,
+} from './../controllers/user';
+import { currentUser } from './../middlewares/current-user';
+import { userSignUp, userSignIn } from '../controllers/user';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
@@ -23,7 +22,7 @@ router.post(
       .isLength({ min: 1 })
       .withMessage('이메일을 입력해주세요.')
       .isEmail()
-      .withMessage('이메일을 형식이 아닙니다.'),
+      .withMessage('이메일 형식이 아닙니다.'),
     body('password')
       .trim()
       .isLength({ min: 1 })
@@ -44,7 +43,7 @@ router.post(
       .withMessage('로그인타입을 보내주세요.'),
   ],
   validateRequest,
-  adminSignUp
+  userSignUp
 );
 
 router.post(
@@ -62,12 +61,12 @@ router.post(
       .withMessage('비밀번호를 입력해주세요.'),
   ],
   validateRequest,
-  adminSignIn
+  userSignIn
 );
 
-router.get('/current', currentAdmin, adminCurrent);
+router.get('/current', currentUser, userCurrent);
 
-router.get('/profile', currentAdmin, adminDetail);
+router.get('/profile', currentUser, userDetail);
 
 router.put(
   '/profile',
@@ -88,12 +87,12 @@ router.put(
       .withMessage('이름을 입력해주세요.'),
   ],
   validateRequest,
-  currentAdmin,
-  adminUpdate
+  currentUser,
+  userUpdate
 );
 
-router.get('/bye', currentAdmin, adminSecession);
+router.get('/bye', currentUser, userSecession);
 
-router.get('/logout', currentAdmin, adminLogout);
+router.get('/logout', currentUser, userLogout);
 
 export default router;

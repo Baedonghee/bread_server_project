@@ -7,12 +7,12 @@ import {
   breadDetail,
   breadDelete,
 } from '../controllers/admin-bread';
-import { currentUser } from '../middlewares/current-admin';
+import { currentAdmin } from '../middlewares/current-admin';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
-router.get('/', currentUser, breadList);
+router.get('/', currentAdmin, breadList);
 
 router.post(
   '/',
@@ -28,7 +28,7 @@ router.post(
     body('imageUrl').isArray().withMessage('빵 이미지를 첨부해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadCreate
 );
 
@@ -43,7 +43,7 @@ router.get(
       .withMessage('빵 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadDetail
 );
 
@@ -67,7 +67,7 @@ router.put(
     body('imageUrl').isArray().withMessage('빵 이미지를 첨부해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadUpdate
 );
 
@@ -82,7 +82,7 @@ router.delete(
       .withMessage('빵 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadDelete
 );
 

@@ -8,12 +8,12 @@ import {
   noticeUpdate,
   noticeDelete,
 } from '../controllers/admin-notice';
-import { currentUser } from '../middlewares/current-admin';
+import { currentAdmin } from '../middlewares/current-admin';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
-router.get('/', currentUser, noticeList);
+router.get('/', currentAdmin, noticeList);
 
 router.post(
   '/',
@@ -36,7 +36,7 @@ router.post(
       .withMessage('날짜 형식이 맞지 않습니다.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   noticeCreate
 );
 
@@ -51,7 +51,7 @@ router.get(
       .withMessage('공지사항 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   noticeDetail
 );
 
@@ -82,7 +82,7 @@ router.put(
       .withMessage('날짜 형식이 맞지 않습니다.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   noticeUpdate
 );
 
@@ -97,7 +97,7 @@ router.delete(
       .withMessage('공지사항 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   noticeDelete
 );
 

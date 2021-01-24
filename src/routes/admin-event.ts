@@ -2,7 +2,7 @@ import express from 'express';
 import { param, body } from 'express-validator';
 
 import { eventDelete, eventUpdate } from './../controllers/admin-event';
-import { currentUser } from './../middlewares/current-admin';
+import { currentAdmin } from './../middlewares/current-admin';
 import {
   eventCreate,
   eventDetail,
@@ -12,7 +12,7 @@ import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
-router.get('/', currentUser, eventList);
+router.get('/', currentAdmin, eventList);
 
 router.post(
   '/',
@@ -47,7 +47,7 @@ router.post(
       .withMessage('마감날짜 형식이 맞지 않습니다.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   eventCreate
 );
 
@@ -62,7 +62,7 @@ router.get(
       .withMessage('이벤트 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   eventDetail
 );
 
@@ -99,7 +99,7 @@ router.put(
       .withMessage('마감날짜 형식이 맞지 않습니다.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   eventUpdate
 );
 
@@ -114,7 +114,7 @@ router.delete(
       .withMessage('이벤트 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   eventDelete
 );
 

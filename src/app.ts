@@ -9,7 +9,8 @@ import { createConnection } from 'typeorm';
 import 'dotenv/config';
 import swaggerUi from 'swagger-ui-express';
 
-import swaggerDocument from './docs/swagger.json';
+import swaggerAdminDocument from './docs/swagger-admin.json';
+import swaggerServiceDocument from './docs/swagger-service.json';
 import adminRouter from './routes/admin-user';
 import noticeRouter from './routes/admin-notice';
 import eventRouter from './routes/admin-event';
@@ -20,6 +21,7 @@ import breadRouter from './routes/admin-bread';
 import uploadRouter from './routes/image-upload';
 import utilRouter from './routes/util';
 import healthRouter from './routes/health-check';
+import userRouter from './routes/user';
 
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
@@ -58,6 +60,7 @@ app.use(
   })
 );
 app.use(morgan('dev'));
+app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/admin/notice', noticeRouter);
 app.use('/admin/event', eventRouter);
@@ -68,7 +71,16 @@ app.use('/admin/bread', breadRouter);
 app.use('/upload', uploadRouter);
 app.use('/util', utilRouter);
 app.use('/health', healthRouter);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(
+  '/api-admin-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerAdminDocument)
+);
+app.use(
+  '/api-service-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerServiceDocument)
+);
 
 app.all('*', (_req, _res) => {
   throw new NotFoundError();

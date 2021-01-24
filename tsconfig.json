@@ -9,10 +9,11 @@
       "target": "es6",
      // 컴파일 된 모듈의 결과물을 어떤 모듈 시스템으로 할 것인지
       "module": "commonjs",
+      "rootDir": "./",
      // ts소스에서 모듈을 사용하는 방식
       "moduleResolution": "node",
      // 컴파일된 js파일을 어디에 둘 것인지
-      "outDir": "dist",
+     "outDir": "./build",
      // TS타입 체크를 엄격할게 할 것인지. 다양한 세부옵션이 있음
       "strict": true,
       "resolveJsonModule": true,

@@ -8,12 +8,12 @@ import {
   shopCreate,
   shopList,
 } from './../controllers/admin-shop';
-import { currentUser } from '../middlewares/current-admin';
+import { currentAdmin } from '../middlewares/current-admin';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
-router.get('/', currentUser, shopList);
+router.get('/', currentAdmin, shopList);
 
 router.post(
   '/',
@@ -29,7 +29,7 @@ router.post(
       .matches(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/)
       .withMessage('핸드폰번호 양식을 맞춰주세요.'),
   ],
-  currentUser,
+  currentAdmin,
   validateRequest,
   shopCreate
 );
@@ -45,7 +45,7 @@ router.get(
       .withMessage('상점 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   shopDetail
 );
 
@@ -64,7 +64,7 @@ router.put(
       .withMessage('핸드폰번호 양식을 맞춰주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   shopUpdate
 );
 
@@ -80,7 +80,7 @@ router.patch(
     body('enabled').isBoolean().withMessage('유효값을 확인해주세요'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   shopValid
 );
 

@@ -1,11 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
 import { getCustomRepository } from 'typeorm';
 import { AdminUser } from './../entity/admin-user';
 import { CurrentAdminForbidden } from '../errors/current-admin-forbidden';
 import { AdminRepository } from '../repository/admin-repository';
 
-interface UserPayload {
+const adminPublicKEY = fs.readFileSync(
+  path.join(__dirname, '../config/admin_public.key'),
+  'utf8'
+);
+
+interface AdminPayload {
   id: number;
   email: string;
   name: string;
@@ -15,15 +22,15 @@ interface UserPayload {
 declare global {
   namespace Express {
     interface Request {
-      currentUser: UserPayload;
+      currentAdmin: AdminPayload;
       adminUser: AdminUser;
     }
   }
 }
 
-export const currentUser = async (
+export const currentAdmin = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   if (!req.headers.authorization) {
@@ -31,10 +38,9 @@ export const currentUser = async (
   }
 
   try {
-    const payload = jwt.verify(
-      req.headers.authorization,
-      process.env.JWT_KEY || ''
-    ) as UserPayload;
+    const payload = jwt.verify(req.headers.authorization, adminPublicKEY, {
+      algorithms: ['RS256'],
+    }) as AdminPayload;
     const { id } = payload;
     const adminRepository = getCustomRepository(AdminRepository);
     const adminUser = await adminRepository.findById(id);
@@ -42,7 +48,7 @@ export const currentUser = async (
       throw new CurrentAdminForbidden('권한이 없습니다.');
     }
     req.adminUser = adminUser;
-    req.currentUser = payload;
+    req.currentAdmin = payload;
   } catch (err) {
     throw new CurrentAdminForbidden('권한이 없습니다.');
   }

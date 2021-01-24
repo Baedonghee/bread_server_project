@@ -15,6 +15,7 @@ export class BreadShopListResult {
   id!: number;
   title!: string;
   link!: string;
+  imageUrl: string;
   shopUser!: IShop;
   bread: IBread[] = [];
 
@@ -33,5 +34,6 @@ export class BreadShopListResult {
       };
       this.bread.push(breadData);
     });
+    this.imageUrl = data.images[0].imageUrl;
   }
 }

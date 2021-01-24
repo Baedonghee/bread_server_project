@@ -1,3 +1,20 @@
+import { AdminUser } from '../../src/entity/admin-user';
+import { User } from '../../src/entity/user';
+
+interface UserPayload {
+  id: number;
+  email: string;
+  name: string;
+  imageUrl: string;
+}
+
+interface AdminPayload {
+  id: number;
+  email: string;
+  name: string;
+  imageUrl: string;
+}
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -6,6 +23,14 @@ declare global {
       DB_USER: string;
       DB_PASSWORD: string;
       JWT_KEY: string;
+    }
+  }
+  namespace Express {
+    interface Request {
+      currentUser: UserPayload;
+      user: User;
+      currentAdmin: AdminPayload;
+      adminUser: AdminUser;
     }
   }
 }

@@ -34,6 +34,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
       .innerJoinAndSelect('breadShopKinds.bread', 'bread')
       .innerJoinAndSelect('breadShop.address', 'breadShopAddress')
       .innerJoinAndSelect('breadShop.shopUser', 'shopUser')
+      .innerJoinAndSelect('breadShop.images', 'breadShopImage')
       .offset((page - 1) * limit)
       .limit(limit)
       .orderBy('breadShop.id', 'DESC');

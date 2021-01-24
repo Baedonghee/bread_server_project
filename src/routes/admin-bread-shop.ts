@@ -7,12 +7,12 @@ import {
   breadShopDetail,
   breadShopUpdate,
 } from '../controllers/admin-bread-shop';
-import { currentUser } from '../middlewares/current-admin';
+import { currentAdmin } from '../middlewares/current-admin';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
-router.get('/', currentUser, breadShopList);
+router.get('/', currentAdmin, breadShopList);
 
 router.post(
   '/',
@@ -73,7 +73,7 @@ router.post(
     body('breadId').isArray().withMessage('빵 id 형식을 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadShopCreate
 );
 
@@ -141,7 +141,7 @@ router.put(
     body('breadId').isArray().withMessage('빵 id 형식을 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadShopUpdate
 );
 
@@ -156,7 +156,7 @@ router.get(
       .withMessage('빵집 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadShopDetail
 );
 
@@ -171,7 +171,7 @@ router.delete(
       .withMessage('빵집 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   breadShopDelete
 );
 

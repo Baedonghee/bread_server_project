@@ -6,12 +6,12 @@ import {
   youtubeList,
   youtubeDetail,
 } from '../controllers/admin-youtube';
-import { currentUser } from '../middlewares/current-admin';
+import { currentAdmin } from '../middlewares/current-admin';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
-router.get('/', currentUser, youtubeList);
+router.get('/', currentAdmin, youtubeList);
 
 router.post(
   '/',
@@ -38,7 +38,7 @@ router.post(
       .withMessage('빵집 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   youtubeCreate
 );
 
@@ -53,7 +53,7 @@ router.get(
       .withMessage('유튜브 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   youtubeDetail
 );
 
@@ -88,7 +88,7 @@ router.put(
       .withMessage('빵집 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   youtubeUpdate
 );
 
@@ -103,7 +103,7 @@ router.delete(
       .withMessage('유튜브 번호를 확인해주세요.'),
   ],
   validateRequest,
-  currentUser,
+  currentAdmin,
   youtubeDelete
 );
 

@@ -1,0 +1,249 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "빵순이빵돌이 서비스 서버",
+    "description": "빵순이빵돌이 서비스 서버 api 문서 입니다.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "user",
+      "description": "회원 정보입니다."
+    }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/user/signin": {
+      "post": {
+        "tags": ["user"],
+        "summary": "회원 로그인",
+        "operationId": "userSignin",
+        "requestBody": {
+          "description": "회원 로그인 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "appleehdgml@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "zaq1234!"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/signup": {
+      "post": {
+        "tags": ["user"],
+        "summary": "회원 회원가입",
+        "operationId": "userSignup",
+        "requestBody": {
+          "description": "회원 회원가입 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password", "name", "gender", "age", "type"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "appleehdgml@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "zaq1234!"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "example": "https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/breadShop/1608639407507.jpeg"
+                  },
+                  "gender": {
+                    "type": "boolean",
+                    "example": "true"
+                  },
+                  "age": {
+                    "type": "number",
+                    "example": "27"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "가입 종류",
+                    "enum": ["bread", "google", "facebook", "kakao"]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/current": {
+      "get": {
+        "tags": ["user"],
+        "summary": "회원 정보",
+        "operationId": "userCurrent",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "tags": ["user"],
+        "summary": "회원 프로필 조회",
+        "operationId": "userProfileGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "put": {
+        "tags": ["user"],
+        "summary": "회원 프로필 수정",
+        "operationId": "userProfilePut",
+        "requestBody": {
+          "description": "회원 수정 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["password", "name", "gender", "age", "type"],
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "zaq1234!"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "imageUrl": {
+                    "type": "string",
+                    "example": "https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/breadShop/1608639407507.jpeg"
+                  },
+                  "gender": {
+                    "type": "boolean",
+                    "example": "true"
+                  },
+                  "age": {
+                    "type": "number",
+                    "example": "27"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "가입 종류",
+                    "enum": ["bread", "google", "facebook", "kakao"]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/bye": {
+      "get": {
+        "tags": ["user"],
+        "summary": "회원 탈퇴",
+        "operationId": "userByeGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "tags": ["user"],
+        "summary": "회원 로그아웃",
+        "operationId": "userLogoutGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "authorization": {
+        "type": "apiKey",
+        "name": "authorization",
+        "in": "header"
+      }
+    }
+  }
+}

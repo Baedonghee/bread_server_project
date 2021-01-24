@@ -1,49 +1,49 @@
 import express from 'express';
 
 import { uploadImage, uploadListImage } from '../controllers/upload';
-import { currentUser } from '../middlewares/current-admin';
+import { currentAdmin } from '../middlewares/current-admin';
 import { upload } from '../services/aws-s3';
 
 const router = express.Router();
 
 router.post(
   '/event',
-  currentUser,
+  currentAdmin,
   upload('event').single('imgFile'),
   uploadImage
 );
 
 router.post(
   '/shop',
-  currentUser,
+  currentAdmin,
   upload('shop').single('imgFile'),
   uploadImage
 );
 
 router.post(
   '/user',
-  currentUser,
+  currentAdmin,
   upload('user').single('imgFile'),
   uploadImage
 );
 
 router.post(
   '/bread/shop',
-  currentUser,
+  currentAdmin,
   upload('breadShop').array('imgFile', 8),
   uploadListImage
 );
 
 router.post(
   '/bread/menu',
-  currentUser,
+  currentAdmin,
   upload('breadMenu').array('imgFile', 8),
   uploadListImage
 );
 
 router.post(
   '/bread',
-  currentUser,
+  currentAdmin,
   upload('bread').array('imgFile', 8),
   uploadListImage
 );
