@@ -25,7 +25,7 @@ export const youtubeList = async (
   try {
     const { page, limit, title } = req.query as IYoutubeListQuery;
     const youtubeRepository = getCustomRepository(YoutubeRepository);
-    const youtubeArray = await youtubeRepository.list(
+    const [youtubeArray, sum] = await youtubeRepository.list(
       Number(page) || 1,
       Number(limit) || 20,
       title || undefined
@@ -34,6 +34,11 @@ export const youtubeList = async (
       status: 200,
       message: 'success',
       list: youtubeArray,
+      pagnation: {
+        totalPtotalPage: Math.ceil(sum / (Number(limit) || 20)),
+        limit: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
     });
   } catch (err) {
     next(err);
