@@ -59,7 +59,7 @@ export const youtubeCreate = async (
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const breadShopInfo = await breadShopRepository.findById(breadShopId);
     if (!breadShopInfo) {
-      throw new GoneRequestError('존재하지 않는 게시물입니다.');
+      throw new GoneRequestError('존재하지 않는 빵집입니다.');
     }
     await youtubeRepository.createAndSave(
       title,
@@ -113,7 +113,7 @@ export const youtubeUpdate = async (
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const breadShopInfo = await breadShopRepository.findById(breadShopId);
     if (!breadShopInfo) {
-      throw new GoneRequestError('존재하지 않는 게시물입니다.');
+      throw new GoneRequestError('존재하지 않는 빵집입니다.');
     }
     await youtubeRepository.updateAndSave(
       Number(youtubeId),
