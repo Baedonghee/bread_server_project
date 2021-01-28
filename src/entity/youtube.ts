@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { AdminUser } from './admin-user';
+import { BreadShop } from './bread-shop';
 
 @Entity()
 export class Youtube {
@@ -36,8 +37,9 @@ export class Youtube {
   })
   updatedAt!: Date;
 
-  @Column({ nullable: false })
-  breadId!: number;
+  @ManyToOne(() => BreadShop, (breadShop) => breadShop.youtubes)
+  @JoinColumn({ name: 'breadShopId' })
+  breadShop!: BreadShop;
 
   @ManyToOne(() => AdminUser, (user) => user.notices)
   @JoinColumn({ name: 'admin_id' })

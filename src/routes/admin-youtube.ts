@@ -30,7 +30,7 @@ router.post(
       .withMessage('링크를 입력해주세요.')
       .isURL()
       .withMessage('링크 형식이 맞지 않습니다.'),
-    body('breadId')
+    body('breadShopId')
       .trim()
       .isLength({ min: 1 })
       .withMessage('빵집 정보를 입력해주세요.')
@@ -80,7 +80,7 @@ router.put(
       .withMessage('링크를 입력해주세요.')
       .isURL()
       .withMessage('링크 형식이 맞지 않습니다.'),
-    body('breadId')
+    body('breadShopId')
       .trim()
       .isLength({ min: 1 })
       .withMessage('빵집 정보를 입력해주세요.')

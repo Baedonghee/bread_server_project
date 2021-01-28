@@ -1,3 +1,4 @@
+import { Youtube } from './youtube';
 import {
   Column,
   Entity,
@@ -81,4 +82,7 @@ export class BreadShop {
 
   @OneToMany(() => BreadShopKind, (breadShopKind) => breadShopKind.breadShop)
   breadShopKinds!: BreadShopKind[];
+
+  @OneToMany(() => Youtube, (youtube) => youtube.breadShop)
+  youtubes!: Youtube[];
 }

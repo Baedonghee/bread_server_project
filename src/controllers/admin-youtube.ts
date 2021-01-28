@@ -3,12 +3,14 @@ import { getCustomRepository } from 'typeorm';
 
 import { GoneRequestError } from '../errors/gone-request.error';
 import { YoutubeRepository } from '../repository/youtube-repository';
+import { BreadShopRepository } from '../repository/bread-shop-repository';
+import { YoutubeResult } from '../result/youtube/youtube-result';
 
 interface IYoutubeCreate {
   title: string;
   content: string;
   link: string;
-  breadId: number;
+  breadShopId: number;
 }
 
 interface IYoutubeListQuery {
@@ -51,14 +53,19 @@ export const youtubeCreate = async (
   next: NextFunction
 ) => {
   try {
-    const { title, content, link, breadId } = req.body as IYoutubeCreate;
+    const { title, content, link, breadShopId } = req.body as IYoutubeCreate;
     const { adminUser } = req;
     const youtubeRepository = getCustomRepository(YoutubeRepository);
+    const breadShopRepository = getCustomRepository(BreadShopRepository);
+    const breadShopInfo = await breadShopRepository.findById(breadShopId);
+    if (!breadShopInfo) {
+      throw new GoneRequestError('존재하지 않는 게시물입니다.');
+    }
     await youtubeRepository.createAndSave(
       title,
       content,
       link,
-      breadId,
+      breadShopInfo,
       adminUser
     );
     res.status(201).json({
@@ -82,10 +89,11 @@ export const youtubeDetail = async (
     if (!youtubeInfo) {
       throw new GoneRequestError('존재하지 않는 게시물입니다.');
     }
+    const youtubeMakeResult = new YoutubeResult(youtubeInfo);
     res.status(200).json({
       status: 200,
       message: 'success',
-      data: youtubeInfo,
+      data: youtubeMakeResult,
     });
   } catch (err) {
     next(err);
@@ -100,14 +108,19 @@ export const youtubeUpdate = async (
   try {
     const { youtubeId } = req.params;
     const { adminUser } = req;
-    const { title, content, link, breadId } = req.body as IYoutubeCreate;
+    const { title, content, link, breadShopId } = req.body as IYoutubeCreate;
     const youtubeRepository = getCustomRepository(YoutubeRepository);
+    const breadShopRepository = getCustomRepository(BreadShopRepository);
+    const breadShopInfo = await breadShopRepository.findById(breadShopId);
+    if (!breadShopInfo) {
+      throw new GoneRequestError('존재하지 않는 게시물입니다.');
+    }
     await youtubeRepository.updateAndSave(
       Number(youtubeId),
       title,
       content,
       link,
-      breadId,
+      breadShopInfo,
       adminUser
     );
     res.status(201).json({

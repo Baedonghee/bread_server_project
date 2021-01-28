@@ -1002,7 +1002,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["title", "content", "link", "breadId"],
+                "required": ["title", "content", "link", "breadShopId"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -1016,7 +1016,7 @@
                     "type": "string",
                     "example": "https://www.youtube.com"
                   },
-                  "breadId": {
+                  "breadShopId": {
                     "type": "number",
                     "example": "1"
                   }
@@ -1097,7 +1097,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["title", "content", "link", "breadId"],
+                "required": ["title", "content", "link", "breadShopId"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -1111,7 +1111,7 @@
                     "type": "string",
                     "example": "https://www.youtube.com"
                   },
-                  "breadId": {
+                  "breadShopId": {
                     "type": "number",
                     "example": "1"
                   }

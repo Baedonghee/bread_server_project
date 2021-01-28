@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { AdminUser } from '../entity/admin-user';
+import { BreadShop } from '../entity/bread-shop';
 import { Youtube } from '../entity/youtube';
 
 @EntityRepository(Youtube)
@@ -8,14 +9,14 @@ export class YoutubeRepository extends Repository<Youtube> {
     title: string,
     content: string,
     link: string,
-    breadId: number,
+    breadShop: BreadShop,
     admin: AdminUser
   ) {
     const youtube = new Youtube();
     youtube.title = title;
     youtube.content = content;
     youtube.link = link;
-    youtube.breadId = breadId;
+    youtube.breadShop = breadShop;
     youtube.admin = admin;
     return this.manager.save(youtube);
   }
@@ -36,8 +37,16 @@ export class YoutubeRepository extends Repository<Youtube> {
   findById(id: number) {
     return this.createQueryBuilder('youtube')
       .leftJoin('youtube.admin', 'admin')
+      .leftJoin('youtube.breadShop', 'breadShop')
+      .leftJoin('breadShop.images', 'breadShopImage')
       .where('youtube.id = :id', { id })
-      .select(['youtube', 'admin.email', 'admin.name'])
+      .select([
+        'youtube',
+        'admin.email',
+        'admin.name',
+        'breadShop',
+        'breadShopImage',
+      ])
       .getOne();
   }
 
@@ -46,10 +55,10 @@ export class YoutubeRepository extends Repository<Youtube> {
     title: string,
     content: string,
     link: string,
-    breadId: number,
+    breadShop: BreadShop,
     admin: AdminUser
   ) {
-    return this.update(id, { title, content, link, breadId, admin });
+    return this.update(id, { title, content, link, breadShop, admin });
   }
 
   deleteById(id: number) {
