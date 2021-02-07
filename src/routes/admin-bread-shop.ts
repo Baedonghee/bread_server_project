@@ -25,6 +25,12 @@ router.post(
       .trim()
       .isLength({ min: 1 })
       .withMessage('링크를 입력해주세요.'),
+    body('storeNumber')
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage('핸드폰번호를 입력해주세요.')
+      .matches(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/)
+      .withMessage('핸드폰번호 양식을 맞춰주세요.'),
     body('parkingEnabled')
       .trim()
       .isLength({ min: 1 })
@@ -56,6 +62,10 @@ router.post(
       .isNumeric()
       .withMessage('경도 형식을 확인해주세요.'),
     body('address')
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage('주소를 입력해주세요.'),
+    body('detailAddress')
       .trim()
       .isLength({ min: 1 })
       .withMessage('상세주소를 입력해주세요.'),
@@ -90,6 +100,12 @@ router.put(
       .trim()
       .isLength({ min: 1 })
       .withMessage('빵집이름을 입력해주세요.'),
+    body('storeNumber')
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage('핸드폰번호를 입력해주세요.')
+      .matches(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/)
+      .withMessage('핸드폰번호 양식을 맞춰주세요.'),
     body('link')
       .trim()
       .isLength({ min: 1 })
@@ -125,6 +141,10 @@ router.put(
       .isNumeric()
       .withMessage('경도 형식을 확인해주세요.'),
     body('address')
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage('주소를 입력해주세요.'),
+    body('detailAddress')
       .trim()
       .isLength({ min: 1 })
       .withMessage('상세주소를 입력해주세요.'),

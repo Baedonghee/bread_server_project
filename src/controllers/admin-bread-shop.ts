@@ -8,7 +8,6 @@ import { BreadShopMenuImageRepository } from '../repository/bread-shop-menu-imag
 import { BreadShopHolidayRepository } from '../repository/bread-shop-holiday-repository';
 import { BreadShopRepository } from '../repository/bread-shop-repository';
 import { linkReg } from '../utils/format';
-import { kakaoAddress } from '../services/kakao-address';
 import { BreadShopAddressRepository } from '../repository/bread-shop-address-repository';
 import { ShopUserRepository } from '../repository/shop-repository';
 import { GoneRequestError } from '../errors/gone-request.error';
@@ -20,12 +19,14 @@ interface IBreadShopCreate {
   title: string;
   link: string;
   parkingEnabled: boolean;
+  storeNumber: string;
   openTime: string;
   closeTime: string;
   shopUserId: number;
   lat: number;
   lon: number;
   address: string;
+  detailAddress: string;
   imageUrlShop: string[];
   imageUrlMenu: string[];
   day: string[];
@@ -83,12 +84,14 @@ export const breadShopCreate = async (
       title,
       link,
       parkingEnabled,
+      storeNumber,
       openTime,
       closeTime,
       shopUserId,
       lat,
       lon,
       address,
+      detailAddress,
       day,
       imageUrlShop,
       imageUrlMenu,
@@ -109,10 +112,6 @@ export const breadShopCreate = async (
     if (!shopInfo) {
       throw new GoneRequestError('빵집 회원이 존재하지 않습니다.');
     }
-    const addressResult = (await kakaoAddress(lon, lat)) as {
-      roadAddress: string;
-      zibunAddress: string;
-    };
 
     const breadShopAddressRepository = getCustomRepository(
       BreadShopAddressRepository
@@ -120,14 +119,14 @@ export const breadShopCreate = async (
     const breadShopAddressData = await breadShopAddressRepository.createAndSave(
       lat,
       lon,
-      addressResult.roadAddress,
-      addressResult.zibunAddress,
-      address
+      address,
+      detailAddress
     );
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const breadShopData = await breadShopRepository.createAndSave(
       title,
       link,
+      storeNumber,
       parkingEnabled,
       openTime,
       closeTime,
@@ -188,6 +187,7 @@ export const breadShopUpdate = async (
     const {
       title,
       link,
+      storeNumber,
       parkingEnabled,
       openTime,
       closeTime,
@@ -195,6 +195,7 @@ export const breadShopUpdate = async (
       lat,
       lon,
       address,
+      detailAddress,
       day,
       imageUrlShop,
       imageUrlMenu,
@@ -340,16 +341,11 @@ export const breadShopUpdate = async (
       } = breadShopInfo.address;
       if (beforeLat !== Number(lat) || beforeLon !== Number(lon)) {
         deleteAddressId = addressId;
-        const addressResult = (await kakaoAddress(lon, lat)) as {
-          roadAddress: string;
-          zibunAddress: string;
-        };
         breadShopAddressData = await breadShopAddressRepository.createAndSave(
           lat,
           lon,
-          addressResult.roadAddress,
-          addressResult.zibunAddress,
-          address
+          address,
+          detailAddress
         );
       }
     }
@@ -357,6 +353,7 @@ export const breadShopUpdate = async (
       Number(breadShopId),
       title,
       link,
+      storeNumber,
       parkingEnabled,
       openTime,
       closeTime,

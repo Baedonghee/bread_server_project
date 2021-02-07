@@ -1,3 +1,4 @@
+import { add } from 'date-fns';
 import { EntityRepository, Repository } from 'typeorm';
 import { BreadShopAddress } from '../entity/bread-shop-address';
 
@@ -6,15 +7,13 @@ export class BreadShopAddressRepository extends Repository<BreadShopAddress> {
   createAndSave(
     lat: number,
     lon: number,
-    roadAddress: string,
-    zibunAddress: string,
+    address: string,
     detailAddress: string
   ) {
     const breadShopAddress = new BreadShopAddress();
     breadShopAddress.lat = lat;
     breadShopAddress.lon = lon;
-    breadShopAddress.roadAddress = roadAddress || '';
-    breadShopAddress.zibunAddress = zibunAddress;
+    breadShopAddress.address = address || '';
     breadShopAddress.detailAddress = detailAddress;
     return this.manager.save(breadShopAddress);
   }

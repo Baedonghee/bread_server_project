@@ -9,6 +9,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
   createAndSave(
     title: string,
     link: string,
+    storeNumber: string,
     parkingEnabled: boolean,
     openTime: string,
     closeTime: string,
@@ -19,6 +20,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
     const breadShop = new BreadShop();
     breadShop.title = title;
     breadShop.link = link;
+    breadShop.storeNumber = storeNumber;
     breadShop.parkingEnabled = parkingEnabled;
     breadShop.openTime = openTime;
     breadShop.closeTime = closeTime;
@@ -111,6 +113,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
   updateAndSave(
     id: number,
     title: string,
+    storeNumber: string,
     link: string,
     parkingEnabled: boolean,
     openTime: string,
@@ -122,6 +125,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
     const updateBreadShop = {
       title,
       link,
+      storeNumber,
       parkingEnabled,
       openTime,
       closeTime,
@@ -130,6 +134,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
     } as {
       title: string;
       link: string;
+      storeNumber: string;
       parkingEnabled: boolean;
       openTime: string;
       closeTime: string;

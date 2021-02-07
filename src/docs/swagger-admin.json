@@ -1232,7 +1232,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["title", "content", "link", "breadId"],
+                "required": ["title", "link", "storeNumber", "parkingEnabled", "openTime", "closeTime", "lat", "lon", "address", "detailAddress", "day", "imageUrlShop", "imageUrlMenu", "shopUserId", "breadId"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -1241,6 +1241,10 @@
                   "link": {
                     "type": "string",
                     "example": "https://www.youtube.com"
+                  },
+                  "storeNumber": {
+                    "type": "string",
+                    "example": "01031368134"
                   },
                   "parkingEnabled": {
                     "type": "boolean",
@@ -1268,7 +1272,11 @@
                   },
                   "address": {
                     "type": "string",
-                    "example": "써밋플레이스 104동"
+                    "example": "서울시 구로구 개봉로 20길 6"
+                  },
+                  "detailAddress": {
+                    "type": "string",
+                    "example": "108동 2001호"
                   },
                   "imageUrlShop": {
                     "type": "array",
@@ -1375,7 +1383,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["title", "content", "link", "breadId"],
+                "required": ["title", "link", "storeNumber", "parkingEnabled", "openTime", "closeTime", "lat", "lon", "address", "detailAddress", "day", "imageUrlShop", "imageUrlMenu", "shopUserId", "breadId"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -1384,6 +1392,10 @@
                   "link": {
                     "type": "string",
                     "example": "https://www.youtube.com"
+                  },
+                  "storeNumber": {
+                    "type": "string",
+                    "example": "01031368134"
                   },
                   "parkingEnabled": {
                     "type": "boolean",
@@ -1411,7 +1423,11 @@
                   },
                   "address": {
                     "type": "string",
-                    "example": "써밋플레이스 104동"
+                    "example": "서울시 구로구 개봉로 20길 6"
+                  },
+                  "detailAddress": {
+                    "type": "string",
+                    "example": "108동 2001호"
                   },
                   "imageUrlShop": {
                     "type": "array",

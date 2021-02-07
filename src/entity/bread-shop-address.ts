@@ -11,11 +11,8 @@ export class BreadShopAddress {
   @Column({ type: 'double' })
   lon!: number;
 
-  @Column({ name: 'road_address' })
-  roadAddress!: string;
-
-  @Column({ name: 'zibun_address' })
-  zibunAddress!: string;
+  @Column({ name: 'address' })
+  address!: string;
 
   @Column({ name: 'detail_address' })
   detailAddress!: string;

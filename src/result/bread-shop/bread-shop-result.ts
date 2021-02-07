@@ -15,13 +15,14 @@ interface IShop {
 interface IAddress {
   lat: number;
   lon: number;
-  roadAddress: string;
-  zibunAddress: string;
+  address: string;
+  detailAddress: string;
 }
 
 export class BreadShopResult {
   id!: number;
   title!: string;
+  storeNumber!: string;
   link!: string;
   parkingEnabled!: boolean;
   openTime!: string;
@@ -36,6 +37,7 @@ export class BreadShopResult {
   constructor(data: BreadShop) {
     this.id = data.id;
     this.title = data.title;
+    this.storeNumber = data.storeNumber;
     this.link = data.link;
     this.parkingEnabled = data.parkingEnabled;
     this.openTime = data.openTime;
@@ -55,8 +57,8 @@ export class BreadShopResult {
     this.address = {
       lat: data.address.lat,
       lon: data.address.lon,
-      roadAddress: data.address.roadAddress,
-      zibunAddress: data.address.zibunAddress,
+      address: data.address.address,
+      detailAddress: data.address.detailAddress,
     };
     data.images.forEach((breadShopImage) =>
       this.images.push(breadShopImage.imageUrl)
