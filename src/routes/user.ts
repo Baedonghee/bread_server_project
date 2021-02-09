@@ -2,6 +2,7 @@ import express from 'express';
 import { body } from 'express-validator';
 
 import {
+  userSocialSignup,
   userCurrent,
   userDetail,
   userUpdate,
@@ -13,6 +14,8 @@ import { userSignUp, userSignIn } from '../controllers/user';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
+
+router.post('/social/signup', userSocialSignup);
 
 router.post(
   '/signup',

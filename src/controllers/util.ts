@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Request, Response, NextFunction } from 'express';
-import { kakaoLocalAddress } from '../services/kakao-address';
+import { kakaoLocalAddress } from '../services/kakao';
 
 interface IAddressQuery {
   page?: number;
   limit?: number;
   name?: string;
-}
-
-interface IAddressBody {
-  name: string;
 }
 
 export const addressList = async (

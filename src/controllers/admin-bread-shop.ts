@@ -68,7 +68,6 @@ export const breadShopList = async (
       },
     });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

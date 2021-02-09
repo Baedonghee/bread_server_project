@@ -22,6 +22,41 @@
   ],
   "schemes": ["http"],
   "paths": {
+    "/user/social/signup": {
+      "post": {
+        "tags": ["user"],
+        "summary": "회원 소셜 로그인 및 가입",
+        "operationId": "userSignin",
+        "requestBody": {
+          "description": "회원소셜 로그인 및 가입 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["token", "type"],
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "ya29.A0AfH6SMDS0Qqm331vPJIsFjUaplQ4zrcULE02D9rekrXDzdX42ltD_O0O-vP0OKQj_Y5Qyieaplvo2Dgvu_NSN5T8zWcUV__VjvnmVZlQXIVXk37aCBeGaxg9XeI8j1-in7EyJFQCdxMv7JiOUDRqUuT9cyjF"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "facebook"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
     "/user/signin": {
       "post": {
         "tags": ["user"],

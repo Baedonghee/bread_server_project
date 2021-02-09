@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
 
+import { kakaoLogin } from '../services/kakao';
+import { googleLogin } from '../services/google';
+import { facebookLogin } from '../services/facebook';
 import { BadRequestError } from '../errors/bad-request-error';
 import { CurrentUserForbidden } from '../errors/current-user-forbidden';
 import { UserRepository } from '../repository/user-repository';
@@ -17,6 +20,160 @@ interface ISignup {
   age?: number;
   type: string;
 }
+
+export const userSocialSignup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { token, type } = req.body as { token: string; type: string };
+    const userRepository = getCustomRepository(UserRepository);
+    if (type === 'kakao') {
+      const kakaoData = (await kakaoLogin(token)) as {
+        email: string;
+        name: string;
+        imageUrl?: string;
+      };
+      const existingUser = await userRepository.findByEmail(kakaoData.email);
+      if (existingUser) {
+        if (existingUser.type !== authType(type)) {
+          throw new BadRequestError('다른 소셜이 존재합니다.');
+        }
+        const token = await userJwt(
+          existingUser.id,
+          existingUser.email,
+          existingUser.name,
+          existingUser.imageUrl
+        );
+        res.status(201).json({
+          status: 201,
+          data: {
+            token,
+          },
+        });
+      } else {
+        const userRegister = await userRepository.createAndSave(
+          kakaoData.email,
+          '',
+          kakaoData.name,
+          kakaoData.imageUrl,
+          null,
+          null,
+          authType(type)
+        );
+        const token = await userJwt(
+          userRegister.id,
+          userRegister.email,
+          userRegister.name,
+          userRegister.imageUrl
+        );
+        res.status(201).json({
+          status: 201,
+          data: {
+            token,
+          },
+        });
+      }
+    } else if (type === 'google') {
+      const data = (await googleLogin(token)) as {
+        name: string;
+        picture: string;
+        email: string;
+      };
+      const existingUser = await userRepository.findByEmail(data.email);
+      if (existingUser) {
+        if (existingUser.type !== authType(type)) {
+          throw new BadRequestError('다른 소셜이 존재합니다.');
+        }
+        const token = await userJwt(
+          existingUser.id,
+          existingUser.email,
+          existingUser.name,
+          existingUser.imageUrl
+        );
+        res.status(201).json({
+          status: 201,
+          data: {
+            token,
+          },
+        });
+      } else {
+        const userRegister = await userRepository.createAndSave(
+          data.email,
+          '',
+          data.name,
+          data.picture,
+          null,
+          null,
+          authType(type)
+        );
+        const token = await userJwt(
+          userRegister.id,
+          userRegister.email,
+          userRegister.name,
+          userRegister.imageUrl
+        );
+        res.status(201).json({
+          status: 201,
+          data: {
+            token,
+          },
+        });
+      }
+    } else if (type === 'facebook') {
+      const data = (await facebookLogin(token)) as {
+        name: string;
+        email: string;
+        picture: string;
+      };
+      const existingUser = await userRepository.findByEmail(data.email);
+      if (existingUser) {
+        if (existingUser.type !== authType(type)) {
+          throw new BadRequestError('다른 소셜이 존재합니다.');
+        }
+        const token = await userJwt(
+          existingUser.id,
+          existingUser.email,
+          existingUser.name,
+          existingUser.imageUrl
+        );
+        res.status(201).json({
+          status: 201,
+          data: {
+            token,
+          },
+        });
+      } else {
+        const userRegister = await userRepository.createAndSave(
+          data.email,
+          '',
+          data.name,
+          data.picture,
+          null,
+          null,
+          authType(type)
+        );
+        const token = await userJwt(
+          userRegister.id,
+          userRegister.email,
+          userRegister.name,
+          userRegister.imageUrl
+        );
+        res.status(201).json({
+          status: 201,
+          data: {
+            token,
+          },
+        });
+      }
+    } else {
+      throw new BadRequestError('type이 올바르지 않습니다.');
+    }
+  } catch (err) {
+    next(err);
+  }
+};
 
 export const userSignUp = async (
   req: Request,
@@ -87,6 +244,9 @@ export const userSignIn = async (
     }
     if (!existingUser.enabled) {
       throw new BadRequestError('탈퇴된 회원입니다.');
+    }
+    if (existingUser.type !== 0) {
+      throw new BadRequestError('소셜 로그인 계정이 있습니다.');
     }
     const token = await userJwt(
       existingUser.id,
