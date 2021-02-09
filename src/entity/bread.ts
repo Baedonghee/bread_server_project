@@ -21,6 +21,9 @@ export class Bread {
   @Column()
   content!: string;
 
+  @Column({ name: 'rank', nullable: false, default: 0 })
+  rank!: number;
+
   @ManyToOne(() => AdminUser, (user) => user.breads)
   @JoinColumn({ name: 'admin_id' })
   admin!: AdminUser;

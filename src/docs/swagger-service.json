@@ -14,6 +14,10 @@
     {
       "name": "user",
       "description": "회원 정보입니다."
+    },
+    {
+      "name": "rank",
+      "description": "메인 랭킹정보입니다."
     }
   ],
   "schemes": ["http"],
@@ -223,6 +227,42 @@
         "tags": ["user"],
         "summary": "회원 로그아웃",
         "operationId": "userLogoutGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/rank/bread": {
+      "get": {
+        "tags": ["rank"],
+        "summary": "인기있는 빵랭킹",
+        "operationId": "rankBread",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/rank/bread/shop": {
+      "get": {
+        "tags": ["rank"],
+        "summary": "인기있는 빵집랭킹",
+        "operationId": "rankBreadShop",
         "responses": {
           "403": {
             "description": "forbidden"

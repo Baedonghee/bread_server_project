@@ -24,7 +24,9 @@ router.post(
     body('link')
       .trim()
       .isLength({ min: 1 })
-      .withMessage('링크를 입력해주세요.'),
+      .withMessage('링크를 입력해주세요.')
+      .isURL()
+      .withMessage('링크 형식이 맞지 않습니다.'),
     body('storeNumber')
       .trim()
       .isLength({ min: 1 })
@@ -109,7 +111,9 @@ router.put(
     body('link')
       .trim()
       .isLength({ min: 1 })
-      .withMessage('링크를 입력해주세요.'),
+      .withMessage('링크를 입력해주세요.')
+      .isURL()
+      .withMessage('링크 형식이 맞지 않습니다.'),
     body('parkingEnabled')
       .trim()
       .isLength({ min: 1 })

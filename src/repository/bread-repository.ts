@@ -26,6 +26,15 @@ export class BreadRepository extends Repository<Bread> {
     return query.getManyAndCount();
   }
 
+  rankList() {
+    const query = this.createQueryBuilder('bread')
+      .leftJoin('bread.images', 'breadImage')
+      .select(['bread', 'breadImage'])
+      .limit(8)
+      .orderBy('bread.rank', 'DESC');
+    return query.getMany();
+  }
+
   findById(id: number) {
     return this.createQueryBuilder('bread')
       .leftJoin('bread.images', 'breadImage')

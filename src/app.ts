@@ -22,6 +22,7 @@ import uploadRouter from './routes/image-upload';
 import utilRouter from './routes/util';
 import healthRouter from './routes/health-check';
 import userRouter from './routes/user';
+import rankRouter from './routes/rank';
 
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
@@ -68,6 +69,7 @@ app.use('/admin/shop', shopRouter);
 app.use('/admin/youtube', youtubeRouter);
 app.use('/admin/bread/shop', breadShopRouter);
 app.use('/admin/bread', breadRouter);
+app.use('/rank', rankRouter);
 app.use('/upload', uploadRouter);
 app.use('/util', utilRouter);
 app.use('/health', healthRouter);

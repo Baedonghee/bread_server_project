@@ -46,6 +46,15 @@ export class BreadShopRepository extends Repository<BreadShop> {
     return query.getManyAndCount();
   }
 
+  rankList() {
+    const query = this.createQueryBuilder('breadShop')
+      .innerJoinAndSelect('breadShop.address', 'breadShopAddress')
+      .innerJoinAndSelect('breadShop.images', 'breadShopImage')
+      .limit(8)
+      .orderBy('breadShop.rank', 'DESC');
+    return query.getMany();
+  }
+
   findById(id: number) {
     return this.createQueryBuilder('breadShop')
       .innerJoin('breadShop.admin', 'admin')

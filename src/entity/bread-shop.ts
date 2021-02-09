@@ -39,6 +39,9 @@ export class BreadShop {
   @Column({ name: 'close_time', nullable: false })
   closeTime!: string;
 
+  @Column({ name: 'rank', nullable: false, default: 0 })
+  rank!: number;
+
   @Column({
     type: 'timestamp',
     name: 'created_at',
