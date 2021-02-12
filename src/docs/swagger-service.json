@@ -18,6 +18,10 @@
     {
       "name": "rank",
       "description": "메인 랭킹정보입니다."
+    },
+    {
+      "name": "utils",
+      "description": "유틸 관련 정보입니다."
     }
   ],
   "schemes": ["http"],
@@ -298,6 +302,52 @@
         "tags": ["rank"],
         "summary": "인기있는 빵집랭킹",
         "operationId": "rankBreadShop",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/util/address/si": {
+      "get": {
+        "tags": ["utils"],
+        "summary": "시 주소 조회",
+        "operationId": "siAddressList",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/util/address/gu": {
+      "get": {
+        "tags": ["utils"],
+        "summary": "구 주소 조회",
+        "operationId": "guAddressList",
+        "parameters": [
+          {
+            "name": "si_code",
+            "in": "query",
+            "description": "시 코드(id)",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "403": {
             "description": "forbidden"
