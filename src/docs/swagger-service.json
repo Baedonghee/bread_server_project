@@ -20,6 +20,10 @@
       "description": "빵 댓글 정보입니다."
     },
     {
+      "name": "breadShopComment",
+      "description": "빵집 댓글 정보입니다."
+    },
+    {
       "name": "rank",
       "description": "메인 랭킹정보입니다."
     },
@@ -487,6 +491,240 @@
         "tags": ["breadComment"],
         "summary": "빵 댓글 및 대댓글 삭제",
         "operationId": "breadCommentDelete",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "댓글 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/shop/{breadShopId}/comment": {
+      "get": {
+        "tags": ["breadShopComment"],
+        "summary": "빵집 댓글 조회",
+        "operationId": "breadShopCommentList",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": ["breadShopComment"],
+        "summary": "빵집 댓글 등록",
+        "operationId": "breadShopCommentPost",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "댓글 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "댓글 내용"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/shop/{breadShopId}/comment/{commentId}": {
+      "post": {
+        "tags": ["breadShopComment"],
+        "summary": "빵집 대댓글 등록",
+        "operationId": "breadShopCoCommentPost",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "댓글 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "대댓글 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "대댓글 내용"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/shop/comment/{commentId}": {
+      "put": {
+        "tags": ["breadShopComment"],
+        "summary": "빵집 댓글 및 대댓글 수정",
+        "operationId": "breadShopCommentPut",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "댓글 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "댓글 및 대댓글 수정 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "대댓글 내용"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["breadShopComment"],
+        "summary": "빵집 댓글 및 대댓글 삭제",
+        "operationId": "breadShopCommentDelete",
         "parameters": [
           {
             "name": "commentId",
