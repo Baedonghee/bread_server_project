@@ -30,7 +30,7 @@ export class UserRepository extends Repository<User> {
   findByEmail(email: string) {
     return this.findOne({
       where: { email },
-      select: ['id', 'password', 'email', 'imageUrl'],
+      select: ['id', 'password', 'email', 'imageUrl', 'enabled', 'type'],
     });
   }
 

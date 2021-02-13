@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { BreadComment } from './bread_comment';
 
 @Entity()
 export class User {
@@ -43,4 +44,7 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt!: Date;
+
+  @OneToMany(() => BreadComment, (breadComment) => breadComment.user)
+  breadComments!: BreadComment[];
 }

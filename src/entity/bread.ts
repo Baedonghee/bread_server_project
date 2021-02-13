@@ -9,6 +9,7 @@ import {
 import { AdminUser } from './admin-user';
 import { BreadImage } from './bread-image';
 import { BreadShopKind } from './bread-shop-kind';
+import { BreadComment } from './bread_comment';
 
 @Entity()
 export class Bread {
@@ -35,4 +36,7 @@ export class Bread {
 
   @OneToMany(() => BreadShopKind, (breadShopKind) => breadShopKind.bread)
   breadShopKinds!: BreadShopKind[];
+
+  @OneToMany(() => BreadComment, (breadComment) => breadComment.bread)
+  breadComments!: BreadComment[];
 }

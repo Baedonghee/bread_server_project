@@ -16,6 +16,10 @@
       "description": "회원 정보입니다."
     },
     {
+      "name": "breadComment",
+      "description": "빵 댓글 정보입니다."
+    },
+    {
       "name": "rank",
       "description": "메인 랭킹정보입니다."
     },
@@ -30,7 +34,7 @@
       "post": {
         "tags": ["user"],
         "summary": "회원 소셜 로그인 및 가입",
-        "operationId": "userSignin",
+        "operationId": "userSocialSignin",
         "requestBody": {
           "description": "회원소셜 로그인 및 가입 파라미터",
           "content": {
@@ -269,6 +273,240 @@
         "responses": {
           "403": {
             "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/{breadId}/comment": {
+      "get": {
+        "tags": ["breadComment"],
+        "summary": "빵 댓글 조회",
+        "operationId": "breadCommentList",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": ["breadComment"],
+        "summary": "빵 댓글 등록",
+        "operationId": "breadCommentPost",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "댓글 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "댓글 내용"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/{breadId}/comment/{commentId}": {
+      "post": {
+        "tags": ["breadComment"],
+        "summary": "빵 대댓글 등록",
+        "operationId": "breadCoCommentPost",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "댓글 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "대댓글 등록 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "대댓글 내용"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/comment/{commentId}": {
+      "put": {
+        "tags": ["breadComment"],
+        "summary": "빵 댓글 및 대댓글 수정",
+        "operationId": "breadCommentPut",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "댓글 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "댓글 및 대댓글 수정 파라미터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "대댓글 내용"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["breadComment"],
+        "summary": "빵 댓글 및 대댓글 삭제",
+        "operationId": "breadCommentDelete",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "description": "댓글 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
           }
         },
         "security": [

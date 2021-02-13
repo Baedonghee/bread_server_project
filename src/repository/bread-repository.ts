@@ -35,19 +35,26 @@ export class BreadRepository extends Repository<Bread> {
     return query.getMany();
   }
 
+  findByIdInfo(id: number) {
+    return this.createQueryBuilder('bread')
+      .select(['bread'])
+      .where('bread.id = :id', { id })
+      .getOne();
+  }
+
   findById(id: number) {
     return this.createQueryBuilder('bread')
+      .select(['bread', 'breadImage.imageUrl'])
       .leftJoin('bread.images', 'breadImage')
       .where('bread.id = :id', { id })
-      .select(['bread', 'breadImage.imageUrl'])
       .getOne();
   }
 
   findByIdCheck(id: number) {
     return this.createQueryBuilder('bread')
+      .select(['bread', 'breadImage'])
       .leftJoin('bread.images', 'breadImage')
       .where('bread.id = :id', { id })
-      .select(['bread', 'breadImage'])
       .getOne();
   }
 
