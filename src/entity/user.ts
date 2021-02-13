@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { BreadComment } from './bread_comment';
+import { BreadComment } from './bread-comment';
+import { BreadShopComment } from './bread-shop-comment';
 
 @Entity()
 export class User {
@@ -47,4 +48,10 @@ export class User {
 
   @OneToMany(() => BreadComment, (breadComment) => breadComment.user)
   breadComments!: BreadComment[];
+
+  @OneToMany(
+    () => BreadShopComment,
+    (breadShopComment) => breadShopComment.user
+  )
+  breadShopComments!: BreadShopComment[];
 }

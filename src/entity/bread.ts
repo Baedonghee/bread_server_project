@@ -9,7 +9,7 @@ import {
 import { AdminUser } from './admin-user';
 import { BreadImage } from './bread-image';
 import { BreadShopKind } from './bread-shop-kind';
-import { BreadComment } from './bread_comment';
+import { BreadComment } from './bread-comment';
 
 @Entity()
 export class Bread {

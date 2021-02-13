@@ -1,40 +1,40 @@
 import express from 'express';
 import { body, param } from 'express-validator';
 import {
-  breadChildCommentCreate,
-  breadCommentDelete,
-  breadCommentList,
-  breadCommentUpdate,
-  breadParentCommentCreate,
-} from '../controllers/bread';
+  breadShopChildCommentCreate,
+  breadShopCommentDelete,
+  breadShopCommentList,
+  breadShopCommentUpdate,
+  breadShopParentCommentCreate,
+} from '../controllers/bread-shop';
 import { currentUser } from '../middlewares/current-user';
 import { validateRequest } from '../middlewares/validate-request';
 
 const router = express.Router();
 
 router.get(
-  '/:breadId/comment',
+  '/:breadShopId/comment',
   [
-    param('breadId')
+    param('breadShopId')
       .trim()
       .isLength({ min: 1 })
-      .withMessage('빵 번호를 입력해주세요.')
+      .withMessage('빵집 번호를 입력해주세요.')
       .isNumeric()
-      .withMessage('빵 번호를 확인해주세요.'),
+      .withMessage('빵집 번호를 확인해주세요.'),
   ],
   validateRequest,
-  breadCommentList
+  breadShopCommentList
 );
 
 router.post(
-  '/:breadId/comment',
+  '/:breadShopId/comment',
   [
-    param('breadId')
+    param('breadShopId')
       .trim()
       .isLength({ min: 1 })
-      .withMessage('빵 정보를 입력해주세요.')
+      .withMessage('빵집 정보를 입력해주세요.')
       .isNumeric()
-      .withMessage('빵 정보를 확인해주세요.'),
+      .withMessage('빵집 정보를 확인해주세요.'),
     body('content')
       .trim()
       .isLength({ min: 1 })
@@ -42,18 +42,18 @@ router.post(
   ],
   validateRequest,
   currentUser,
-  breadParentCommentCreate
+  breadShopParentCommentCreate
 );
 
 router.post(
-  '/:breadId/comment/:commentId',
+  '/:breadShopId/comment/:commentId',
   [
-    param('breadId')
+    param('breadShopId')
       .trim()
       .isLength({ min: 1 })
-      .withMessage('빵 정보를 입력해주세요.')
+      .withMessage('빵집 정보를 입력해주세요.')
       .isNumeric()
-      .withMessage('빵 정보를 확인해주세요.'),
+      .withMessage('빵집 정보를 확인해주세요.'),
     param('commentId')
       .trim()
       .isLength({ min: 1 })
@@ -67,7 +67,7 @@ router.post(
   ],
   validateRequest,
   currentUser,
-  breadChildCommentCreate
+  breadShopChildCommentCreate
 );
 
 router.put(
@@ -86,7 +86,7 @@ router.put(
   ],
   validateRequest,
   currentUser,
-  breadCommentUpdate
+  breadShopCommentUpdate
 );
 
 router.delete(
@@ -101,7 +101,7 @@ router.delete(
   ],
   validateRequest,
   currentUser,
-  breadCommentDelete
+  breadShopCommentDelete
 );
 
 export default router;

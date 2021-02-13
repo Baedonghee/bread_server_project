@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Bread } from '../entity/bread';
-import { BreadComment } from '../entity/bread_comment';
+import { BreadComment } from '../entity/bread-comment';
 import { User } from '../entity/user';
 
 @EntityRepository(BreadComment)

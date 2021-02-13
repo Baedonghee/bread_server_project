@@ -119,6 +119,13 @@ export class BreadShopRepository extends Repository<BreadShop> {
       .getOne();
   }
 
+  findByIdInfo(id: number) {
+    return this.createQueryBuilder('breadShop')
+      .select(['breadShop'])
+      .where('breadShop.id = :id', { id })
+      .getOne();
+  }
+
   updateAndSave(
     id: number,
     title: string,

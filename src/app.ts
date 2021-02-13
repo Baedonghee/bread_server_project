@@ -24,6 +24,7 @@ import healthRouter from './routes/health-check';
 import userRouter from './routes/user';
 import rankRouter from './routes/rank';
 import breadRouter from './routes/bread';
+import breadShopRouter from './routes/bread-shop';
 
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
@@ -70,6 +71,7 @@ app.use('/admin/shop', adminShopRouter);
 app.use('/admin/youtube', adminYoutubeRouter);
 app.use('/admin/bread/shop', adminBreadShopRouter);
 app.use('/admin/bread', adminBreadRouter);
+app.use('/bread/shop', breadShopRouter);
 app.use('/bread', breadRouter);
 app.use('/rank', rankRouter);
 app.use('/upload', uploadRouter);

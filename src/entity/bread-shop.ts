@@ -15,6 +15,7 @@ import { BreadShopImage } from './bread-shop-image';
 import { BreadShopKind } from './bread-shop-kind';
 import { BreadShopMenuImage } from './bread-shop-menu-image';
 import { ShopUser } from './shop-user';
+import { BreadShopComment } from './bread-shop-comment';
 
 @Entity()
 export class BreadShop {
@@ -91,4 +92,10 @@ export class BreadShop {
 
   @OneToMany(() => Youtube, (youtube) => youtube.breadShop)
   youtubes!: Youtube[];
+
+  @OneToMany(
+    () => BreadShopComment,
+    (breadShopComment) => breadShopComment.breadShop
+  )
+  breadShopComments!: BreadShopComment[];
 }
