@@ -265,18 +265,26 @@ export const userSignIn = async (
   }
 };
 
-export const userCurrent = (
+export const userCurrent = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const userRepository = getCustomRepository(UserRepository);
+    const existingUser = await userRepository.findById(req.user.id);
+    if (!existingUser) {
+      throw new BadRequestError(
+        '가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.'
+      );
+    }
     res.status(200).json({
       status: 200,
       data: {
-        email: req.currentUser?.email,
-        name: req.currentUser?.name,
-        imageUrl: req.currentUser?.imageUrl,
+        id: existingUser.id,
+        email: existingUser.email,
+        name: existingUser.name,
+        imageUrl: existingUser.imageUrl,
       },
     });
   } catch (err) {
