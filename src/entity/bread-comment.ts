@@ -17,6 +17,13 @@ export class BreadComment {
   @Column({ nullable: false })
   content!: string;
 
+  @Column({
+    type: 'timestamp',
+    name: 'created_at',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt!: Date;
+
   @ManyToOne(() => User, (user) => user.breadComments, {
     onDelete: 'CASCADE',
   })

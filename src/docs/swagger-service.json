@@ -16,12 +16,12 @@
       "description": "회원 정보입니다."
     },
     {
-      "name": "breadComment",
-      "description": "빵 댓글 정보입니다."
+      "name": "comment",
+      "description": "댓글 정보입니다."
     },
     {
-      "name": "breadShopComment",
-      "description": "빵집 댓글 정보입니다."
+      "name": "review",
+      "description": "리뷰 정보입니다."
     },
     {
       "name": "rank",
@@ -30,6 +30,10 @@
     {
       "name": "utils",
       "description": "유틸 관련 정보입니다."
+    },
+    {
+      "name": "image upload",
+      "description": "업로드 정보입니다."
     }
   ],
   "schemes": ["http"],
@@ -287,9 +291,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/bread/{breadId}/comment": {
+    "/comment/bread/{breadId}": {
       "get": {
-        "tags": ["breadComment"],
+        "tags": ["comment"],
         "summary": "빵 댓글 조회",
         "operationId": "breadCommentList",
         "parameters": [
@@ -322,7 +326,7 @@
         "x-codegen-request-body-name": "body"
       },
       "post": {
-        "tags": ["breadComment"],
+        "tags": ["comment"],
         "summary": "빵 댓글 등록",
         "operationId": "breadCommentPost",
         "parameters": [
@@ -373,9 +377,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/bread/{breadId}/comment/{commentId}": {
+    "/comment/bread/{breadId}/{commentId}": {
       "post": {
-        "tags": ["breadComment"],
+        "tags": ["comment"],
         "summary": "빵 대댓글 등록",
         "operationId": "breadCoCommentPost",
         "parameters": [
@@ -435,9 +439,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/bread/comment/{commentId}": {
+    "/comment/bread/{commentId}": {
       "put": {
-        "tags": ["breadComment"],
+        "tags": ["comment"],
         "summary": "빵 댓글 및 대댓글 수정",
         "operationId": "breadCommentPut",
         "parameters": [
@@ -488,7 +492,7 @@
         "x-codegen-request-body-name": "body"
       },
       "delete": {
-        "tags": ["breadComment"],
+        "tags": ["comment"],
         "summary": "빵 댓글 및 대댓글 삭제",
         "operationId": "breadCommentDelete",
         "parameters": [
@@ -521,9 +525,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/bread/shop/{breadShopId}/comment": {
+    "/comment/bread/shop/{breadShopId}": {
       "get": {
-        "tags": ["breadShopComment"],
+        "tags": ["comment"],
         "summary": "빵집 댓글 조회",
         "operationId": "breadShopCommentList",
         "parameters": [
@@ -556,7 +560,7 @@
         "x-codegen-request-body-name": "body"
       },
       "post": {
-        "tags": ["breadShopComment"],
+        "tags": ["comment"],
         "summary": "빵집 댓글 등록",
         "operationId": "breadShopCommentPost",
         "parameters": [
@@ -607,9 +611,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/bread/shop/{breadShopId}/comment/{commentId}": {
+    "/comment/bread/shop/{breadShopId}/{commentId}": {
       "post": {
-        "tags": ["breadShopComment"],
+        "tags": ["comment"],
         "summary": "빵집 대댓글 등록",
         "operationId": "breadShopCoCommentPost",
         "parameters": [
@@ -669,9 +673,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/bread/shop/comment/{commentId}": {
+    "/comment/bread/shop/{commentId}": {
       "put": {
-        "tags": ["breadShopComment"],
+        "tags": ["comment"],
         "summary": "빵집 댓글 및 대댓글 수정",
         "operationId": "breadShopCommentPut",
         "parameters": [
@@ -722,7 +726,7 @@
         "x-codegen-request-body-name": "body"
       },
       "delete": {
-        "tags": ["breadShopComment"],
+        "tags": ["comment"],
         "summary": "빵집 댓글 및 대댓글 삭제",
         "operationId": "breadShopCommentDelete",
         "parameters": [
@@ -730,6 +734,203 @@
             "name": "commentId",
             "in": "path",
             "description": "댓글 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/review/{breadShopId}": {
+      "get": {
+        "tags": ["review"],
+        "summary": "빵집 리뷰 전체 리스트",
+        "operationId": "breadShopReviewList",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "post": {
+        "tags": ["review"],
+        "summary": "빵집 리뷰 등록",
+        "operationId": "breadShopReviewCreate",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "빵집 리뷰 등록",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content", "imageUrl"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "리뷰 내용"
+                  },
+                  "imageUrl": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/breadShop/1605669492223.png"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/review/{breadShopId}/{reviewId}": {
+      "put": {
+        "tags": ["review"],
+        "summary": "빵집 리뷰 등록",
+        "operationId": "breadShopReviewCreate",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "리뷰 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "빵집 리뷰 등록",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content", "imageUrl"],
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "example": "리뷰 내용"
+                  },
+                  "imageUrl": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "https://s3.ap-northeast-2.amazonaws.com/image.mercuryeunoia.com/images/breadShop/1605669492223.png"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/review/{reviewId}": {
+      "delete": {
+        "tags": ["review"],
+        "summary": "빵집 리뷰 전체 리스트",
+        "operationId": "breadShopReviewDelete",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "리뷰 번호",
             "required": true,
             "schema": {
               "type": "number"
@@ -781,6 +982,47 @@
         "responses": {
           "403": {
             "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/upload/review": {
+      "post": {
+        "tags": ["image upload"],
+        "summary": "빵집 리뷰 이미지 업로드",
+        "operationId": "uploadBreadShopReviewImage",
+        "requestBody": {
+          "description": "빵집 리뷰 이미지 등록 파라미터",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imgFile": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          },
+          "400": {
+            "description": "Invalid input"
           }
         },
         "security": [

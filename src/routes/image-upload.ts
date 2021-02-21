@@ -2,6 +2,7 @@ import express from 'express';
 
 import { uploadImage, uploadListImage } from '../controllers/upload';
 import { currentAdmin } from '../middlewares/current-admin';
+import { currentUser } from '../middlewares/current-user';
 import { upload } from '../services/aws-s3';
 
 const router = express.Router();
@@ -45,6 +46,13 @@ router.post(
   '/bread',
   currentAdmin,
   upload('bread').array('imgFile', 8),
+  uploadListImage
+);
+
+router.post(
+  '/review',
+  currentUser,
+  upload('review').array('imgFile', 8),
   uploadListImage
 );
 

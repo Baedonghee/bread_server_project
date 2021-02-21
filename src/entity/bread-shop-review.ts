@@ -1,16 +1,17 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BreadShop } from './bread-shop';
+import { BreadShopReviewImage } from './bread-shop-review-image';
 import { User } from './user';
 
 @Entity()
-export class BreadShopComment {
+export class BreadShopReview {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -24,32 +25,21 @@ export class BreadShopComment {
   })
   createdAt!: Date;
 
-  @ManyToOne(() => User, (user) => user.breadComments, {
+  @ManyToOne(() => User, (user) => user.breadShopReviews, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
   user!: User;
 
-  @ManyToOne(() => BreadShop, (breadShop) => breadShop.breadShopComments, {
+  @ManyToOne(() => BreadShop, (breadShop) => breadShop.breadShopReviews, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'bread_shop_id' })
   breadShop!: BreadShop;
 
-  @ManyToOne(
-    () => BreadShopComment,
-    (breadShopComment) => breadShopComment.comments,
-    {
-      nullable: true,
-      onDelete: 'CASCADE',
-    }
-  )
-  @JoinColumn({ name: 'comment_id' })
-  comment!: BreadShopComment;
-
   @OneToMany(
-    () => BreadShopComment,
-    (breadShopComment) => breadShopComment.comment
+    () => BreadShopReviewImage,
+    (breadShopReviewImage) => breadShopReviewImage.breadShopReview
   )
-  comments!: BreadShopComment[];
+  images!: BreadShopReviewImage[];
 }

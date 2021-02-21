@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { BreadComment } from './bread-comment';
 import { BreadShopComment } from './bread-shop-comment';
+import { BreadShopReview } from './bread-shop-review';
 
 @Entity()
 export class User {
@@ -54,4 +55,7 @@ export class User {
     (breadShopComment) => breadShopComment.user
   )
   breadShopComments!: BreadShopComment[];
+
+  @OneToMany(() => BreadShopReview, (breadShopReview) => breadShopReview.user)
+  breadShopReviews!: BreadShopReview[];
 }
