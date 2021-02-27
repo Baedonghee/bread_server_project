@@ -42,7 +42,6 @@ export const breadShopRankList = async (
       image: string;
       address: string;
     }[];
-    console.log(breadShopList.length);
     breadShopList.forEach((breadShopData) => {
       const rankBreadShopResult = new RankBreadShopResult(breadShopData);
       list.push(rankBreadShopResult);

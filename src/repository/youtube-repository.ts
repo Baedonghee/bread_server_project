@@ -26,7 +26,7 @@ export class YoutubeRepository extends Repository<Youtube> {
       .leftJoin('youtube.admin', 'admin')
       .select(['youtube', 'admin.email', 'admin.name'])
       .offset((page - 1) * limit)
-      .limit(limit)
+      .take(limit)
       .orderBy('youtube.id', 'DESC');
     if (title) {
       query.andWhere('youtube.title like :title', { title: `%${title}%` });

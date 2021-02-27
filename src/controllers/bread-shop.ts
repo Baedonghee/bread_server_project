@@ -45,7 +45,6 @@ export const breadShopList = async (
       title,
       address
     );
-    console.log(breadShopArray);
     breadShopArray.forEach((breadShopData) => {
       const rankBreadShopResult = new RankBreadShopResult(breadShopData);
       list.push(rankBreadShopResult);

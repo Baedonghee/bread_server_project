@@ -35,10 +35,11 @@ export class BreadShopRepository extends Repository<BreadShop> {
       .leftJoinAndSelect('breadShop.address', 'breadShopAddress')
       .leftJoinAndSelect('breadShop.shopUser', 'shopUser')
       .leftJoinAndSelect('breadShop.images', 'breadShopImage')
+      .leftJoinAndSelect('breadShop.breadShopKinds', 'breadShopKinds')
+      .leftJoinAndSelect('breadShopKinds.bread', 'bread')
       .offset((page - 1) * limit)
-      .limit(limit)
-      .orderBy('breadShop.id', 'DESC')
-      .groupBy('breadShop.id');
+      .take(limit)
+      .orderBy('breadShop.id', 'DESC');
     if (title) {
       query.andWhere('breadShop.title like :title', { title: `%${title}%` });
     }
@@ -52,7 +53,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
       .select(['breadShop', 'breadShopAddress', 'breadShopImage'])
       .orderBy('breadShop.rank', 'DESC')
       .offset((page - 1) * limit)
-      .limit(limit)
+      .take(limit)
       .groupBy('breadShop.id');
     if (title) {
       query.andWhere('breadShop.title like :title', { title: `%${title}%` });

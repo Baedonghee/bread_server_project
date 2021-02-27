@@ -76,7 +76,6 @@ export const addressSiRegister = async (
 ) => {
   try {
     const { name } = req.body as IAddressSi;
-    console.log(name);
     const addressSi = getCustomRepository(AddressSiRepository);
     await addressSi.createAndSave(name);
     res.status(201).json({

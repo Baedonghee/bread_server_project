@@ -23,7 +23,7 @@ export class NoticeRepository extends Repository<Notice> {
       .leftJoin('notice.admin', 'admin')
       .select(['notice', 'admin.email', 'admin.name'])
       .offset((page - 1) * limit)
-      .limit(limit)
+      .take(limit)
       .orderBy('notice.id', 'DESC');
     if (startAt) {
       query.andWhere('notice.startAt >= :startAt', { startAt });

@@ -27,7 +27,7 @@ export class BreadCommentRepository extends Repository<BreadComment> {
       .select(['breadComment', 'breadComments'])
       .where('breadComment.bread_id = :breadId', { breadId })
       .offset((page - 1) * limit)
-      .limit(limit)
+      .take(limit)
       .orderBy('breadComment.id', 'DESC');
     return query.getManyAndCount();
   }

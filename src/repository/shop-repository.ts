@@ -25,7 +25,7 @@ export class ShopUserRepository extends Repository<ShopUser> {
       .leftJoin('shopUser.admin', 'admin')
       .select(['shopUser', 'admin.email', 'admin.name'])
       .offset((page - 1) * limit)
-      .limit(limit)
+      .take(limit)
       .orderBy('shopUser.id', 'DESC');
     if (name) {
       query.andWhere('shopUser.name like :name', { name: `%${name}%` });

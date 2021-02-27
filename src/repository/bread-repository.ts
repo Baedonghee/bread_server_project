@@ -18,7 +18,7 @@ export class BreadRepository extends Repository<Bread> {
       .leftJoin('bread.images', 'breadImage')
       .select(['bread', 'breadImage'])
       .offset((page - 1) * limit)
-      .limit(limit)
+      .take(limit)
       .orderBy('bread.id', 'DESC');
     if (title) {
       query.andWhere('bread.title like :title', { title: `%${title}%` });
@@ -31,9 +31,8 @@ export class BreadRepository extends Repository<Bread> {
       .leftJoin('bread.images', 'breadImage')
       .select(['bread', 'breadImage'])
       .offset((page - 1) * limit)
-      .limit(limit)
-      .orderBy('bread.rank', 'DESC')
-      .groupBy('bread.id');
+      .take(limit)
+      .orderBy('bread.rank', 'DESC');
     return query.getManyAndCount();
   }
 
