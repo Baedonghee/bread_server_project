@@ -5,6 +5,7 @@ export class RankBreadShopResult {
   title!: string;
   image!: string;
   address!: string;
+  like!: boolean;
 
   constructor(data: BreadShop) {
     this.id = data.id;
@@ -12,5 +13,6 @@ export class RankBreadShopResult {
     this.image = data.images[0].imageUrl;
     const addressSplit = data.address.address.split(' ');
     this.address = addressSplit[0];
+    this.like = false;
   }
 }
