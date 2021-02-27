@@ -6,18 +6,12 @@ interface IShop {
   name: string;
 }
 
-interface IBread {
-  id: number;
-  title: string;
-}
-
 export class BreadShopListResult {
   id!: number;
   title!: string;
   link!: string;
   imageUrl: string;
   shopUser!: IShop;
-  bread: IBread[] = [];
 
   constructor(data: BreadShop) {
     this.id = data.id;
@@ -27,13 +21,6 @@ export class BreadShopListResult {
       id: data.shopUser.id,
       name: data.shopUser.name,
     };
-    data.breadShopKinds.forEach((breadInfo: any) => {
-      const breadData = {
-        id: breadInfo.bread.id,
-        title: breadInfo.bread.title,
-      };
-      this.bread.push(breadData);
-    });
     this.imageUrl = data.images[0].imageUrl;
   }
 }

@@ -12,9 +12,9 @@ export const breadRankList = async (
 ) => {
   try {
     const breadRepository = getCustomRepository(BreadRepository);
-    const breadList = await breadRepository.rankList();
+    const [breadArray] = await breadRepository.rankList(1, 8);
     const list = [] as { id: number; title: string; image: string }[];
-    breadList.forEach((breadData) => {
+    breadArray.forEach((breadData) => {
       const rankBreadResult = new RankBreadResult(breadData);
       list.push(rankBreadResult);
     });
@@ -35,13 +35,14 @@ export const breadShopRankList = async (
 ) => {
   try {
     const breadShopRepository = getCustomRepository(BreadShopRepository);
-    const breadShopList = await breadShopRepository.rankList();
+    const [breadShopList] = await breadShopRepository.rankList(1, 8);
     const list = [] as {
       id: number;
       title: string;
       image: string;
       address: string;
     }[];
+    console.log(breadShopList.length);
     breadShopList.forEach((breadShopData) => {
       const rankBreadShopResult = new RankBreadShopResult(breadShopData);
       list.push(rankBreadShopResult);

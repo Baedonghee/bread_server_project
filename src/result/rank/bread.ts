@@ -8,6 +8,6 @@ export class RankBreadResult {
   constructor(data: Bread) {
     this.id = data.id;
     this.title = data.title;
-    this.image = data.images[0].imageUrl;
+    this.image = data.images.length ? data.images[0].imageUrl : '';
   }
 }

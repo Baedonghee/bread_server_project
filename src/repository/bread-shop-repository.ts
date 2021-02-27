@@ -32,27 +32,37 @@ export class BreadShopRepository extends Repository<BreadShop> {
 
   list(page: number, limit: number, title?: string) {
     const query = this.createQueryBuilder('breadShop')
-      .innerJoinAndSelect('breadShop.breadShopKinds', 'breadShopKinds')
-      .innerJoinAndSelect('breadShopKinds.bread', 'bread')
-      .innerJoinAndSelect('breadShop.address', 'breadShopAddress')
-      .innerJoinAndSelect('breadShop.shopUser', 'shopUser')
-      .innerJoinAndSelect('breadShop.images', 'breadShopImage')
+      .leftJoinAndSelect('breadShop.address', 'breadShopAddress')
+      .leftJoinAndSelect('breadShop.shopUser', 'shopUser')
+      .leftJoinAndSelect('breadShop.images', 'breadShopImage')
       .offset((page - 1) * limit)
       .limit(limit)
-      .orderBy('breadShop.id', 'DESC');
+      .orderBy('breadShop.id', 'DESC')
+      .groupBy('breadShop.id');
     if (title) {
       query.andWhere('breadShop.title like :title', { title: `%${title}%` });
     }
     return query.getManyAndCount();
   }
 
-  rankList() {
+  rankList(page: number, limit: number, title?: string, address?: string) {
     const query = this.createQueryBuilder('breadShop')
-      .innerJoinAndSelect('breadShop.address', 'breadShopAddress')
-      .innerJoinAndSelect('breadShop.images', 'breadShopImage')
-      .limit(8)
-      .orderBy('breadShop.rank', 'DESC');
-    return query.getMany();
+      .leftJoinAndSelect('breadShop.address', 'breadShopAddress')
+      .leftJoinAndSelect('breadShop.images', 'breadShopImage')
+      .select(['breadShop', 'breadShopAddress', 'breadShopImage'])
+      .orderBy('breadShop.rank', 'DESC')
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .groupBy('breadShop.id');
+    if (title) {
+      query.andWhere('breadShop.title like :title', { title: `%${title}%` });
+    }
+    if (address) {
+      query.andWhere('breadShopAddress.address like :address', {
+        address: `%${address}%`,
+      });
+    }
+    return query.getManyAndCount();
   }
 
   findById(id: number) {

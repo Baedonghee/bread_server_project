@@ -26,13 +26,15 @@ export class BreadRepository extends Repository<Bread> {
     return query.getManyAndCount();
   }
 
-  rankList() {
+  rankList(page: number, limit: number) {
     const query = this.createQueryBuilder('bread')
       .leftJoin('bread.images', 'breadImage')
       .select(['bread', 'breadImage'])
-      .limit(8)
-      .orderBy('bread.rank', 'DESC');
-    return query.getMany();
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('bread.rank', 'DESC')
+      .groupBy('bread.id');
+    return query.getManyAndCount();
   }
 
   findByIdInfo(id: number) {

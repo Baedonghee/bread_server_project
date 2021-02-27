@@ -20,6 +20,14 @@
       "description": "댓글 정보입니다."
     },
     {
+      "name": "bread",
+      "description": "빵 정보입니다."
+    },
+    {
+      "name": "breadShop",
+      "description": "빵집 정보입니다."
+    },
+    {
       "name": "review",
       "description": "리뷰 정보입니다."
     },
