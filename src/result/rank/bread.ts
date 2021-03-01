@@ -1,4 +1,9 @@
-import { Bread } from '../../entity/bread';
+interface IRankBreadResult {
+  id: number;
+  title: string;
+  image: string;
+  like: string;
+}
 
 export class RankBreadResult {
   id!: number;
@@ -6,10 +11,10 @@ export class RankBreadResult {
   image!: string;
   like!: boolean;
 
-  constructor(data: Bread) {
+  constructor(data: IRankBreadResult) {
     this.id = data.id;
     this.title = data.title;
-    this.image = data.images.length ? data.images[0].imageUrl : '';
-    this.like = false;
+    this.image = data.image;
+    this.like = !!Number(data.like);
   }
 }

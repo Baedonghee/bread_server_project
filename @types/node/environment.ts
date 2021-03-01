@@ -29,6 +29,7 @@ declare global {
     interface Request {
       currentUser: UserPayload;
       user: User;
+      userAndNon: User | null;
       currentAdmin: AdminPayload;
       adminUser: AdminUser;
     }

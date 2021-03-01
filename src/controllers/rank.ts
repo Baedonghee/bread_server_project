@@ -6,13 +6,17 @@ import { RankBreadResult } from '../result/rank/bread';
 import { RankBreadShopResult } from '../result/rank/bread-shop';
 
 export const breadRankList = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const breadRepository = getCustomRepository(BreadRepository);
-    const [breadArray] = await breadRepository.rankList(1, 8);
+    const breadArray = await breadRepository.rankList(
+      1,
+      8,
+      req.userAndNon ? req.userAndNon.id : 0
+    );
     const list = [] as { id: number; title: string; image: string }[];
     breadArray.forEach((breadData) => {
       const rankBreadResult = new RankBreadResult(breadData);
@@ -24,6 +28,7 @@ export const breadRankList = async (
       list,
     });
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };

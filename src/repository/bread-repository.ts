@@ -26,14 +26,31 @@ export class BreadRepository extends Repository<Bread> {
     return query.getManyAndCount();
   }
 
-  rankList(page: number, limit: number) {
+  rankList(page: number, limit: number, userId?: number) {
     const query = this.createQueryBuilder('bread')
-      .leftJoin('bread.images', 'breadImage')
-      .select(['bread', 'breadImage'])
+      .leftJoinAndSelect('bread.images', 'breadImage')
+      .select(['bread.id AS id', 'title', 'breadImage.imageUrl AS image']);
+
+    if (userId) {
+      query
+        .leftJoinAndSelect('bread.breadUserFavorites', 'breadUserFavorites')
+        .addSelect(
+          `CASE WHEN bread.id = breadUserFavorites.bread AND breadUserFavorites.user = ${userId} then 1 else 0 end`,
+          'like'
+        );
+    } else {
+      query.addSelect('0', 'like');
+    }
+
+    query
       .offset((page - 1) * limit)
       .take(limit)
       .orderBy('bread.rank', 'DESC');
-    return query.getManyAndCount();
+    return query.getRawMany();
+  }
+
+  findAllCount() {
+    return this.createQueryBuilder('bread').getCount();
   }
 
   findByIdInfo(id: number) {

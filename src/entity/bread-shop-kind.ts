@@ -8,13 +8,13 @@ export class BreadShopKind {
     onDelete: 'CASCADE',
     primary: true,
   })
-  @JoinColumn({ name: 'breadShopId' })
+  @JoinColumn({ name: 'bread_shop_id' })
   breadShop!: BreadShop;
 
   @ManyToOne(() => Bread, (bread) => bread.breadShopKinds, {
     onDelete: 'CASCADE',
     primary: true,
   })
-  @JoinColumn({ name: 'breadId' })
+  @JoinColumn({ name: 'bread_id' })
   bread!: number;
 }

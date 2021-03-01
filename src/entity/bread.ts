@@ -10,6 +10,7 @@ import { AdminUser } from './admin-user';
 import { BreadImage } from './bread-image';
 import { BreadShopKind } from './bread-shop-kind';
 import { BreadComment } from './bread-comment';
+import { BreadUserFavorites } from './bread-user-favorites';
 
 @Entity()
 export class Bread {
@@ -39,4 +40,10 @@ export class Bread {
 
   @OneToMany(() => BreadComment, (breadComment) => breadComment.bread)
   breadComments!: BreadComment[];
+
+  @OneToMany(
+    () => BreadUserFavorites,
+    (breadUserFavorites) => breadUserFavorites.bread
+  )
+  breadUserFavorites!: BreadUserFavorites[];
 }

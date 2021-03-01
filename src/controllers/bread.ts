@@ -1,3 +1,4 @@
+import { BreadUserFavoritesRepository } from './../repository/bread-user-favorites-repository';
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
 import { RankBreadResult } from './../result/rank/bread';
@@ -18,10 +19,12 @@ export const breadList = async (
   try {
     const { page, limit } = req.query as IBreadListQuery;
     const breadRepository = getCustomRepository(BreadRepository);
-    const [breadArray, sum] = await breadRepository.rankList(
+    const breadArray = await breadRepository.rankList(
       Number(page) || 1,
-      Number(limit) || 20
+      Number(limit) || 20,
+      req.userAndNon ? req.userAndNon.id : 0
     );
+    const sum = await breadRepository.findAllCount();
     const list = [] as { id: number; title: string; image: string }[];
     breadArray.forEach((breadData) => {
       const rankBreadResult = new RankBreadResult(breadData);
@@ -60,6 +63,55 @@ export const breadDetail = async (
       status: 200,
       message: 'success',
       data: breadResult,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const breadFavoriteAdd = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { breadId } = req.params;
+    const breadUserFavoritesRepository = getCustomRepository(
+      BreadUserFavoritesRepository
+    );
+    const breadUserInfo = await breadUserFavoritesRepository.findById(
+      req.user.id,
+      Number(breadId)
+    );
+    if (!breadUserInfo) {
+      await breadUserFavoritesRepository.createAndSave(
+        req.user,
+        Number(breadId)
+      );
+    }
+    res.status(200).json({
+      status: 200,
+      message: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const breadFavoriteDelete = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { breadId } = req.params;
+    const breadUserFavoritesRepository = getCustomRepository(
+      BreadUserFavoritesRepository
+    );
+    await breadUserFavoritesRepository.deleteById(req.user, Number(breadId));
+    res.status(200).json({
+      status: 200,
+      message: 'success',
     });
   } catch (err) {
     next(err);
