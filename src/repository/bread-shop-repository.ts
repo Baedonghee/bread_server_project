@@ -175,6 +175,10 @@ export class BreadShopRepository extends Repository<BreadShop> {
     return this.update(id, updateBreadShop);
   }
 
+  updateAndRank(id: number, rank: number) {
+    return this.update(id, { rank });
+  }
+
   deleteById(id: number) {
     return this.delete({ id });
   }

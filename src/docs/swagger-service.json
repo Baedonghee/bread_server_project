@@ -767,6 +767,176 @@
         "x-codegen-request-body-name": "body"
       }
     },
+    "/bread": {
+      "get": {
+        "tags": ["bread"],
+        "summary": "빵 전체 리스트",
+        "operationId": "breadList",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "갯수",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/{breadId}": {
+      "get": {
+        "tags": ["bread"],
+        "summary": "빵집 상세",
+        "operationId": "breadShopDetail",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/shop": {
+      "get": {
+        "tags": ["breadShop"],
+        "summary": "빵집 전체 리스트",
+        "operationId": "breadShopList",
+        "parameters": [
+          {
+            "name": "si_code",
+            "in": "query",
+            "description": "시 코드(id)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "gu_code",
+            "in": "query",
+            "description": "구 코드(id)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "갯수",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/shop/{breadShopId}": {
+      "get": {
+        "tags": ["breadShop"],
+        "summary": "빵집 상세",
+        "operationId": "breadShopDetail",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
     "/review/{breadShopId}": {
       "get": {
         "tags": ["review"],

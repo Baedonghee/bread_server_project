@@ -67,6 +67,10 @@ export class BreadRepository extends Repository<Bread> {
     });
   }
 
+  updateAndRank(id: number, rank: number) {
+    return this.update(id, { rank });
+  }
+
   deleteById(id: number) {
     return this.delete({ id });
   }
