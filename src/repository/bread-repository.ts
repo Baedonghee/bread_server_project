@@ -50,6 +50,17 @@ export class BreadRepository extends Repository<Bread> {
     return query.getRawMany();
   }
 
+  userBreadList(page: number, limit: number, userId: number) {
+    const query = this.createQueryBuilder('bread')
+      .leftJoinAndSelect('bread.images', 'breadImage')
+      .leftJoinAndSelect('bread.breadUserFavorites', 'breadUserFavorites')
+      .where('breadUserFavorites.user.id = :userId', { userId })
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('bread.id', 'DESC');
+    return query.getManyAndCount();
+  }
+
   findAllCount() {
     return this.createQueryBuilder('bread').getCount();
   }

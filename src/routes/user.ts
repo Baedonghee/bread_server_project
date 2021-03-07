@@ -8,6 +8,8 @@ import {
   userUpdate,
   userSecession,
   userLogout,
+  userBread,
+  userBreadShop,
 } from './../controllers/user';
 import { currentUser } from './../middlewares/current-user';
 import { userSignUp, userSignIn } from '../controllers/user';
@@ -97,5 +99,9 @@ router.put(
 router.get('/bye', currentUser, userSecession);
 
 router.get('/logout', currentUser, userLogout);
+
+router.get('/bread', currentUser, userBread);
+
+router.get('/bread/shop', currentUser, userBreadShop);
 
 export default router;

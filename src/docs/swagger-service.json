@@ -263,6 +263,42 @@
         "x-codegen-request-body-name": "body"
       }
     },
+    "/user/bread": {
+      "get": {
+        "tags": ["user"],
+        "summary": "회원 좋아요 빵 리스트",
+        "operationId": "userBreadListGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/user/bread/shop": {
+      "get": {
+        "tags": ["user"],
+        "summary": "회원 좋아요 빵집 리스트",
+        "operationId": "userBreadShopListGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
     "/user/bye": {
       "get": {
         "tags": ["user"],

@@ -88,6 +88,21 @@ export class BreadShopRepository extends Repository<BreadShop> {
     return query.getRawMany();
   }
 
+  userBreadShopList(page: number, limit: number, userId: number) {
+    const query = this.createQueryBuilder('breadShop')
+      .leftJoinAndSelect('breadShop.address', 'breadShopAddress')
+      .leftJoinAndSelect('breadShop.images', 'breadShopImage')
+      .leftJoinAndSelect(
+        'breadShop.breadShopFavorites',
+        'breadShopUserFavorites'
+      )
+      .where('breadShopUserFavorites.user.id = :userId', { userId })
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('breadShop.id', 'DESC');
+    return query.getManyAndCount();
+  }
+
   findById(id: number) {
     return this.createQueryBuilder('breadShop')
       .innerJoin('breadShop.admin', 'admin')

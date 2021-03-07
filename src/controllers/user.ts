@@ -10,6 +10,10 @@ import { UserRepository } from '../repository/user-repository';
 import { Password } from '../services/password';
 import { authType } from '../utils/format';
 import { userJwt } from '../utils/jwt';
+import { BreadRepository } from '../repository/bread-repository';
+import { UserBreadResult } from '../result/user/user-bread-result';
+import { BreadShopRepository } from '../repository/bread-shop-repository';
+import { UserBreadShopResult } from '../result/user/user-bread-shop.result';
 
 interface ISignup {
   email: string;
@@ -19,6 +23,11 @@ interface ISignup {
   gender?: boolean;
   age?: number;
   type: string;
+}
+
+interface IBreadListQuery {
+  page?: number;
+  limit?: number;
 }
 
 export const userSocialSignup = async (
@@ -365,6 +374,85 @@ export const userLogout = (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({
       status: 200,
       message: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const userBread = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.currentUser;
+    const { page, limit } = req.query as IBreadListQuery;
+    const breadRepository = getCustomRepository(BreadRepository);
+    const [breadList, sum] = await breadRepository.userBreadList(
+      Number(page) || 1,
+      Number(limit) || 20,
+      id
+    );
+    const list = [] as {
+      id: number;
+      title: string;
+      image: string;
+      like: boolean;
+    }[];
+    breadList.forEach((breadData) => {
+      const userBreadResult = new UserBreadResult(breadData);
+      list.push(userBreadResult);
+    });
+    res.status(200).json({
+      status: 200,
+      message: 'success',
+      list,
+      pagination: {
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
+        limit: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const userBreadShop = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.currentUser;
+    const { page, limit } = req.query as IBreadListQuery;
+    const breadShopRepository = getCustomRepository(BreadShopRepository);
+    const [breadShopList, sum] = await breadShopRepository.userBreadShopList(
+      Number(page) || 1,
+      Number(limit) || 20,
+      id
+    );
+    const list = [] as {
+      id: number;
+      title: string;
+      image: string;
+      address: string;
+      like: boolean;
+    }[];
+    breadShopList.forEach((breadShopData) => {
+      const userBreadShopResult = new UserBreadShopResult(breadShopData);
+      list.push(userBreadShopResult);
+    });
+    res.status(200).json({
+      status: 200,
+      message: 'success',
+      list,
+      pagination: {
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
+        limit: Number(limit) || 20,
+        currentPage: Number(page) || 1,
+      },
     });
   } catch (err) {
     next(err);
