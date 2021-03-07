@@ -34,13 +34,18 @@ export const breadRankList = async (
 };
 
 export const breadShopRankList = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const breadShopRepository = getCustomRepository(BreadShopRepository);
-    const [breadShopList] = await breadShopRepository.rankList(1, 8);
+    const breadShopList = await breadShopRepository.rankList(
+      1,
+      8,
+      req.userAndNon ? req.userAndNon.id : 0
+    );
+    console.log(breadShopList);
     const list = [] as {
       id: number;
       title: string;

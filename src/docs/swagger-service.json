@@ -813,7 +813,75 @@
       "get": {
         "tags": ["bread"],
         "summary": "빵집 상세",
-        "operationId": "breadShopDetail",
+        "operationId": "breadDetail",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/favorite/{breadId}": {
+      "post": {
+        "tags": ["bread"],
+        "summary": "빵 좋아요",
+        "operationId": "breadFavoriteAdd",
+        "parameters": [
+          {
+            "name": "breadId",
+            "in": "path",
+            "description": "빵 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["bread"],
+        "summary": "빵 좋아요 취소",
+        "operationId": "breadFavoriteDelete",
         "parameters": [
           {
             "name": "breadId",
@@ -907,6 +975,74 @@
         "tags": ["breadShop"],
         "summary": "빵집 상세",
         "operationId": "breadShopDetail",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/bread/shop/favorite/{breadId}": {
+      "post": {
+        "tags": ["breadShop"],
+        "summary": "빵집 좋아요",
+        "operationId": "breadShopFavoriteAdd",
+        "parameters": [
+          {
+            "name": "breadShopId",
+            "in": "path",
+            "description": "빵집 번호",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": ["breadShop"],
+        "summary": "빵집 좋아요 취소",
+        "operationId": "breadShopFavoriteDelete",
         "parameters": [
           {
             "name": "breadShopId",

@@ -1,4 +1,10 @@
-import { BreadShop } from '../../entity/bread-shop';
+interface IRankBreadShopResult {
+  id: number;
+  title: string;
+  image: string;
+  address: string;
+  like: string;
+}
 
 export class RankBreadShopResult {
   id!: number;
@@ -7,12 +13,12 @@ export class RankBreadShopResult {
   address!: string;
   like!: boolean;
 
-  constructor(data: BreadShop) {
+  constructor(data: IRankBreadShopResult) {
     this.id = data.id;
     this.title = data.title;
-    this.image = data.images[0].imageUrl;
-    const addressSplit = data.address.address.split(' ');
+    this.image = data.image;
+    const addressSplit = data.address.split(' ');
     this.address = addressSplit[0];
-    this.like = false;
+    this.like = !!Number(data.like);
   }
 }

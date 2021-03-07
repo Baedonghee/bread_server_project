@@ -4,6 +4,7 @@ import { GoneRequestError } from '../errors/gone-request.error';
 import { AddressGuRepository } from '../repository/address-gu-repository';
 import { AddressSiRepository } from '../repository/address-si-repository';
 import { BreadShopRepository } from '../repository/bread-shop-repository';
+import { BreadShopUserFavoriteRepository } from '../repository/bread-shop-user-favorites-repository';
 import { BreadShopDetailResult } from '../result/bread-shop/bread-shop-detail-result';
 import { RankBreadShopResult } from '../result/rank/bread-shop';
 
@@ -47,12 +48,14 @@ export const breadShopList = async (
       image: string;
       address: string;
     }[];
-    const [breadShopArray, sum] = await breadShopRepository.rankList(
+    const breadShopArray = await breadShopRepository.rankList(
       Number(page) || 1,
       Number(limit) || 20,
+      req.userAndNon ? req.userAndNon.id : 0,
       title,
       address
     );
+    const sum = await breadShopRepository.findAllCount();
     breadShopArray.forEach((breadShopData) => {
       const rankBreadShopResult = new RankBreadShopResult(breadShopData);
       list.push(rankBreadShopResult);
@@ -95,6 +98,58 @@ export const breadShopDetail = async (
       status: 200,
       message: 'success',
       data: breadMakeResult,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const breadShopFavoriteAdd = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { breadShopId } = req.params;
+    const breadShopUserFavoritesRepository = getCustomRepository(
+      BreadShopUserFavoriteRepository
+    );
+    const breadShopUserInfo = await breadShopUserFavoritesRepository.findById(
+      req.user.id,
+      Number(breadShopId)
+    );
+    if (!breadShopUserInfo) {
+      await breadShopUserFavoritesRepository.createAndSave(
+        req.user,
+        Number(breadShopId)
+      );
+    }
+    res.status(200).json({
+      status: 200,
+      message: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const breadShopFavoriteDelete = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { breadShopId } = req.params;
+    const breadShopUserFavoriteRepository = getCustomRepository(
+      BreadShopUserFavoriteRepository
+    );
+    await breadShopUserFavoriteRepository.deleteById(
+      req.user,
+      Number(breadShopId)
+    );
+    res.status(200).json({
+      status: 200,
+      message: 'success',
     });
   } catch (err) {
     next(err);

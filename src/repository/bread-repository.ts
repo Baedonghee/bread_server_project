@@ -26,7 +26,7 @@ export class BreadRepository extends Repository<Bread> {
     return query.getManyAndCount();
   }
 
-  rankList(page: number, limit: number, userId?: number) {
+  rankList(page: number, limit: number, userId: number) {
     const query = this.createQueryBuilder('bread')
       .leftJoinAndSelect('bread.images', 'breadImage')
       .select(['bread.id AS id', 'title', 'breadImage.imageUrl AS image']);
@@ -44,8 +44,9 @@ export class BreadRepository extends Repository<Bread> {
 
     query
       .offset((page - 1) * limit)
-      .take(limit)
-      .orderBy('bread.rank', 'DESC');
+      .limit(limit)
+      .orderBy('bread.rank', 'DESC')
+      .groupBy('bread.id');
     return query.getRawMany();
   }
 

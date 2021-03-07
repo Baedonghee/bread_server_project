@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get('/bread', currentCheckUser, breadRankList);
 
-router.get('/bread/shop', breadShopRankList);
+router.get('/bread/shop', currentCheckUser, breadShopRankList);
 
 export default router;

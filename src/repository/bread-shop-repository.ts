@@ -46,15 +46,22 @@ export class BreadShopRepository extends Repository<BreadShop> {
     return query.getManyAndCount();
   }
 
-  rankList(page: number, limit: number, title?: string, address?: string) {
+  rankList(
+    page: number,
+    limit: number,
+    userId: number,
+    title?: string,
+    address?: string
+  ) {
     const query = this.createQueryBuilder('breadShop')
       .leftJoinAndSelect('breadShop.address', 'breadShopAddress')
       .leftJoinAndSelect('breadShop.images', 'breadShopImage')
-      .select(['breadShop', 'breadShopAddress', 'breadShopImage'])
-      .orderBy('breadShop.rank', 'DESC')
-      .offset((page - 1) * limit)
-      .take(limit)
-      .groupBy('breadShop.id');
+      .select([
+        'breadShop.id AS id',
+        'title',
+        'breadShopImage.imageUrl AS image',
+        'breadShopAddress.address AS address',
+      ]);
     if (title) {
       query.andWhere('breadShop.title like :title', { title: `%${title}%` });
     }
@@ -63,7 +70,22 @@ export class BreadShopRepository extends Repository<BreadShop> {
         address: `%${address}%`,
       });
     }
-    return query.getManyAndCount();
+    if (userId) {
+      query
+        .leftJoin('breadShop.breadShopFavorites', 'breadShopUserFavorites')
+        .addSelect(
+          `CASE WHEN breadShop.id = breadShopUserFavorites.breadShop AND breadShopUserFavorites.user = ${userId} then 1 else 0 end`,
+          'like'
+        );
+    } else {
+      query.addSelect('0', 'like');
+    }
+    query
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('breadShop.rank', 'DESC')
+      .groupBy('breadShop.id');
+    return query.getRawMany();
   }
 
   findById(id: number) {
@@ -181,5 +203,9 @@ export class BreadShopRepository extends Repository<BreadShop> {
 
   deleteById(id: number) {
     return this.delete({ id });
+  }
+
+  findAllCount() {
+    return this.createQueryBuilder('breadShop').getCount();
   }
 }

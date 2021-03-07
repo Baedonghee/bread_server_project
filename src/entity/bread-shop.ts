@@ -17,6 +17,7 @@ import { BreadShopMenuImage } from './bread-shop-menu-image';
 import { ShopUser } from './shop-user';
 import { BreadShopComment } from './bread-shop-comment';
 import { BreadShopReview } from './bread-shop-review';
+import { BreadShopUserFavorites } from './bread-shop-user-favorites';
 
 @Entity()
 export class BreadShop {
@@ -105,4 +106,10 @@ export class BreadShop {
     (breadShopReview) => breadShopReview.breadShop
   )
   breadShopReviews!: BreadShopReview[];
+
+  @OneToMany(
+    () => BreadShopUserFavorites,
+    (breadShopUserFavorites) => breadShopUserFavorites.breadShop
+  )
+  breadShopFavorites!: BreadShopUserFavorites[];
 }
