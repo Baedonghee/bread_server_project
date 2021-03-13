@@ -57,7 +57,7 @@ export const youtubeCreate = async (
     const { adminUser } = req;
     const youtubeRepository = getCustomRepository(YoutubeRepository);
     const breadShopRepository = getCustomRepository(BreadShopRepository);
-    const breadShopInfo = await breadShopRepository.findById(breadShopId);
+    const breadShopInfo = await breadShopRepository.findByIdInfo(breadShopId);
     if (!breadShopInfo) {
       throw new GoneRequestError('존재하지 않는 빵집입니다.');
     }
