@@ -8,6 +8,7 @@ export class EventRepository extends Repository<Event> {
     title: string,
     imageUrl: string,
     link: string,
+    banner: boolean,
     startAt: Date,
     endAt: Date,
     admin: AdminUser
@@ -16,6 +17,7 @@ export class EventRepository extends Repository<Event> {
     event.title = title;
     event.imageUrl = imageUrl;
     event.link = link;
+    event.banner = banner;
     event.startAt = startAt;
     event.endAt = endAt;
     event.admin = admin;
@@ -45,6 +47,23 @@ export class EventRepository extends Repository<Event> {
       query.andWhere('event.title like :title', { title: `%${title}%` });
     }
     return query.getManyAndCount();
+  }
+
+  listAndPaging(page: number, limit: number) {
+    const query = this.createQueryBuilder('event')
+      .offset((page - 1) * limit)
+      .take(limit)
+      .orderBy('event.id', 'DESC')
+      .orderBy('event.endAt', 'DESC');
+    return query.getManyAndCount();
+  }
+
+  listAndBanner() {
+    const query = this.createQueryBuilder('event')
+      .where('event.banner = true')
+      .andWhere('event.endAt >= :endAt', { endAt: new Date() })
+      .orderBy('event.id', 'DESC');
+    return query.getMany();
   }
 
   findById(id: number) {

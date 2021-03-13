@@ -21,6 +21,9 @@ export class Event {
   @Column({ nullable: false })
   link!: string;
 
+  @Column({ nullable: false, default: false })
+  banner!: boolean;
+
   @Column({
     type: 'timestamp',
     name: 'start_at',

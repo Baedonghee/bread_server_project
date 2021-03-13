@@ -1,6 +1,6 @@
-import { youtubeDelete, youtubeUpdate } from './../controllers/admin-youtube';
 import express from 'express';
 import { body, param } from 'express-validator';
+import { youtubeDelete, youtubeUpdate } from './../controllers/admin-youtube';
 import {
   youtubeCreate,
   youtubeList,
