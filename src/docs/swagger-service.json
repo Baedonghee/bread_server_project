@@ -20,6 +20,10 @@
       "description": "댓글 정보입니다."
     },
     {
+      "name": "banner",
+      "description": "배너 관련 정보입니다."
+    },
+    {
       "name": "bread",
       "description": "빵 정보입니다."
     },
@@ -28,12 +32,24 @@
       "description": "빵집 정보입니다."
     },
     {
+      "name": "notice",
+      "description": "공지사항 정보입니다."
+    },
+    {
+      "name": "event",
+      "description": "이벤트 정보입니다."
+    },
+    {
       "name": "review",
       "description": "리뷰 정보입니다."
     },
     {
       "name": "rank",
       "description": "메인 랭킹정보입니다."
+    },
+    {
+      "name": "youtube",
+      "description": "유튜브 정보입니다."
     },
     {
       "name": "utils",
@@ -322,6 +338,24 @@
         "tags": ["user"],
         "summary": "회원 로그아웃",
         "operationId": "userLogoutGet",
+        "responses": {
+          "403": {
+            "description": "forbidden"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/banner/event": {
+      "get": {
+        "tags": ["banner"],
+        "summary": "이벤트 배너 리스트",
+        "operationId": "bannerEventGet",
         "responses": {
           "403": {
             "description": "forbidden"
@@ -808,6 +842,132 @@
         "tags": ["bread"],
         "summary": "빵 전체 리스트",
         "operationId": "breadList",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "갯수",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/notice": {
+      "get": {
+        "tags": ["notice"],
+        "summary": "공지사항 전체 리스트",
+        "operationId": "noticeList",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "갯수",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/event": {
+      "get": {
+        "tags": ["event"],
+        "summary": "이벤트 전체 리스트",
+        "operationId": "eventList",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "페이지",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "갯수",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/youtube": {
+      "get": {
+        "tags": ["youtube"],
+        "summary": "유튜브 전체 리스트",
+        "operationId": "youtubeList",
         "parameters": [
           {
             "name": "page",

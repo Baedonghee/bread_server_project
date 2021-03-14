@@ -520,7 +520,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["title", "link", "imageUrl", "startAt", "endAt"],
+                "required": ["title", "link", "banner", "imageUrl", "startAt", "endAt"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -529,6 +529,10 @@
                   "link": {
                     "type": "string",
                     "example": "이벤트링크!!"
+                  },
+                  "banner": {
+                    "type": "boolean",
+                    "example": "true"
                   },
                   "imageUrl": {
                     "type": "string",

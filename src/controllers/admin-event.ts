@@ -10,6 +10,7 @@ interface IEventCreate {
   imageUrl: string;
   startAt: string;
   endAt: string;
+  banner: boolean;
 }
 
 interface IEventListQuery {
@@ -62,13 +63,21 @@ export const eventCreate = async (
   next: NextFunction
 ) => {
   try {
-    const { title, link, imageUrl, startAt, endAt } = req.body as IEventCreate;
+    const {
+      title,
+      link,
+      imageUrl,
+      banner,
+      startAt,
+      endAt,
+    } = req.body as IEventCreate;
     const { adminUser } = req;
     const eventRepository = getCustomRepository(EventRepository);
     await eventRepository.createAndSave(
       title,
       imageUrl,
       link,
+      banner,
       new Date(startAt),
       new Date(endAt),
       adminUser

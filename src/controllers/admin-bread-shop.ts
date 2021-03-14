@@ -14,6 +14,7 @@ import { GoneRequestError } from '../errors/gone-request.error';
 import { BreadShopKindRepository } from '../repository/bread-shop-kind-repository';
 import { BreadShopResult } from '../result/bread-shop/bread-shop-result';
 import { BreadShopListResult } from '../result/bread-shop/bread-shop-list-result';
+import { BreadRepository } from '../repository/bread-repository';
 
 interface IBreadShopCreate {
   title: string;
@@ -156,6 +157,13 @@ export const breadShopCreate = async (
         BreadShopHolidayRepository
       );
       await breadShopHolidayRepository.createAndSave(day[i], breadShopData);
+    }
+    for (let i = 0; i < breadId.length; i++) {
+      const breadRepository = getCustomRepository(BreadRepository);
+      const breadInfo = await breadRepository.findByIdInfo(breadId[i]);
+      if (!breadInfo) {
+        throw new GoneRequestError('존재하지 않는 빵이 있습니다.');
+      }
     }
     const breadShopKindRepository = getCustomRepository(
       BreadShopKindRepository

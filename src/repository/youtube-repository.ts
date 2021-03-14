@@ -34,6 +34,14 @@ export class YoutubeRepository extends Repository<Youtube> {
     return query.getManyAndCount();
   }
 
+  listAndPick(page: number, limit: number) {
+    const query = this.createQueryBuilder('youtube')
+      .offset((page - 1) * limit)
+      .take(limit)
+      .orderBy('youtube.id', 'DESC');
+    return query.getManyAndCount();
+  }
+
   findById(id: number) {
     return this.createQueryBuilder('youtube')
       .leftJoin('youtube.admin', 'admin')

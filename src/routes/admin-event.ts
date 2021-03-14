@@ -29,6 +29,12 @@ router.post(
       .trim()
       .isLength({ min: 1 })
       .withMessage('이미지url을 입력해주세요.'),
+    body('banner')
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage('배너 여부를 입력해주세요.')
+      .isBoolean()
+      .withMessage('배너 여부 형식을 맞춰주세요.'),
     body('startAt')
       .trim()
       .isLength({ min: 1 })
