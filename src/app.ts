@@ -30,6 +30,7 @@ import breadRouter from './routes/bread';
 import breadShopRouter from './routes/bread-shop';
 import eventRouter from './routes/event';
 import youtubeRouter from './routes/youtube';
+import noticeRouter from './routes/notice';
 
 import { NotFoundError } from './errors/not-found-error';
 import { errorHandler } from './middlewares/error-handler';
@@ -82,6 +83,7 @@ app.use('/bread', breadRouter);
 app.use('/comment', commentRouter);
 app.use('/review', reviewRouter);
 app.use('/event', eventRouter);
+app.use('/notice', noticeRouter);
 app.use('/youtube', youtubeRouter);
 app.use('/rank', rankRouter);
 app.use('/upload', uploadRouter);

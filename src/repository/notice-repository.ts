@@ -35,6 +35,14 @@ export class NoticeRepository extends Repository<Notice> {
     return query.getManyAndCount();
   }
 
+  listAndPaging(page: number, limit: number) {
+    const query = this.createQueryBuilder('notice')
+      .offset((page - 1) * limit)
+      .take(limit)
+      .orderBy('notice.startAt', 'DESC');
+    return query.getManyAndCount();
+  }
+
   findById(id: number) {
     return this.createQueryBuilder('notice')
       .leftJoin('notice.admin', 'admin')
