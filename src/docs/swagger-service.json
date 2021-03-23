@@ -1008,7 +1008,7 @@
     "/bread/{breadId}": {
       "get": {
         "tags": ["bread"],
-        "summary": "빵집 상세",
+        "summary": "빵 상세",
         "operationId": "breadDetail",
         "parameters": [
           {
@@ -1201,7 +1201,7 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/bread/shop/favorite/{breadId}": {
+    "/bread/shop/favorite/{breadShopId}": {
       "post": {
         "tags": ["breadShop"],
         "summary": "빵집 좋아요",
