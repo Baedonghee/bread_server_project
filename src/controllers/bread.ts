@@ -76,6 +76,11 @@ export const breadFavoriteAdd = async (
 ) => {
   try {
     const { breadId } = req.params;
+    const breadRepository = getCustomRepository(BreadRepository);
+    const breadInfo = await breadRepository.findByIdInfo(Number(breadId));
+    if (!breadInfo) {
+      throw new GoneRequestError('존재하지 않는 빵입니다.');
+    }
     const breadUserFavoritesRepository = getCustomRepository(
       BreadUserFavoritesRepository
     );
@@ -105,6 +110,11 @@ export const breadFavoriteDelete = async (
 ) => {
   try {
     const { breadId } = req.params;
+    const breadRepository = getCustomRepository(BreadRepository);
+    const breadInfo = await breadRepository.findByIdInfo(Number(breadId));
+    if (!breadInfo) {
+      throw new GoneRequestError('존재하지 않는 빵입니다.');
+    }
     const breadUserFavoritesRepository = getCustomRepository(
       BreadUserFavoritesRepository
     );
