@@ -111,6 +111,13 @@ export const breadShopFavoriteAdd = async (
 ) => {
   try {
     const { breadShopId } = req.params;
+    const breadShopRepository = getCustomRepository(BreadShopRepository);
+    const breadShopInfo = await breadShopRepository.findByIdInfo(
+      Number(breadShopId)
+    );
+    if (!breadShopInfo) {
+      throw new GoneRequestError('존재하지 않는 빵집 입니다.');
+    }
     const breadShopUserFavoritesRepository = getCustomRepository(
       BreadShopUserFavoriteRepository
     );
@@ -140,6 +147,13 @@ export const breadShopFavoriteDelete = async (
 ) => {
   try {
     const { breadShopId } = req.params;
+    const breadShopRepository = getCustomRepository(BreadShopRepository);
+    const breadShopInfo = await breadShopRepository.findByIdInfo(
+      Number(breadShopId)
+    );
+    if (!breadShopInfo) {
+      throw new GoneRequestError('존재하지 않는 빵집 입니다.');
+    }
     const breadShopUserFavoriteRepository = getCustomRepository(
       BreadShopUserFavoriteRepository
     );
