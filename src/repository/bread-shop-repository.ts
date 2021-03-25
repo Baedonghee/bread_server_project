@@ -70,14 +70,7 @@ export class BreadShopRepository extends Repository<BreadShop> {
         address: `%${address}%`,
       });
     }
-    if (userId) {
-      query
-        .leftJoin('breadShop.breadShopFavorites', 'breadShopUserFavorites')
-        .addSelect(
-          `CASE WHEN breadShop.id = breadShopUserFavorites.breadShop AND breadShopUserFavorites.user = ${userId} then 1 else 0 end`,
-          'like'
-        );
-    } else {
+    if (!userId) {
       query.addSelect('0', 'like');
     }
     query

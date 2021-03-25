@@ -30,6 +30,7 @@ export const breadShopList = async (
       title,
     } = req.query as IBreadShopListQuery;
     const breadShopRepository = getCustomRepository(BreadShopRepository);
+    const userId = req.userAndNon ? req.userAndNon.id : 0;
     let address = '';
     if (siCode) {
       if (guCode) {
@@ -51,15 +52,28 @@ export const breadShopList = async (
     const breadShopArray = await breadShopRepository.rankList(
       Number(page) || 1,
       Number(limit) || 20,
-      req.userAndNon ? req.userAndNon.id : 0,
+      userId,
       title,
       address
     );
     const sum = await breadShopRepository.findAllCount();
-    breadShopArray.forEach((breadShopData) => {
-      const rankBreadShopResult = new RankBreadShopResult(breadShopData);
+    const breadShopUserFavoriteRepository = getCustomRepository(
+      BreadShopUserFavoriteRepository
+    );
+    for (let i = 0; i < breadShopArray.length; i++) {
+      if (userId) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const breadShopFavoriteCheck = await breadShopUserFavoriteRepository.checkId(
+          userId,
+          breadShopArray[i].id
+        );
+        if (breadShopFavoriteCheck) {
+          breadShopArray[i].like = true;
+        }
+      }
+      const rankBreadShopResult = new RankBreadShopResult(breadShopArray[i]);
       list.push(rankBreadShopResult);
-    });
+    }
     res.status(200).json({
       status: 200,
       message: 'success',

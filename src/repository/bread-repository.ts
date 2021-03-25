@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { AdminUser } from '../entity/admin-user';
 import { Bread } from '../entity/bread';
+import { BreadShopUserFavorites } from '../entity/bread-shop-user-favorites';
 
 @EntityRepository(Bread)
 export class BreadRepository extends Repository<Bread> {
@@ -31,14 +32,7 @@ export class BreadRepository extends Repository<Bread> {
       .leftJoinAndSelect('bread.images', 'breadImage')
       .select(['bread.id AS id', 'title', 'breadImage.imageUrl AS image']);
 
-    if (userId) {
-      query
-        .leftJoinAndSelect('bread.breadUserFavorites', 'breadUserFavorites')
-        .addSelect(
-          `CASE WHEN bread.id = breadUserFavorites.bread AND breadUserFavorites.user = ${userId} then 1 else 0 end`,
-          'like'
-        );
-    } else {
+    if (!userId) {
       query.addSelect('0', 'like');
     }
 
@@ -46,6 +40,7 @@ export class BreadRepository extends Repository<Bread> {
       .offset((page - 1) * limit)
       .limit(limit)
       .orderBy('bread.rank', 'DESC')
+      .distinct()
       .groupBy('bread.id');
     return query.getRawMany();
   }
