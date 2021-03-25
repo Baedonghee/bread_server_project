@@ -19,17 +19,31 @@ export const breadList = async (
   try {
     const { page, limit } = req.query as IBreadListQuery;
     const breadRepository = getCustomRepository(BreadRepository);
+    const userId = req.userAndNon ? req.userAndNon.id : 0;
     const breadArray = await breadRepository.rankList(
       Number(page) || 1,
       Number(limit) || 20,
-      req.userAndNon ? req.userAndNon.id : 0
+      userId
     );
     const sum = await breadRepository.findAllCount();
     const list = [] as { id: number; title: string; image: string }[];
-    breadArray.forEach((breadData) => {
-      const rankBreadResult = new RankBreadResult(breadData);
+    const breadUserFavoritesRepository = getCustomRepository(
+      BreadUserFavoritesRepository
+    );
+    for (let i = 0; i < breadArray.length; i++) {
+      if (userId) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const breadFavoriteCheck = await breadUserFavoritesRepository.checkId(
+          userId,
+          breadArray[i].id
+        );
+        if (breadFavoriteCheck) {
+          breadArray[i].like = true;
+        }
+      }
+      const rankBreadResult = new RankBreadResult(breadArray[i]);
       list.push(rankBreadResult);
-    });
+    }
     res.status(200).json({
       status: 200,
       message: 'success',

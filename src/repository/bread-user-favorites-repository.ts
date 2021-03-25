@@ -21,6 +21,13 @@ export class BreadUserFavoritesRepository extends Repository<
       .getOne();
   }
 
+  checkId(userId: number, breadId: number) {
+    return this.createQueryBuilder('breadUserFavorites')
+      .where('breadUserFavorites.user_id =:userId', { userId })
+      .andWhere('breadUserFavorites.bread_id =:breadId', { breadId })
+      .getRawOne();
+  }
+
   deleteById(user: User, breadId: number) {
     return this.delete({
       user,

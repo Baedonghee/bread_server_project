@@ -238,12 +238,14 @@ export const userSignIn = async (
 ) => {
   try {
     const { email, password } = req.body as ISignup;
+    console.log(email);
     const userRepository = getCustomRepository(UserRepository);
     const existingUser = await userRepository.findByEmail(email);
     const errorMessage = '가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.';
     if (!existingUser) {
       throw new BadRequestError(errorMessage);
     }
+    console.log(existingUser);
     const comparePassword = await Password.toCompare(
       password,
       existingUser.password

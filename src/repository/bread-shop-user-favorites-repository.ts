@@ -24,6 +24,15 @@ export class BreadShopUserFavoriteRepository extends Repository<
       .getOne();
   }
 
+  checkId(userId: number, breadShopId: number) {
+    return this.createQueryBuilder('breadShopUserFavorites')
+      .where('breadShopUserFavorites.user_id =:userId', { userId })
+      .andWhere('breadShopUserFavorites.bread_shop_id =:breadShopId', {
+        breadShopId,
+      })
+      .getRawOne();
+  }
+
   deleteById(user: User, breadShopId: number) {
     return this.delete({
       user,
