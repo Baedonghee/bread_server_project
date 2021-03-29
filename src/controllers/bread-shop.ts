@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import { GoneRequestError } from '../errors/gone-request.error';
 import { AddressGuRepository } from '../repository/address-gu-repository';
 import { AddressSiRepository } from '../repository/address-si-repository';
+import { BreadShopKindRepository } from '../repository/bread-shop-kind-repository';
 import { BreadShopRepository } from '../repository/bread-shop-repository';
 import { BreadShopUserFavoriteRepository } from '../repository/bread-shop-user-favorites-repository';
 import { BreadShopDetailResult } from '../result/bread-shop/bread-shop-detail-result';
@@ -107,7 +108,16 @@ export const breadShopDetail = async (
       breadShopInfo.id,
       breadShopInfo.rank + 1
     );
-    const breadMakeResult = new BreadShopDetailResult(breadShopInfo);
+    const breadShopKindRepository = getCustomRepository(
+      BreadShopKindRepository
+    );
+    const breadShopKindInfo = await breadShopKindRepository.listAndBreadShopId(
+      Number(breadShopId)
+    );
+    const breadMakeResult = new BreadShopDetailResult(
+      breadShopInfo,
+      breadShopKindInfo
+    );
     res.status(200).json({
       status: 200,
       message: 'success',

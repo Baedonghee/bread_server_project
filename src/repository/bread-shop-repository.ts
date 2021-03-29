@@ -125,9 +125,6 @@ export class BreadShopRepository extends Repository<BreadShop> {
 
   findByIdWithBread(id: number) {
     return this.createQueryBuilder('breadShop')
-      .innerJoinAndSelect('breadShop.breadShopKinds', 'breadShopKinds')
-      .innerJoinAndSelect('breadShopKinds.bread', 'bread')
-      .innerJoinAndSelect('bread.images', 'breadImages')
       .innerJoinAndSelect('breadShop.shopUser', 'shopUser')
       .innerJoinAndSelect('breadShop.address', 'breadShopAddress')
       .innerJoinAndSelect('breadShop.images', 'BreadShopImage')

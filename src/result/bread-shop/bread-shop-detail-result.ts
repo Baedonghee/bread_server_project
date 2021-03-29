@@ -1,3 +1,4 @@
+import { BreadShopKind } from './../../entity/bread-shop-kind';
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { BreadShop } from '../../entity/bread-shop';
 
@@ -33,7 +34,7 @@ export class BreadShopDetailResult {
   menuImages: string[] = [];
   holidays: string[] = [];
 
-  constructor(data: BreadShop) {
+  constructor(data: BreadShop, breadData: BreadShopKind[]) {
     this.id = data.id;
     this.title = data.title;
     this.storeNumber = data.storeNumber;
@@ -41,8 +42,9 @@ export class BreadShopDetailResult {
     this.parkingEnabled = data.parkingEnabled;
     this.openTime = data.openTime;
     this.closeTime = data.closeTime;
-    data.breadShopKinds.forEach((breadInfo: any) => {
+    breadData.forEach((breadInfo: any) => {
       const breadData = {
+        id: breadInfo.bread.id,
         title: breadInfo.bread.title,
         image: breadInfo.bread.images[0].imageUrl,
       };
