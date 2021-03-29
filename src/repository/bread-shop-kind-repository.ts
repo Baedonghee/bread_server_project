@@ -19,6 +19,15 @@ export class BreadShopKindRepository extends Repository<BreadShopKind> {
       .getMany();
   }
 
+  listAndBreadShopId(id: number) {
+    return this.createQueryBuilder('breadShopKind')
+      .leftJoin('breadShopKind.bread', 'bread')
+      .innerJoinAndSelect('bread.images', 'breadImages')
+      .where('breadShopKind.bread_shop_id = :id', { id })
+      .select(['breadShopKind', 'bread', 'breadImages'])
+      .getMany();
+  }
+
   deleteById(ids: number[]) {
     return this.delete(ids);
   }
