@@ -1561,16 +1561,17 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/util/address/gu": {
+    "/util/address/gu/{siCode}": {
       "get": {
         "tags": ["utils"],
         "summary": "구 주소 조회",
         "operationId": "guAddressList",
         "parameters": [
           {
-            "name": "si_code",
-            "in": "query",
+            "name": "siCode",
+            "in": "path",
             "description": "시 코드(id)",
+            "required": true,
             "schema": {
               "type": "number"
             }
