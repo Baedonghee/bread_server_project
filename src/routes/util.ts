@@ -1,5 +1,5 @@
 import express from 'express';
-import { query, body } from 'express-validator';
+import { query, body, param } from 'express-validator';
 import {
   addressList,
   addressSiRegister,
@@ -38,8 +38,8 @@ router.post(
 );
 
 router.get(
-  '/address/gu',
-  query('si_code')
+  '/address/gu/:siCode',
+  param('siCode')
     .trim()
     .isLength({ min: 1 })
     .withMessage('시 코드를 입력해주세요.')

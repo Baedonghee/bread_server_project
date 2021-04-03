@@ -134,9 +134,9 @@ export const addressGuList = async (
   next: NextFunction
 ) => {
   try {
-    const { si_code } = req.query as { si_code: string };
+    const { siCode } = req.params as { siCode: string };
     const addressGu = getCustomRepository(AddressGuRepository);
-    const addressGuData = await addressGu.list(Number(si_code));
+    const addressGuData = await addressGu.list(Number(siCode));
     res.status(200).json({
       status: 200,
       message: 'success',
