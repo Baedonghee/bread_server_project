@@ -1131,6 +1131,22 @@
             }
           },
           {
+            "name": "lat",
+            "in": "query",
+            "description": "lat",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "description": "lon",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "description": "페이지",
