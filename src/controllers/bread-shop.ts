@@ -42,8 +42,10 @@ export const breadShopList = async (
       const { zibunAddress } = (await kakaoAddress(lon, lat)) as {
         zibunAddress: string;
       };
-      const addressSplit = zibunAddress.split(' ');
-      address = addressSplit[0];
+      if (zibunAddress) {
+        const addressSplit = zibunAddress.split(' ');
+        address = addressSplit[0];
+      }
     }
     if (siCode && !address) {
       if (guCode) {
