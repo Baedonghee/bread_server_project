@@ -38,6 +38,7 @@ export const breadShopList = async (
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const userId = req.userAndNon ? req.userAndNon.id : 0;
     let address = '';
+    let addressName = '전체';
     if (lat && lon) {
       const { zibunAddress } = (await kakaoAddress(lon, lat)) as {
         zibunAddress: string;
@@ -45,17 +46,20 @@ export const breadShopList = async (
       if (zibunAddress) {
         const addressSplit = zibunAddress.split(' ');
         address = addressSplit[0];
+        addressName = `${addressSplit[0]} ${addressSplit[1]}`;
       }
     }
     if (siCode && !address) {
+      const addressSi = getCustomRepository(AddressSiRepository);
+      const addressSiData = await addressSi.findById(siCode);
+      address = addressSiData ? addressSiData.name : '';
       if (guCode) {
         const addressGu = getCustomRepository(AddressGuRepository);
         const addressGuData = await addressGu.findById(guCode);
         address = addressGuData ? addressGuData.name : '';
+        addressName = `${addressSiData ? addressSiData.name : ''} ${address}`;
       } else {
-        const addressSi = getCustomRepository(AddressSiRepository);
-        const addressSiData = await addressSi.findById(siCode);
-        address = addressSiData ? addressSiData.name : '';
+        addressName = `${address}`;
       }
     }
     const list = [] as {
@@ -92,6 +96,9 @@ export const breadShopList = async (
     res.status(200).json({
       status: 200,
       message: 'success',
+      data: {
+        addressName,
+      },
       list,
       pagination: {
         totalPage: Math.ceil(sum / (Number(limit) || 20)),
