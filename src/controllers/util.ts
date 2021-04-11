@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Request, Response, NextFunction } from 'express';
-import { kakaoLocalAddress } from '../services/kakao';
+import { kakaoAddress, kakaoLocalAddress } from '../services/kakao';
 import { AddressSiRepository } from '../repository/address-si-repository';
 import { BadRequestError } from '../errors/bad-request-error';
 import { AddressGuRepository } from '../repository/address-gu-repository';
@@ -19,6 +19,11 @@ interface IAddressSi {
 interface IAddressGu {
   siCode: number;
   name: string;
+}
+
+interface IGeolocation {
+  lat: number;
+  lon: number;
 }
 
 export const addressList = async (
@@ -141,6 +146,31 @@ export const addressGuList = async (
       status: 200,
       message: 'success',
       list: addressGuData,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const geoLocation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { lat, lon } = req.body as IGeolocation;
+    const { roadAddress, zibunAddress } = (await kakaoAddress(lon, lat)) as {
+      roadAddress: string;
+      zibunAddress: string;
+    };
+
+    res.status(200).json({
+      status: 200,
+      message: 'success',
+      data: {
+        roadAddress,
+        zibunAddress,
+      },
     });
   } catch (err) {
     next(err);

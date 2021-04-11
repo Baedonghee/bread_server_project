@@ -6,6 +6,7 @@ import {
   addressSiList,
   addressGuRegister,
   addressGuList,
+  geoLocation,
 } from '../controllers/util';
 import { validateRequest } from '../middlewares/validate-request';
 
@@ -65,6 +66,24 @@ router.post(
   ],
   validateRequest,
   addressGuRegister
+);
+
+router.post(
+  '/geolocation',
+  [
+    body('lat')
+      .trim()
+      .isLength({ min: 1 })
+      .isNumeric()
+      .withMessage('lat을 입력해주세요.'),
+    body('lon')
+      .trim()
+      .isLength({ min: 1 })
+      .isNumeric()
+      .withMessage('lon을 확인해주세요.'),
+  ],
+  validateRequest,
+  geoLocation
 );
 
 export default router;
