@@ -8,12 +8,15 @@ import { BreadShopRepository } from '../repository/bread-shop-repository';
 import { BreadShopUserFavoriteRepository } from '../repository/bread-shop-user-favorites-repository';
 import { BreadShopDetailResult } from '../result/bread-shop/bread-shop-detail-result';
 import { RankBreadShopResult } from '../result/rank/bread-shop';
+import { kakaoAddress } from '../services/kakao';
 
 interface IBreadShopListQuery {
   page?: number;
   limit?: number;
   si_code?: number;
   gu_code?: number;
+  lon?: number;
+  lat?: number;
   title?: string;
 }
 
@@ -28,12 +31,21 @@ export const breadShopList = async (
       limit,
       si_code: siCode,
       gu_code: guCode,
+      lat,
+      lon,
       title,
     } = req.query as IBreadShopListQuery;
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const userId = req.userAndNon ? req.userAndNon.id : 0;
     let address = '';
-    if (siCode) {
+    if (lat && lon) {
+      const { zibunAddress } = (await kakaoAddress(lon, lat)) as {
+        zibunAddress: string;
+      };
+      const addressSplit = zibunAddress.split(' ');
+      address = addressSplit[0];
+    }
+    if (siCode && !address) {
       if (guCode) {
         const addressGu = getCustomRepository(AddressGuRepository);
         const addressGuData = await addressGu.findById(guCode);
