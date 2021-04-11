@@ -1589,6 +1589,52 @@
         ],
         "x-codegen-request-body-name": "body"
       }
+    },
+    "/util/geolocation": {
+      "post": {
+        "tags": ["utils"],
+        "summary": "위치 조회",
+        "operationId": "geoLocationList",
+        "requestBody": {
+          "description": "위치 조회",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["content", "imageUrl"],
+                "properties": {
+                  "lat": {
+                    "type": "number",
+                    "example": "37.4472385"
+                  },
+                  "lon": {
+                    "type": "number",
+                    "example": "126.8841732"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input"
+          },
+          "403": {
+            "description": "forbidden"
+          },
+          "410": {
+            "description": "delete and not exist"
+          }
+        },
+        "security": [
+          {
+            "authorization": []
+          }
+        ],
+        "x-codegen-request-body-name": "body"
+      }
     }
   },
   "components": {
