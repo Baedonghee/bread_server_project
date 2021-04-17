@@ -5,13 +5,15 @@ export class BreadResult {
   title!: string;
   content!: string;
   image: string[] = [];
+  like!: boolean;
 
-  constructor(data: Bread) {
+  constructor(data: Bread, like: boolean) {
     this.id = data.id;
     this.title = data.title;
     this.content = data.content;
     data.images.forEach((breadImage) => {
       this.image.push(breadImage.imageUrl);
     });
+    this.like = like;
   }
 }

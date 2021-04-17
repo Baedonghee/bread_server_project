@@ -27,6 +27,7 @@ export class BreadShopDetailResult {
   parkingEnabled!: boolean;
   openTime!: string;
   closeTime!: string;
+  like!: boolean;
   bread: IBread[] = [];
   shopUser!: IShop;
   address!: IAddress;
@@ -34,7 +35,7 @@ export class BreadShopDetailResult {
   menuImages: string[] = [];
   holidays: string[] = [];
 
-  constructor(data: BreadShop, breadData: BreadShopKind[]) {
+  constructor(data: BreadShop, breadData: BreadShopKind[], like: boolean) {
     this.id = data.id;
     this.title = data.title;
     this.storeNumber = data.storeNumber;
@@ -42,6 +43,7 @@ export class BreadShopDetailResult {
     this.parkingEnabled = data.parkingEnabled;
     this.openTime = data.openTime;
     this.closeTime = data.closeTime;
+    this.like = like;
     breadData.forEach((breadInfo: any) => {
       const breadData = {
         id: breadInfo.bread.id,
