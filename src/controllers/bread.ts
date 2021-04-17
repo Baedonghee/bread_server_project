@@ -67,12 +67,25 @@ export const breadDetail = async (
   try {
     const { breadId } = req.params;
     const breadRepository = getCustomRepository(BreadRepository);
+    const userId = req.userAndNon ? req.userAndNon.id : 0;
     const breadInfo = await breadRepository.findById(Number(breadId));
     if (!breadInfo) {
       throw new GoneRequestError('존재하지 않는 빵입니다.');
     }
     await breadRepository.updateAndRank(breadInfo.id, breadInfo.rank + 1);
-    const breadResult = new BreadResult(breadInfo);
+    let like = false;
+    if (userId) {
+      const breadUserFavoritesRepository = getCustomRepository(
+        BreadUserFavoritesRepository
+      );
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const breadFavoriteCheck = await breadUserFavoritesRepository.checkId(
+        userId,
+        Number(breadId)
+      );
+      like = !!breadFavoriteCheck;
+    }
+    const breadResult = new BreadResult(breadInfo, like);
     res.status(200).json({
       status: 200,
       message: 'success',

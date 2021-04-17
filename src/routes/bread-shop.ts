@@ -44,6 +44,6 @@ router.delete(
   breadShopFavoriteDelete
 );
 
-router.get('/:breadShopId', breadShopDetail);
+router.get('/:breadShopId', currentCheckUser, breadShopDetail);
 
 export default router;

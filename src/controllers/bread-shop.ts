@@ -118,6 +118,7 @@ export const breadShopDetail = async (
 ) => {
   try {
     const { breadShopId } = req.params;
+    const userId = req.userAndNon ? req.userAndNon.id : 0;
     const breadShopRepository = getCustomRepository(BreadShopRepository);
     const breadShopInfo = await breadShopRepository.findByIdWithBread(
       Number(breadShopId)
@@ -135,9 +136,22 @@ export const breadShopDetail = async (
     const breadShopKindInfo = await breadShopKindRepository.listAndBreadShopId(
       Number(breadShopId)
     );
+    let like = false;
+    if (userId) {
+      const breadShopUserFavoriteRepository = getCustomRepository(
+        BreadShopUserFavoriteRepository
+      );
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const breadShopFavoriteCheck = await breadShopUserFavoriteRepository.checkId(
+        userId,
+        Number(breadShopId)
+      );
+      like = !!breadShopFavoriteCheck;
+    }
     const breadMakeResult = new BreadShopDetailResult(
       breadShopInfo,
-      breadShopKindInfo
+      breadShopKindInfo,
+      like
     );
     res.status(200).json({
       status: 200,
