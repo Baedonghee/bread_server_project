@@ -35,7 +35,11 @@ router.post(
       .trim()
       .isLength({ min: 1 })
       .withMessage('리뷰 내용을 입력해주세요.'),
-    body('imageUrl').isArray().withMessage('빵 이미지를 첨부해주세요.'),
+    body('imageUrl')
+      .isArray()
+      .withMessage('빵 이미지를 첨부해주세요.')
+      .notEmpty()
+      .withMessage('빵 이미지를 첨부해주세요.'),
   ],
   validateRequest,
   currentUser,
