@@ -25,7 +25,11 @@ router.post(
       .trim()
       .isLength({ min: 1 })
       .withMessage('빵 소개를 입력해주세요.'),
-    body('imageUrl').isArray().withMessage('빵 이미지를 첨부해주세요.'),
+    body('imageUrl')
+      .isArray()
+      .withMessage('빵 이미지를 첨부해주세요.')
+      .notEmpty()
+      .withMessage('빵 이미지를 첨부해주세요.'),
   ],
   validateRequest,
   currentAdmin,
@@ -64,7 +68,11 @@ router.put(
       .trim()
       .isLength({ min: 1 })
       .withMessage('빵 소개를 입력해주세요.'),
-    body('imageUrl').isArray().withMessage('빵 이미지를 첨부해주세요.'),
+    body('imageUrl')
+      .isArray()
+      .withMessage('빵 이미지를 첨부해주세요.')
+      .notEmpty()
+      .withMessage('빵 이미지를 첨부해주세요.'),
   ],
   validateRequest,
   currentAdmin,
