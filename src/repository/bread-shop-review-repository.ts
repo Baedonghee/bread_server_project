@@ -19,6 +19,7 @@ export class BreadShopReviewRepository extends Repository<BreadShopReview> {
       .innerJoin('breadShopReview.user', 'user')
       .select(['breadShopReview', 'breadShopReviewImage', 'user'])
       .where('breadShopReview.bread_shop_id = :breadShopId', { breadShopId })
+      .orderBy('breadShopReview.createdAt', 'DESC')
       .getMany();
   }
 

@@ -26,7 +26,6 @@ export const breadShopReviewList = async (
     const breadShopReviewList = await breadShopReviewRepository.list(
       Number(breadShopId)
     );
-    console.log(breadShopReviewList);
     /* eslint-disable @typescript-eslint/no-unsafe-assignment */
     const list: unknown[] = [] as BreadShopReviewResult | any;
     breadShopReviewList.forEach((breadShopReviewData) => {
