@@ -72,9 +72,15 @@ router.post(
       .isLength({ min: 1 })
       .withMessage('상세주소를 입력해주세요.'),
     body('day').isArray().withMessage('휴일 형식을 확인해주세요.'),
-    body('imageUrlShop').isArray().withMessage('빵집 이미지를 첨부해주세요.'),
+    body('imageUrlShop')
+      .isArray()
+      .withMessage('빵집 이미지를 첨부해주세요.')
+      .notEmpty()
+      .withMessage('빵집 이미지를 첨부해주세요.'),
     body('imageUrlMenu')
       .isArray()
+      .withMessage('빵집 메뉴 이미지를 첨부해주세요.')
+      .notEmpty()
       .withMessage('빵집 메뉴 이미지를 첨부해주세요.'),
     body('shopUserId')
       .trim()
@@ -82,7 +88,11 @@ router.post(
       .withMessage('빵집회원 id를 보내주세요.')
       .isNumeric()
       .withMessage('빵집회원 id 형식을 확인해주세요.'),
-    body('breadId').isArray().withMessage('빵 id 형식을 확인해주세요.'),
+    body('breadId')
+      .isArray()
+      .withMessage('빵 id 형식을 확인해주세요.')
+      .notEmpty()
+      .withMessage('빵 id 형식을 확인해주세요.'),
   ],
   validateRequest,
   currentAdmin,
@@ -152,9 +162,15 @@ router.put(
       .trim()
       .isLength({ min: 1 })
       .withMessage('상세주소를 입력해주세요.'),
-    body('imageUrlShop').isArray().withMessage('빵집 이미지를 첨부해주세요.'),
+    body('imageUrlShop')
+      .isArray()
+      .withMessage('빵집 이미지를 첨부해주세요.')
+      .notEmpty()
+      .withMessage('빵집 이미지를 첨부해주세요.'),
     body('imageUrlMenu')
       .isArray()
+      .withMessage('빵집 메뉴 이미지를 첨부해주세요.')
+      .notEmpty()
       .withMessage('빵집 메뉴 이미지를 첨부해주세요.'),
     body('shopUserId')
       .trim()
@@ -162,7 +178,11 @@ router.put(
       .withMessage('빵집회원 id를 보내주세요.')
       .isNumeric()
       .withMessage('빵집회원 id 형식을 확인해주세요.'),
-    body('breadId').isArray().withMessage('빵 id 형식을 확인해주세요.'),
+    body('breadId')
+      .isArray()
+      .withMessage('빵 id 형식을 확인해주세요.')
+      .notEmpty()
+      .withMessage('빵 id 형식을 확인해주세요.'),
   ],
   validateRequest,
   currentAdmin,
