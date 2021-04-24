@@ -84,6 +84,14 @@ export const breadShopReviewCreate = async (
       message: 'success',
       data: {
         id: breadShopReviewData.id,
+        content: breadShopReviewData.content,
+        createdAt: breadShopReviewData.createdAt,
+        user: {
+          id: breadShopReviewData.user.id,
+          name: breadShopReviewData.user.name,
+          imageUrl: breadShopReviewData.user.imageUrl,
+        },
+        images: imageUrl,
       },
     });
   } catch (err) {

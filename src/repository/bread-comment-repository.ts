@@ -23,9 +23,21 @@ export class BreadCommentRepository extends Repository<BreadComment> {
 
   list(page: number, limit: number, breadId: number) {
     const query = this.createQueryBuilder('breadComment')
-      .innerJoinAndSelect('breadComment.comments', 'breadComments')
-      .select(['breadComment', 'breadComments'])
+      .leftJoinAndSelect('breadComment.comments', 'breadComments')
+      .leftJoinAndSelect('breadComment.user', 'user')
+      .leftJoinAndSelect('breadComments.user', 'reUser')
+      .select([
+        'breadComment',
+        'breadComments',
+        'user.id',
+        'user.name',
+        'user.imageUrl',
+        'reUser.id',
+        'reUser.name',
+        'reUser.imageUrl',
+      ])
       .where('breadComment.bread_id = :breadId', { breadId })
+      .andWhere('breadComment.comment_id IS NULL')
       .offset((page - 1) * limit)
       .take(limit)
       .orderBy('breadComment.id', 'DESC');

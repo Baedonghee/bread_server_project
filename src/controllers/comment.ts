@@ -74,6 +74,14 @@ export const breadShopParentCommentCreate = async (
       message: 'success',
       data: {
         id: breadShopCommentData.id,
+        content: breadShopCommentData.content,
+        createdAt: breadShopCommentData.createdAt,
+        comments: [],
+        user: {
+          id: breadShopCommentData.user.id,
+          name: breadShopCommentData.user.name,
+          imageUrl: breadShopCommentData.user.imageUrl,
+        },
       },
     });
   } catch (err) {
@@ -116,6 +124,13 @@ export const breadShopChildCommentCreate = async (
       message: 'success',
       data: {
         id: breadShopChildCommentData.id,
+        content: breadShopChildCommentData.content,
+        createdAt: breadShopChildCommentData.createdAt,
+        user: {
+          id: breadShopChildCommentData.user.id,
+          name: breadShopChildCommentData.user.name,
+          imageUrl: breadShopChildCommentData.user.imageUrl,
+        },
       },
     });
   } catch (err) {
@@ -232,6 +247,14 @@ export const breadParentCommentCreate = async (
       message: 'success',
       data: {
         id: breadCommentData.id,
+        content: breadCommentData.content,
+        createdAt: breadCommentData.createdAt,
+        comments: [],
+        user: {
+          id: breadCommentData.user.id,
+          name: breadCommentData.user.name,
+          imageUrl: breadCommentData.user.imageUrl,
+        },
       },
     });
   } catch (err) {
@@ -270,6 +293,13 @@ export const breadChildCommentCreate = async (
       message: 'success',
       data: {
         id: breadChildCommentData.id,
+        content: breadChildCommentData.content,
+        createdAt: breadChildCommentData.createdAt,
+        user: {
+          id: breadChildCommentData.user.id,
+          name: breadChildCommentData.user.name,
+          imageUrl: breadChildCommentData.user.imageUrl,
+        },
       },
     });
   } catch (err) {

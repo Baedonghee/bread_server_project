@@ -23,9 +23,21 @@ export class BreadShopCommentRepository extends Repository<BreadShopComment> {
 
   list(page: number, limit: number, breadShopId: number) {
     const query = this.createQueryBuilder('breadShopComment')
-      .innerJoinAndSelect('breadShopComment.comments', 'breadShopComments')
-      .select(['breadShopComment', 'breadShopComments'])
+      .leftJoinAndSelect('breadShopComment.comments', 'breadShopComments')
+      .leftJoinAndSelect('breadShopComment.user', 'user')
+      .leftJoinAndSelect('breadShopComments.user', 'reUser')
+      .select([
+        'breadShopComment',
+        'breadShopComments',
+        'user.id',
+        'user.name',
+        'user.imageUrl',
+        'reUser.id',
+        'reUser.name',
+        'reUser.imageUrl',
+      ])
       .where('breadShopComment.bread_shop_id = :breadShopId', { breadShopId })
+      .andWhere('breadShopComment.comment_id IS NULL')
       .offset((page - 1) * limit)
       .take(limit)
       .orderBy('breadShopComment.id', 'DESC');
