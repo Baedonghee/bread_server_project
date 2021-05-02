@@ -31,6 +31,7 @@ export const breadShopCommentList = async (
       Number(limit) || 20,
       Number(breadShopId)
     );
+    console.log(sum);
     res.status(200).json({
       status: 200,
       message: 'success',
@@ -39,6 +40,7 @@ export const breadShopCommentList = async (
         totalPage: Math.ceil(sum / (Number(limit) || 20)),
         limit: Number(limit) || 20,
         currentPage: Number(page) || 1,
+        totalCount: sum,
       },
     });
   } catch (err) {
@@ -216,6 +218,7 @@ export const breadCommentList = async (
         totalPage: Math.ceil(sum / (Number(limit) || 20)),
         limit: Number(limit) || 20,
         currentPage: Number(page) || 1,
+        totalCount: sum,
       },
     });
   } catch (err) {
