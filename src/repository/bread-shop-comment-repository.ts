@@ -39,7 +39,7 @@ export class BreadShopCommentRepository extends Repository<BreadShopComment> {
       .where('breadShopComment.bread_shop_id = :breadShopId', { breadShopId })
       .andWhere('breadShopComment.comment_id IS NULL')
       .offset((page - 1) * limit)
-      .take(limit)
+      .limit(limit)
       .orderBy('breadShopComment.id', 'DESC');
     return query.getManyAndCount();
   }
