@@ -38,8 +38,8 @@ export class BreadCommentRepository extends Repository<BreadComment> {
       ])
       .where('breadComment.bread_id = :breadId', { breadId })
       .andWhere('breadComment.comment_id IS NULL')
-      .offset((page - 1) * limit)
-      .limit(limit)
+      .skip((page - 1) * limit)
+      .take(limit)
       .orderBy('breadComment.id', 'DESC');
     return query.getManyAndCount();
   }
