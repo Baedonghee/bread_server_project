@@ -47,6 +47,7 @@ export class BreadShopCommentRepository extends Repository<BreadShopComment> {
   findById(id: number) {
     return this.createQueryBuilder('breadShopComment')
       .select(['breadShopComment'])
+      .leftJoinAndSelect('breadShopComment.user', 'user')
       .where('breadShopComment.id = :id', { id })
       .getOne();
   }

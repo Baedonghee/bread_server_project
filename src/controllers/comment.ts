@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { getCustomRepository } from 'typeorm';
+import { CurrentUserForbidden } from '../errors/current-user-forbidden';
 import { GoneRequestError } from '../errors/gone-request.error';
 import { BreadCommentRepository } from '../repository/bread-comment-repository';
 import { BreadRepository } from '../repository/bread-repository';
@@ -157,6 +158,9 @@ export const breadShopCommentUpdate = async (
     if (!breadShopCommentData) {
       throw new GoneRequestError('댓글 정보가 존재하지 않습니다.');
     }
+    if (breadShopCommentData.user.id !== req.user.id) {
+      throw new CurrentUserForbidden('권한이 없습니다.');
+    }
     await breadShopCommentRepository.updateAndContent(
       Number(commentId),
       content
@@ -185,6 +189,9 @@ export const breadShopCommentDelete = async (
     );
     if (!breadShopCommentData) {
       throw new GoneRequestError('댓글 정보가 존재하지 않습니다.');
+    }
+    if (breadShopCommentData.user.id !== req.user.id) {
+      throw new CurrentUserForbidden('권한이 없습니다.');
     }
     await breadShopCommentRepository.deleteById(Number(commentId));
     res.status(200).json({
@@ -325,6 +332,9 @@ export const breadCommentUpdate = async (
     if (!breadCommentData) {
       throw new GoneRequestError('댓글 정보가 존재하지 않습니다.');
     }
+    if (breadCommentData.user.id !== req.user.id) {
+      throw new CurrentUserForbidden('권한이 없습니다.');
+    }
     await breadCommentRepository.updateAndContent(Number(commentId), content);
     res.status(201).json({
       status: 201,
@@ -348,6 +358,9 @@ export const breadCommentDelete = async (
     );
     if (!breadCommentData) {
       throw new GoneRequestError('댓글 정보가 존재하지 않습니다.');
+    }
+    if (breadCommentData.user.id !== req.user.id) {
+      throw new CurrentUserForbidden('권한이 없습니다.');
     }
     await breadCommentRepository.deleteById(Number(commentId));
     res.status(200).json({

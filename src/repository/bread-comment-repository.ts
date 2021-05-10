@@ -47,6 +47,7 @@ export class BreadCommentRepository extends Repository<BreadComment> {
   findById(id: number) {
     return this.createQueryBuilder('breadComment')
       .select(['breadComment'])
+      .leftJoinAndSelect('breadComment.user', 'user')
       .where('breadComment.id = :id', { id })
       .getOne();
   }
