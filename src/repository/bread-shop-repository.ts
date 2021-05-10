@@ -46,6 +46,41 @@ export class BreadShopRepository extends Repository<BreadShop> {
     return query.getManyAndCount();
   }
 
+  breadShopList(
+    page: number,
+    limit: number,
+    userId: number,
+    title?: string,
+    address?: string
+  ) {
+    const query = this.createQueryBuilder('breadShop')
+      .leftJoinAndSelect('breadShop.address', 'breadShopAddress')
+      .leftJoinAndSelect('breadShop.images', 'breadShopImage')
+      .select([
+        'breadShop.id AS id',
+        'title',
+        'breadShopImage.imageUrl AS image',
+        'breadShopAddress.address AS address',
+      ]);
+    if (title) {
+      query.andWhere('breadShop.title like :title', { title: `%${title}%` });
+    }
+    if (address) {
+      query.andWhere('breadShopAddress.address like :address', {
+        address: `%${address}%`,
+      });
+    }
+    if (!userId) {
+      query.addSelect('0', 'like');
+    }
+    query
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('breadShop.id', 'DESC')
+      .groupBy('breadShop.id');
+    return query.getRawMany();
+  }
+
   rankList(
     page: number,
     limit: number,
