@@ -27,6 +27,24 @@ export class BreadRepository extends Repository<Bread> {
     return query.getManyAndCount();
   }
 
+  breadList(page: number, limit: number, userId: number) {
+    const query = this.createQueryBuilder('bread')
+      .leftJoinAndSelect('bread.images', 'breadImage')
+      .select(['bread.id AS id', 'title', 'breadImage.imageUrl AS image']);
+
+    if (!userId) {
+      query.addSelect('0', 'like');
+    }
+
+    query
+      .offset((page - 1) * limit)
+      .limit(limit)
+      .orderBy('bread.id', 'DESC')
+      .distinct()
+      .groupBy('bread.id');
+    return query.getRawMany();
+  }
+
   rankList(page: number, limit: number, userId: number) {
     const query = this.createQueryBuilder('bread')
       .leftJoinAndSelect('bread.images', 'breadImage')
