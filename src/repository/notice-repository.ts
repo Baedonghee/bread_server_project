@@ -38,7 +38,7 @@ export class NoticeRepository extends Repository<Notice> {
   listAndPaging(page: number, limit: number) {
     const query = this.createQueryBuilder('notice')
       .offset((page - 1) * limit)
-      .take(limit)
+      .limit(limit)
       .orderBy('notice.startAt', 'DESC');
     return query.getManyAndCount();
   }

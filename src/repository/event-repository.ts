@@ -52,7 +52,7 @@ export class EventRepository extends Repository<Event> {
   listAndPaging(page: number, limit: number) {
     const query = this.createQueryBuilder('event')
       .offset((page - 1) * limit)
-      .take(limit)
+      .limit(limit)
       .orderBy('event.id', 'DESC')
       .orderBy('event.endAt', 'DESC');
     return query.getManyAndCount();
