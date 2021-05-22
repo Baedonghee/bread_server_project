@@ -75,7 +75,7 @@ export const breadShopList = async (
       title,
       address
     );
-    const sum = await breadShopRepository.findAllCount();
+    const sum = await breadShopRepository.findAllCount(title, address);
     const breadShopUserFavoriteRepository = getCustomRepository(
       BreadShopUserFavoriteRepository
     );

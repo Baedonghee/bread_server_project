@@ -245,7 +245,24 @@ export class BreadShopRepository extends Repository<BreadShop> {
     return this.delete({ id });
   }
 
-  findAllCount() {
-    return this.createQueryBuilder('breadShop').getCount();
+  findAllCount(title?: string, address?: string) {
+    const query = this.createQueryBuilder('breadShop')
+      .leftJoinAndSelect('breadShop.address', 'breadShopAddress')
+      .leftJoinAndSelect('breadShop.images', 'breadShopImage')
+      .select([
+        'breadShop.id AS id',
+        'title',
+        'breadShopImage.imageUrl AS image',
+        'breadShopAddress.address AS address',
+      ]);
+    if (title) {
+      query.andWhere('breadShop.title like :title', { title: `%${title}%` });
+    }
+    if (address) {
+      query.andWhere('breadShopAddress.address like :address', {
+        address: `%${address}%`,
+      });
+    }
+    return query.getCount();
   }
 }
