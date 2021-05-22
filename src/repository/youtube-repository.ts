@@ -37,7 +37,7 @@ export class YoutubeRepository extends Repository<Youtube> {
   listAndPick(page: number, limit: number) {
     const query = this.createQueryBuilder('youtube')
       .offset((page - 1) * limit)
-      .take(limit)
+      .limit(limit)
       .orderBy('youtube.id', 'DESC');
     return query.getManyAndCount();
   }

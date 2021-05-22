@@ -36,7 +36,7 @@ export const youtubeList = async (
       status: 200,
       message: 'success',
       list: youtubeArray,
-      pagnation: {
+      pagination: {
         totalPtotalPage: Math.ceil(sum / (Number(limit) || 20)),
         limit: Number(limit) || 20,
         currentPage: Number(page) || 1,
