@@ -35,7 +35,7 @@ export const noticeList = async (
       message: 'success',
       list,
       pagination: {
-        totalPtotalPage: Math.ceil(sum / (Number(limit) || 20)),
+        totalPage: Math.ceil(sum / (Number(limit) || 20)),
         limit: Number(limit) || 20,
         currentPage: Number(page) || 1,
       },

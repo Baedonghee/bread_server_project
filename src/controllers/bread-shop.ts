@@ -68,7 +68,7 @@ export const breadShopList = async (
       image: string;
       address: string;
     }[];
-    const breadShopArray = await breadShopRepository.breadShopList(
+    const breadShopArray = await breadShopRepository.rankList(
       Number(page) || 1,
       Number(limit) || 20,
       userId,
