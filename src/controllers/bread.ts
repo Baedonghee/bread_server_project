@@ -20,7 +20,7 @@ export const breadList = async (
     const { page, limit } = req.query as IBreadListQuery;
     const breadRepository = getCustomRepository(BreadRepository);
     const userId = req.userAndNon ? req.userAndNon.id : 0;
-    const breadArray = await breadRepository.breadList(
+    const breadArray = await breadRepository.rankList(
       Number(page) || 1,
       Number(limit) || 20,
       userId
