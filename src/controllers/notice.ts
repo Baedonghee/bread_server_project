@@ -24,7 +24,7 @@ export const noticeList = async (
       id: number;
       title: string;
       content: string;
-      startAt: Date;
+      createdAt: Date;
     }[];
     noticeList.forEach((noticeData) => {
       const noticeResult = new NoticeResult(noticeData);
