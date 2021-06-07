@@ -1115,6 +1115,14 @@
         "operationId": "breadShopList",
         "parameters": [
           {
+            "name": "title",
+            "in": "query",
+            "description": "빵집이름",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "si_code",
             "in": "query",
             "description": "시 코드(id)",
