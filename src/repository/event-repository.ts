@@ -79,6 +79,7 @@ export class EventRepository extends Repository<Event> {
     title: string,
     imageUrl: string,
     link: string,
+    banner: boolean,
     startAt: Date,
     endAt: Date,
     admin: AdminUser
@@ -86,12 +87,14 @@ export class EventRepository extends Repository<Event> {
     const updateEvent = {
       title,
       link,
+      banner,
       startAt,
       endAt,
       admin,
     } as {
       title: string;
       link: string;
+      banner: boolean;
       startAt: Date;
       endAt: Date;
       admin: AdminUser;
